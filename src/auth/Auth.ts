@@ -20,10 +20,7 @@ export default class Auth {
     domain: "vocalia.eu.auth0.com",
     audience: "https://api.vocalia.co.uk/podcast",
     clientID: "uHe5eYe5imVEsBTnzcJciIHtj45N2px1",
-    redirectUri:
-      process.env.NODE_ENV == "production"
-        ? "http://listen.vocalia.co.uk/callback"
-        : "localhost:3000/callback",
+    redirectUri: process.env.REACT_APP_AUTH_CALLBACK,
     responseType: "token id_token",
     scope: "openid"
   });

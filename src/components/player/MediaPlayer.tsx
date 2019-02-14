@@ -9,7 +9,7 @@ import {
 } from "@material-ui/icons";
 import Slider from "@material-ui/lab/Slider";
 import "./MediaPlayer.css";
-import { Listen, MediaState } from "../../utility/types";
+import { MediaState } from "../../utility/types";
 import { formatTime } from "../../utility/FormatUtils";
 import { Link } from "react-router-dom";
 import DataManager from "../../api/DataManager";

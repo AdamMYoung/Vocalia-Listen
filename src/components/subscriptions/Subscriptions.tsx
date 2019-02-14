@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Podcast } from "../../utility/types";
-import Auth from "../../auth/Auth";
 import PodcastBrowser from "../browse/PodcastBrowser";
 import DataManager from "../../api/DataManager";
 
