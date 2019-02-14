@@ -24,6 +24,7 @@ export default class ApiRepository {
    * Gets the top podcasts from the Vocalia API.
    */
   async getTopPodcasts(): Promise<Podcast[] | null> {
+    console.log(API + TOP);
     return await fetch(API + TOP)
       .then(response => response.json())
       .then(data => data as Podcast[])
