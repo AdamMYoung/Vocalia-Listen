@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": "src\\website\\Vocalia.Home"
+    },
+    {
+      "path": "src\\website\\Vocalia.Create"
+    },
+    {
+      "path": "src\\website\\Vocalia.Listen"
+    }
+  ],
+  "settings": {}
+}
