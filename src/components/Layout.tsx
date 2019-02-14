@@ -101,13 +101,9 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
    */
   onEpisodeSelected = (episode: PodcastEpisode) => {
     this.state.api.setCurrentPodcast(episode);
+    var media = { autoplay: true, episode: episode };
 
-    let media = this.state.media;
-    if (media) {
-      media.autoplay = true;
-      media.episode = episode;
-      this.setState({ media: media });
-    }
+    this.setState({ media: media });
   };
 
   onDialogClose = () => {

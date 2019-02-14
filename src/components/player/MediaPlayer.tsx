@@ -56,7 +56,7 @@ export default class MediaPlayer extends PureComponent<
     this.state = {
       paused: true,
       time: 0,
-      volume: 0.5,
+      volume: 0.3,
       audioObject: audioObject,
       imageLoaded: false
     };
