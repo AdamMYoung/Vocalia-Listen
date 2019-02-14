@@ -245,18 +245,19 @@ export default class MediaPlayer extends PureComponent<
             </div>
           )}
         </div>
+        <div className="player-controls">
+          <IconButton className="icon" onClick={this.onRewind}>
+            <Replay10 />
+          </IconButton>
 
-        <IconButton className="icon" onClick={this.onRewind}>
-          <Replay10 />
-        </IconButton>
+          <Fab size="small" color="primary" onClick={this.onTogglePause}>
+            {icon}
+          </Fab>
 
-        <Fab size="small" color="primary" onClick={this.onTogglePause}>
-          {icon}
-        </Fab>
-
-        <IconButton className="icon" onClick={this.onForward}>
-          <Forward30 />
-        </IconButton>
+          <IconButton className="icon" onClick={this.onForward}>
+            <Forward30 />
+          </IconButton>
+        </div>
 
         {/* Seek & Naming */}
         <div className="player-center">

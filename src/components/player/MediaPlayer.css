@@ -87,6 +87,16 @@ img {
     padding-top: 10px;
   }
 
+  .player-controls {
+    flex: 10 1 auto;
+    align-self: flex-start;
+    padding-bottom: 4px;
+    text-align: center;
+    position: relative;
+    font-family: "Roboto";
+    overflow: hidden;
+  }
+
   .player-center {
     padding-top: 2px;
     padding-bottom: 8px;
