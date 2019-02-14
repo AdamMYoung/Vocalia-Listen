@@ -3,6 +3,6 @@
   "name": "Vocalia - Listen",
   "start_url": "/top",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#ffffff",
   "background_color": "#ffffff"
 }
