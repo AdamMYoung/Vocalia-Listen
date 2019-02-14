@@ -22,7 +22,7 @@ export default class Auth {
     clientID: "uHe5eYe5imVEsBTnzcJciIHtj45N2px1",
     redirectUri:
       process.env.NODE_ENV == "production"
-        ? "http://http://vocalia-listen.azurewebsites.net/callback"
+        ? "http://vocalia-listen.azurewebsites.net/callback"
         : "localhost:3000/callback",
     responseType: "token id_token",
     scope: "openid"
