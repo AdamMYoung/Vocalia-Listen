@@ -1,7 +1,9 @@
 import { Category, Podcast, PodcastFeed, Listen } from "../utility/types";
-var request = require("request");
 
-const API = process.env.REACT_APP_PODCAST_API_URL;
+const API =
+  process.env.NODE_ENV == "production"
+    ? "http://api.vocalia.co.uk/podcast/"
+    : "http://localhost:54578/podcast/";
 const CATEGORIES = "categories";
 const TOP = "top";
 const PARSE = "parse";
