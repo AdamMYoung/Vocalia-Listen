@@ -250,7 +250,11 @@ export default class MediaPlayer extends PureComponent<
             <Replay10 />
           </IconButton>
 
-          <Fab size="small" color="primary" onClick={this.onTogglePause}>
+          <Fab
+            size={isMobile ? "medium" : "small"}
+            color="primary"
+            onClick={this.onTogglePause}
+          >
             {icon}
           </Fab>
 
@@ -264,9 +268,15 @@ export default class MediaPlayer extends PureComponent<
           <div className="no-wrap">
             <div className="episode">
               <span className="episode-title">
-                <Typography component="h6" variant="h6">
-                  {episode.title}
-                </Typography>
+                {isMobile ? (
+                  <Typography component="p" style={{ fontWeight: 550 }}>
+                    {episode.title}
+                  </Typography>
+                ) : (
+                  <Typography component="h6" variant="h6">
+                    {episode.title}
+                  </Typography>
+                )}
               </span>
             </div>
 

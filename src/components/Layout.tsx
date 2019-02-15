@@ -106,18 +106,27 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
     this.setState({ media: media });
   };
 
+  /**
+   * Called when the dialog needs closing.
+   */
   onDialogClose = () => {
     let history = this.props.history;
     if (history.length > 1) history.goBack();
     else history.push("/top");
   };
 
+  /**
+   * Parses the hash from the url and passes it to the authentication class.
+   */
   handleAuthentication = (nextState: any, replace: any) => {
     if (/access_token|id_token|error/.test(nextState.location.hash)) {
       this.state.auth.handleAuthentication();
     }
   };
 
+  /**
+   * Updates the access token in the API manager.
+   */
   updateApiAccessToken = (accessToken: string) => {
     let api = this.state.api;
     api.accessToken = accessToken;

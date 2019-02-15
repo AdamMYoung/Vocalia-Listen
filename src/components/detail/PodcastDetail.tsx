@@ -152,7 +152,7 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
               <React.Fragment>
                 <DialogTitle disableTypography={true}>
                   <Typography component={"span"}>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: "flex", maxHeight: 250 }}>
                       <Fade in={imageLoaded}>
                         <div style={{ height: 80, width: 80, paddingTop: 16 }}>
                           <img
@@ -162,9 +162,17 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
                         </div>
                       </Fade>
 
-                      <div style={{ display: "inline", paddingLeft: 15 }}>
+                      <div
+                        style={{
+                          display: "inline",
+                          paddingLeft: 15,
+                          maxHeight: 250
+                        }}
+                      >
                         <h2>{feed.title}</h2>
-                        <p>{removeTags(feed.description)}</p>
+                        <p style={{ overflow: "auto", maxHeight: 200 }}>
+                          {removeTags(feed.description)}
+                        </p>
                       </div>
                     </div>
                   </Typography>
