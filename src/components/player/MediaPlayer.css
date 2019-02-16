@@ -89,7 +89,7 @@ img {
   .player-controls {
     flex: 10 1 auto;
     align-self: flex-start;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
     text-align: center;
     position: relative;
     font-family: "Roboto";
