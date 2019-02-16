@@ -141,7 +141,7 @@ export default class MediaPlayer extends PureComponent<
     audioObject.load();
 
     this.loadPlaybackPosition();
-    if (autoplay) audioObject.play();
+    if (autoplay) audioObject.play().then(() => this.setMediaMetadata());
 
     this.setState({ paused: !autoplay });
   };
