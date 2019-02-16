@@ -81,7 +81,6 @@ img {
 @media only screen and (max-width: 700px) {
   .player {
     display: inline-block;
-
     align-items: center;
     flex-grow: inherit;
     padding-top: 10px;
@@ -90,7 +89,7 @@ img {
   .player-controls {
     flex: 10 1 auto;
     align-self: flex-start;
-    padding-bottom: 4px;
+    padding-bottom: 8px;
     text-align: center;
     position: relative;
     font-family: "Roboto";

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { isMobile } from "./utility/DeviceUtils";
 import Layout from "./components/Layout";
-import Auth from "./auth/Auth";
 
 /**
  * State information for the application.
