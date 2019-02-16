@@ -41,6 +41,7 @@ export interface MediaState {
 
 export interface Listen {
   rssUrl: string;
+  episodeUrl: string;
   episodeName: string;
   time: number;
   isCompleted: boolean;

@@ -54,7 +54,7 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
     var episode = api.getCurrentPodcast();
 
     this.state = {
-      auth: new Auth(props, this.updateApiAccessToken),
+      auth: new Auth(props, api),
       api: api,
       podcastData: { top: [] },
       categories: [],
@@ -129,9 +129,11 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
    */
   updateApiAccessToken = (accessToken: string) => {
     let api = this.state.api;
-    api.accessToken = accessToken;
+    if (api != null) {
+      api.accessToken = accessToken;
 
-    this.setState({ api: api });
+      this.setState({ api: api });
+    }
   };
 
   render() {

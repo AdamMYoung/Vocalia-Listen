@@ -1,19 +1,22 @@
 import auth0 from "auth0-js";
 import { RouteComponentProps } from "react-router";
+import Cookies from "universal-cookie";
+import DataManager from "../api/DataManager";
 
 export default class Auth {
+  cookies = new Cookies();
   accessToken: string | null = null;
   idToken: string | null = null;
   expiresAt: number | null = null;
   routeProps: RouteComponentProps;
-  accessTokenCallback: (accessToken: string) => void;
+  apiManager: DataManager;
 
-  constructor(
-    routeProps: RouteComponentProps,
-    accessTokenCallback: (accessToken: string) => void
-  ) {
+  constructor(routeProps: RouteComponentProps, apiManager: DataManager) {
     this.routeProps = routeProps;
-    this.accessTokenCallback = accessTokenCallback;
+    this.apiManager = apiManager;
+
+    var authResult = localStorage.getItem("authResult");
+    if (authResult != null) this.assignSessionVariables(JSON.parse(authResult));
   }
 
   auth0 = new auth0.WebAuth({
@@ -22,7 +25,7 @@ export default class Auth {
     clientID: "uHe5eYe5imVEsBTnzcJciIHtj45N2px1",
     redirectUri: process.env.REACT_APP_AUTH_CALLBACK,
     responseType: "token id_token",
-    scope: "openid"
+    scope: "openid%20offline_access"
   });
 
   handleAuthentication = () => {
@@ -46,9 +49,15 @@ export default class Auth {
   };
 
   setSession = (authResult: auth0.Auth0DecodedHash) => {
-    // Set isLoggedIn flag in localStorage
-    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("authResult", JSON.stringify(authResult));
 
+    this.assignSessionVariables(authResult);
+
+    // navigate to the home route
+    this.routeProps.history.replace("/top");
+  };
+
+  assignSessionVariables = (authResult: auth0.Auth0DecodedHash) => {
     // Set the time that the access token will expire at
     let expiresAt =
       (authResult.expiresIn as number) * 1000 + new Date().getTime();
@@ -56,10 +65,7 @@ export default class Auth {
     this.idToken = authResult.idToken as string;
     this.expiresAt = expiresAt;
 
-    this.accessTokenCallback(this.accessToken);
-
-    // navigate to the home route
-    this.routeProps.history.replace("/top");
+    this.apiManager.accessToken = this.accessToken;
   };
 
   renewSession = () => {

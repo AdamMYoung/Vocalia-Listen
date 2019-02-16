@@ -25,10 +25,10 @@ export default class LocalRepository {
 
   /**
    * Gets the playback time for the provided url from the local storage.
-   * @param url Podcast URL for querying.
+   * @param episodeUrl Podcast URL for querying.
    */
-  getPlaybackTime(rssUrl: string): Listen | null {
-    let key = rssUrl + PLAYBACK_POSITION;
+  getPlaybackTime(episodeUrl: string): Listen | null {
+    let key = episodeUrl + PLAYBACK_POSITION;
     return this.ParseKey(key);
   }
 

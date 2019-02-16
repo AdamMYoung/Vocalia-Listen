@@ -78,23 +78,14 @@ export default class MediaPlayer extends PureComponent<
     const { episode } = this.props.media;
 
     let info = {
-      rssUrl: episode.content,
+      rssUrl: episode.rssUrl,
+      episodeUrl: episode.content,
       episodeName: episode.title,
       time: Math.round(audioObject.currentTime),
       isCompleted: false
     };
 
     api.setListenInfo(info);
-  };
-
-  /**
-   * Loads the saved playback position from memory.
-   */
-  loadPlaybackPosition = async () => {
-    const { audioObject } = this.state;
-    const { episode } = this.props.media;
-
-    audioObject.currentTime = episode.time;
   };
 
   /**
@@ -137,10 +128,11 @@ export default class MediaPlayer extends PureComponent<
     const { audioObject } = this.state;
     const { episode, autoplay } = this.props.media;
 
+    console.log(episode);
     audioObject.src = episode.content;
     audioObject.load();
 
-    this.loadPlaybackPosition();
+    audioObject.currentTime = episode.time;
     if (autoplay) audioObject.play().then(() => this.setMediaMetadata());
 
     this.setState({ paused: !autoplay });

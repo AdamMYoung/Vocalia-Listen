@@ -132,12 +132,12 @@ export default class DataManager {
    * Gets lisen info for the specified podcast.
    * @param rssUrl URL to fetch listen info for.
    */
-  async getListenInfo(rssUrl: string): Promise<Listen | null> {
-    if (this.accessToken != null && rssUrl != "undefined") {
-      return await this.api.getListenInfo(this.accessToken, rssUrl);
+  async getListenInfo(episodeUrl: string): Promise<Listen | null> {
+    if (this.accessToken != null && episodeUrl != undefined) {
+      return await this.api.getListenInfo(this.accessToken, episodeUrl);
     }
 
-    return this.local.getPlaybackTime(rssUrl);
+    return this.local.getPlaybackTime(episodeUrl);
   }
 
   /**

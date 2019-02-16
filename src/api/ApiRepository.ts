@@ -118,15 +118,15 @@ export default class ApiRepository {
 
   /**
    * Gets the listen info for the specified podcast.
-   * @param rssUrl URL to get the listen info for.
+   * @param episodeUrl URL to get the listen info for.
    * @param accessToken Access token for API authentication.
    */
   async getListenInfo(
     accessToken: string,
-    rssUrl: string
+    episodeUrl: string
   ): Promise<Listen | null> {
     return await this.getInjectedFetch(
-      API + LISTEN + "?rssUrl=" + rssUrl,
+      API + LISTEN + "?episodeUrl=" + episodeUrl,
       accessToken
     )
       .then(response => response.json())
