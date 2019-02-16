@@ -175,7 +175,7 @@ export default class MediaPlayer extends PureComponent<
     const { audioObject } = this.state;
 
     if (this.state.paused) {
-      audioObject.play();
+      audioObject.play().then(() => this.setMediaMetadata());
       this.setState({ paused: false });
     } else {
       audioObject.pause();
@@ -212,6 +212,31 @@ export default class MediaPlayer extends PureComponent<
     const { audioObject } = this.state;
     this.setState({ time: audioObject.currentTime });
     this.savePlaybackPosition();
+  };
+
+  /**
+   * Sets the chrome media metadata for notification control.
+   */
+  setMediaMetadata = () => {
+    const { episode } = this.props.media;
+
+    if ("mediaSession" in navigator) {
+      // @ts-ignore
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: episode.title,
+        artist: episode.author,
+        artwork: [{ src: episode.imageUrl, type: "image/png" }]
+      });
+
+      // @ts-ignore
+      navigator.mediaSession.setActionHandler("play", this.onTogglePause);
+      // @ts-ignore
+      navigator.mediaSession.setActionHandler("pause", this.onTogglePause);
+      // @ts-ignore
+      navigator.mediaSession.setActionHandler("seekbackward", this.onRewind);
+      // @ts-ignore
+      navigator.mediaSession.setActionHandler("seekforward", this.onForward);
+    }
   };
 
   render() {
