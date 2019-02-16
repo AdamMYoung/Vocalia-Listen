@@ -28,7 +28,7 @@ export default class Auth {
     clientID: "uHe5eYe5imVEsBTnzcJciIHtj45N2px1",
     redirectUri: process.env.REACT_APP_AUTH_CALLBACK,
     responseType: "token id_token",
-    scope: "openid%20offline_access"
+    scope: "openid offline_access"
   });
 
   handleAuthentication = () => {

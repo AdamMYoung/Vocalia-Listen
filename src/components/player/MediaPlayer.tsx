@@ -50,6 +50,7 @@ export default class MediaPlayer extends PureComponent<
 
     let audioObject = document.createElement("audio");
     audioObject.loop = false;
+    audioObject.volume = 0.3;
     audioObject.ontimeupdate = () => this.onHandleTimeUpdate();
     audioObject.onended = () => this.playbackFinished();
 
@@ -127,8 +128,8 @@ export default class MediaPlayer extends PureComponent<
   initializePodcast = () => {
     const { audioObject } = this.state;
     const { episode, autoplay } = this.props.media;
+    this.setState({ time: episode.time });
 
-    console.log(episode);
     audioObject.src = episode.content;
     audioObject.load();
 
