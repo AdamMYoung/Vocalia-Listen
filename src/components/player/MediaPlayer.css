@@ -7,7 +7,7 @@
 }
 
 .player .player-left {
-  flex: 0 0 300px;
+  flex: 0 0 150px;
   display: flex;
   position: "sticky";
   justify-content: center;
@@ -23,6 +23,11 @@
   padding: 0 30px;
 }
 
+.player-controls {
+  flex: 0 0 175px;
+  margin-left: 30px;
+}
+
 .player-center {
   flex: 10 1 auto;
   align-self: flex-start;
@@ -36,7 +41,7 @@
 .seek-bar {
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 10px;
+  padding-top: 15px;
 }
 
 .icon {

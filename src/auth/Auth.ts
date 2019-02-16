@@ -16,7 +16,10 @@ export default class Auth {
     this.apiManager = apiManager;
 
     var authResult = localStorage.getItem("authResult");
-    if (authResult != null) this.assignSessionVariables(JSON.parse(authResult));
+    if (authResult != null) {
+      this.assignSessionVariables(JSON.parse(authResult));
+      this.renewSession();
+    }
   }
 
   auth0 = new auth0.WebAuth({
@@ -35,7 +38,8 @@ export default class Auth {
       } else if (err) {
         console.log(err);
         this.routeProps.history.replace("/top");
-        alert(`Error: ${err.error}. Check the console for further details.`);
+        if (process.env.NODE_ENV == "development")
+          alert(`Error: ${err.error}. Check the console for further details.`);
       }
     });
   };
@@ -75,9 +79,10 @@ export default class Auth {
       } else if (err) {
         this.logout();
         console.log(err);
-        alert(
-          `Could not get a new token (${err.error}: ${err.errorDescription}).`
-        );
+        if (process.env.NODE_ENV == "development")
+          alert(
+            `Could not get a new token (${err.error}: ${err.errorDescription}).`
+          );
       }
     });
   };

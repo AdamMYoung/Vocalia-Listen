@@ -27,7 +27,6 @@ export default class Subscriptions extends Component<
     const { api } = this.props;
 
     let subscriptions = await api.getSubscriptions();
-    console.log(subscriptions);
     if (subscriptions) this.setState({ subscriptions: subscriptions });
   }
 

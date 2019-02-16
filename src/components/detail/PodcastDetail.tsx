@@ -176,7 +176,9 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
                       </div>
                     </div>
                   </Typography>
-                  {isAuthenticated && button}
+                  <div style={{ marginTop: "20px" }}>
+                    {isAuthenticated && button}
+                  </div>
                 </DialogTitle>
                 <DialogContent style={{ paddingTop: 5 }}>
                   {/* Episodes */}

@@ -248,8 +248,8 @@ export default class MediaPlayer extends PureComponent<
         }}
       >
         {/* Image & Playback */}
-        <div className="player-left">
-          {!isMobile && episode.imageUrl != null && (
+        {!isMobile && episode.imageUrl != null && (
+          <div className="player-left">
             <div className="image">
               {episode.imageUrl != null}
               <Fade in={imageLoaded}>
@@ -260,8 +260,8 @@ export default class MediaPlayer extends PureComponent<
                 />
               </Fade>
             </div>
-          )}
-        </div>
+          </div>
+        )}
         <div className="player-controls">
           <IconButton className="icon" onClick={this.onRewind}>
             <Replay10 />
@@ -290,7 +290,11 @@ export default class MediaPlayer extends PureComponent<
                     {episode.title}
                   </Typography>
                 ) : (
-                  <Typography component="h6" variant="h6">
+                  <Typography
+                    component="h6"
+                    variant="h6"
+                    style={{ fontSize: 18 }}
+                  >
                     {episode.title}
                   </Typography>
                 )}
