@@ -20,15 +20,21 @@ export default class Auth {
     this.scheduleRenewal();
   }
 
+  /**
+   * Object to be used for service
+   */
   auth0 = new auth0.WebAuth({
     domain: "vocalia.eu.auth0.com",
-    audience: "https://api.vocalia.co.uk/podcast",
+    audience: "https://api.vocalia.co.uk",
     clientID: "uHe5eYe5imVEsBTnzcJciIHtj45N2px1",
     redirectUri: process.env.REACT_APP_AUTH_CALLBACK,
     responseType: "token id_token",
     scope: "openid offline_access"
   });
 
+  /**
+   * Parses the JWT from the current URL.
+   */
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -42,14 +48,23 @@ export default class Auth {
     });
   };
 
+  /**
+   * Returns the stored access code.
+   */
   getAccessToken = () => {
     return this.accessToken;
   };
 
+  /**
+   * Returns the stored ID token.
+   */
   getIdToken = () => {
     return this.idToken;
   };
 
+  /**
+   * Sets the session information from the decoded hash.
+   */
   setSession = (authResult: auth0.Auth0DecodedHash) => {
     // Set the time that the access token will expire at
     let expiresAt =
@@ -65,6 +80,9 @@ export default class Auth {
     this.routeProps.history.replace("/top");
   };
 
+  /**
+   * Silently renews the session information from the Auth0 portal.
+   */
   renewSession = () => {
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -80,6 +98,9 @@ export default class Auth {
     });
   };
 
+  /**
+   * Schedules a renewal for every 15 minutes to renew the access token.
+   */
   scheduleRenewal() {
     let expiresAt = this.expiresAt;
     if (expiresAt != null) {
@@ -92,6 +113,9 @@ export default class Auth {
     }
   }
 
+  /**
+   * Clears the current signed in information.
+   */
   clearSignIn = () => {
     // Remove tokens and expiry time
     this.accessToken = null;
@@ -105,15 +129,24 @@ export default class Auth {
     localStorage.removeItem("isLoggedIn");
   };
 
+  /**
+   * Logs the user out locally and server side.
+   */
   logout = () => {
     this.clearSignIn();
     this.auth0.logout({ returnTo: process.env.REACT_APP_AUTH_HOME });
   };
 
+  /**
+   * Logs the user in, starting the Auth0 flow.
+   */
   login = () => {
     this.auth0.authorize();
   };
 
+  /**
+   * Checks if the current user is authenticated.
+   */
   isAuthenticated = () => {
     // Check whether the current time is past the
     // access token's expiry time.
