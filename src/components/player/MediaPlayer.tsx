@@ -233,9 +233,9 @@ export default class MediaPlayer extends PureComponent<
       // @ts-ignore
       navigator.mediaSession.setActionHandler("pause", this.onTogglePause);
       // @ts-ignore
-      navigator.mediaSession.setActionHandler("seekbackward", this.onRewind);
+      navigator.mediaSession.setActionHandler("previoustrack", this.onRewind);
       // @ts-ignore
-      navigator.mediaSession.setActionHandler("seekforward", this.onForward);
+      navigator.mediaSession.setActionHandler("nexttrack", this.onForward);
     }
   };
 
