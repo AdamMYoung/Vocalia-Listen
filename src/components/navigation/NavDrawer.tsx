@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
   Divider,
+  SwipeableDrawer,
   Drawer,
   Hidden,
   List,
@@ -162,17 +163,18 @@ class NavDrawer extends Component<INavDrawerProps, INavDrawerState> {
         <nav className={classes.drawer}>
           {/* Mobile varient of the navigation drawer */}
           <Hidden smUp implementation="css">
-            <Drawer
+            <SwipeableDrawer
               variant="temporary"
               anchor={theme.direction === "rtl" ? "right" : "left"}
               open={this.props.mobileOpen}
               onClose={this.props.handleDrawerToggle}
+              onOpen={this.props.handleDrawerToggle}
               classes={{
                 paper: classes.drawerPaper
               }}
             >
               {drawer}
-            </Drawer>
+            </SwipeableDrawer>
           </Hidden>
 
           {/* Desktop varient of the navigation drawer */}

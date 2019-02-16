@@ -106,7 +106,7 @@ export default class MediaPlayer extends PureComponent<
     const { episode } = this.props.media;
 
     if (episode.content !== audioObject.src) {
-      this.initializePodcastFromProps(props);
+      this.initializePodcast();
     }
   }
 
@@ -116,7 +116,7 @@ export default class MediaPlayer extends PureComponent<
   componentWillMount() {
     const { isMobile } = this.props;
     this.setState({ imageLoaded: false });
-    this.initializePodcastFromProps(this.props);
+    this.initializePodcast();
 
     this.setState({
       volume: isMobile ? 1 : this.state.volume
@@ -133,7 +133,7 @@ export default class MediaPlayer extends PureComponent<
   /**
    * Loads a podacst from the props source into the player.
    */
-  initializePodcastFromProps = (props: IPlayerProps) => {
+  initializePodcast = () => {
     const { audioObject } = this.state;
     const { episode, autoplay } = this.props.media;
 
