@@ -8,6 +8,7 @@ export default class Auth {
   accessToken: string | null = null;
   idToken: string | null = null;
   expiresAt: number | null = null;
+  tokenRenewalTimeout: NodeJS.Timeout | null = null;
   routeProps: RouteComponentProps;
   apiManager: DataManager;
 
@@ -15,11 +16,8 @@ export default class Auth {
     this.routeProps = routeProps;
     this.apiManager = apiManager;
 
-    var authResult = localStorage.getItem("authResult");
-    if (authResult != null) {
-      this.assignSessionVariables(JSON.parse(authResult));
-      this.renewSession();
-    }
+    this.renewSession();
+    this.scheduleRenewal();
   }
 
   auth0 = new auth0.WebAuth({
@@ -53,15 +51,6 @@ export default class Auth {
   };
 
   setSession = (authResult: auth0.Auth0DecodedHash) => {
-    localStorage.setItem("authResult", JSON.stringify(authResult));
-
-    this.assignSessionVariables(authResult);
-
-    // navigate to the home route
-    this.routeProps.history.replace("/top");
-  };
-
-  assignSessionVariables = (authResult: auth0.Auth0DecodedHash) => {
     // Set the time that the access token will expire at
     let expiresAt =
       (authResult.expiresIn as number) * 1000 + new Date().getTime();
@@ -70,6 +59,10 @@ export default class Auth {
     this.expiresAt = expiresAt;
 
     this.apiManager.accessToken = this.accessToken;
+    this.scheduleRenewal();
+
+    // navigate to the home route
+    this.routeProps.history.replace("/top");
   };
 
   renewSession = () => {
@@ -77,7 +70,7 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
       } else if (err) {
-        this.logout();
+        this.clearSignIn();
         console.log(err);
         if (process.env.NODE_ENV == "development")
           alert(
@@ -87,17 +80,34 @@ export default class Auth {
     });
   };
 
-  logout = () => {
+  scheduleRenewal() {
+    let expiresAt = this.expiresAt;
+    if (expiresAt != null) {
+      const timeout = expiresAt - Date.now();
+      if (timeout > 0) {
+        this.tokenRenewalTimeout = setTimeout(() => {
+          this.renewSession();
+        }, timeout);
+      }
+    }
+  }
+
+  clearSignIn = () => {
     // Remove tokens and expiry time
     this.accessToken = null;
     this.idToken = null;
     this.expiresAt = 0;
 
+    if (this.tokenRenewalTimeout != null)
+      clearTimeout(this.tokenRenewalTimeout);
+
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem("isLoggedIn");
+  };
 
-    // navigate to the home route
-    this.routeProps.history.replace("/top");
+  logout = () => {
+    this.clearSignIn();
+    this.auth0.logout({ returnTo: process.env.REACT_APP_AUTH_HOME });
   };
 
   login = () => {
