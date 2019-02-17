@@ -128,7 +128,6 @@ export default class MediaPlayer extends PureComponent<
   initializePodcast = () => {
     const { audioObject } = this.state;
     const { episode, autoplay } = this.props.media;
-    this.setState({ time: episode.time });
 
     audioObject.src = episode.content;
     audioObject.load();

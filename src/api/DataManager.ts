@@ -55,7 +55,12 @@ export default class DataManager {
    * Gets the top podcasts from the Vocalia API.
    */
   async getTopPodcasts(): Promise<Podcast[] | null> {
-    var podcasts = await this.api.getTopPodcasts();
+    var podcasts = null;
+    try {
+      podcasts == (await this.api.getTopPodcasts());
+    } catch {
+      return this.local.getCategoryPodcasts("top");
+    }
 
     if (podcasts != null) {
       this.local.setCategoryPodcasts(podcasts, "top");
@@ -70,7 +75,12 @@ export default class DataManager {
    * @param categoryId ID of the category to filter by.
    */
   async getPodcastByCategory(categoryId: number): Promise<Podcast[] | null> {
-    var podcasts = await this.api.getPodcastByCategory(categoryId);
+    var podcasts = null;
+    try {
+      podcasts = await this.api.getPodcastByCategory(categoryId);
+    } catch {
+      return this.local.getCategoryPodcasts(categoryId.toString());
+    }
 
     if (podcasts != null) {
       this.local.setCategoryPodcasts(podcasts, categoryId.toString());
@@ -84,15 +94,17 @@ export default class DataManager {
    * Gets the subscriptions belonging to the user.
    */
   async getSubscriptions(): Promise<Podcast[] | null> {
-    if (this.accessToken) {
-      var subs = await this.api.getSubscriptions(this.accessToken);
+    if (this.accessToken == null)
+      return this.local.getCategoryPodcasts("subscriptions");
 
-      if (subs) {
-        this.local.setCategoryPodcasts(subs, "subscriptions");
-        return subs;
-      }
+    var subs = await this.api.getSubscriptions(this.accessToken);
+
+    if (subs) {
+      this.local.setCategoryPodcasts(subs, "subscriptions");
+      return subs;
     }
-    return this.local.getCategoryPodcasts("subscriptions");
+
+    return null;
   }
 
   /**
@@ -118,10 +130,12 @@ export default class DataManager {
    * @param listen Values to update.
    */
   async setListenInfo(listen: Listen) {
-    if (this.accessToken != null) {
-      if (this.lastUpdate != listen.time) {
-        this.lastUpdate = listen.time;
+    if (this.accessToken != null && this.lastUpdate != listen.time) {
+      this.lastUpdate = listen.time;
+      try {
         await this.api.setListenInfo(this.accessToken, listen);
+      } catch {
+        this.local.setPlaybackTime(listen);
       }
     }
 
@@ -133,18 +147,26 @@ export default class DataManager {
    * @param rssUrl URL to fetch listen info for.
    */
   async getListenInfo(episodeUrl: string): Promise<Listen | null> {
-    if (this.accessToken != null && episodeUrl != undefined) {
-      return await this.api.getListenInfo(this.accessToken, episodeUrl);
-    }
+    if (this.accessToken == null) return this.local.getPlaybackTime(episodeUrl);
 
-    return this.local.getPlaybackTime(episodeUrl);
+    try {
+      return await this.api.getListenInfo(this.accessToken, episodeUrl);
+    } catch {
+      return this.local.getPlaybackTime(episodeUrl);
+    }
   }
 
   /**
    * Gets the current podcast from the API.
    */
-  getCurrentPodcast(): PodcastEpisode | null {
-    return this.local.getCurrentPodcast();
+  async getCurrentPodcast(): Promise<PodcastEpisode | null> {
+    if (this.accessToken == null) return this.local.getCurrentPodcast();
+
+    try {
+      return await this.api.getLatestPodcast(this.accessToken);
+    } catch {
+      return this.local.getCurrentPodcast();
+    }
   }
 
   /**

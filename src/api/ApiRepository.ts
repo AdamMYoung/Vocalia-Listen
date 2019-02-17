@@ -1,4 +1,10 @@
-import { Category, Podcast, PodcastFeed, Listen } from "../utility/types";
+import {
+  Category,
+  Podcast,
+  PodcastFeed,
+  Listen,
+  PodcastEpisode
+} from "../utility/types";
 
 const API = process.env.REACT_APP_PODCAST_API_URL;
 const CATEGORIES = "categories";
@@ -7,6 +13,7 @@ const PARSE = "parse";
 const SEARCH = "search";
 const SUBS = "subscriptions";
 const LISTEN = "listen";
+const LATEST = "latest";
 
 export default class ApiRepository {
   /**
@@ -15,8 +22,7 @@ export default class ApiRepository {
   async getCategories(): Promise<Category[] | null> {
     return await fetch(API + CATEGORIES)
       .then(response => response.json())
-      .then(data => data as Category[])
-      .catch(() => null);
+      .then(data => data as Category[]);
   }
 
   /**
@@ -25,8 +31,7 @@ export default class ApiRepository {
   async getTopPodcasts(): Promise<Podcast[] | null> {
     return await fetch(API + TOP)
       .then(response => response.json())
-      .then(data => data as Podcast[])
-      .catch(() => null);
+      .then(data => data as Podcast[]);
   }
 
   /**
@@ -35,8 +40,7 @@ export default class ApiRepository {
   async searchPodcasts(query: string): Promise<Podcast[] | null> {
     return await fetch(API + SEARCH + "?term=" + query)
       .then(response => response.json())
-      .then(data => data as Podcast[])
-      .catch(() => null);
+      .then(data => data as Podcast[]);
   }
 
   /**
@@ -46,8 +50,7 @@ export default class ApiRepository {
   async getPodcastByCategory(categoryId: number): Promise<Podcast[] | null> {
     return await fetch(API + TOP + "?categoryId=" + categoryId)
       .then(response => response.json())
-      .then(data => data as Podcast[])
-      .catch(() => null);
+      .then(data => data as Podcast[]);
   }
 
   /**
@@ -63,8 +66,7 @@ export default class ApiRepository {
 
     return await this.getInjectedFetch(path, accessToken)
       .then(response => response.json())
-      .then(data => data as PodcastFeed)
-      .catch(e => null);
+      .then(data => data as PodcastFeed);
   }
 
   /**
@@ -74,8 +76,7 @@ export default class ApiRepository {
   async getSubscriptions(accessToken: string): Promise<Podcast[] | null> {
     return await this.getInjectedFetch(API + SUBS, accessToken)
       .then(response => response.json())
-      .then(data => data as Podcast[])
-      .catch(() => null);
+      .then(data => data as Podcast[]);
   }
 
   /**
@@ -117,6 +118,16 @@ export default class ApiRepository {
   }
 
   /**
+   * Gets the latest podcast from the API.
+   * @param accessToken Access token used for API authentication.
+   */
+  async getLatestPodcast(accessToken: string) {
+    return await this.getInjectedFetch(API + LATEST, accessToken)
+      .then(response => response.json())
+      .then(data => data as PodcastEpisode);
+  }
+
+  /**
    * Gets the listen info for the specified podcast.
    * @param episodeUrl URL to get the listen info for.
    * @param accessToken Access token for API authentication.
@@ -130,8 +141,7 @@ export default class ApiRepository {
       accessToken
     )
       .then(response => response.json())
-      .then(data => data as Listen)
-      .catch(() => null);
+      .then(data => data as Listen);
   }
 
   /**

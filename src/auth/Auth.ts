@@ -10,11 +10,14 @@ export default class Auth {
   expiresAt: number | null = null;
   tokenRenewalTimeout: NodeJS.Timeout | null = null;
   routeProps: RouteComponentProps;
-  apiManager: DataManager;
+  tokenUpdatedCallback: (token: string) => void;
 
-  constructor(routeProps: RouteComponentProps, apiManager: DataManager) {
+  constructor(
+    routeProps: RouteComponentProps,
+    callback: (token: string) => void
+  ) {
     this.routeProps = routeProps;
-    this.apiManager = apiManager;
+    this.tokenUpdatedCallback = callback;
 
     this.renewSession();
     this.scheduleRenewal();
@@ -73,7 +76,7 @@ export default class Auth {
     this.idToken = authResult.idToken as string;
     this.expiresAt = expiresAt;
 
-    this.apiManager.accessToken = this.accessToken;
+    this.tokenUpdatedCallback(this.accessToken);
     this.scheduleRenewal();
 
     // navigate to the home route

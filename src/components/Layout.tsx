@@ -50,16 +50,13 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
   constructor(props: ILayoutProps) {
     super(props);
 
-    let api = new DataManager();
-    var episode = api.getCurrentPodcast();
-
     this.state = {
-      auth: new Auth(props, api),
-      api: api,
+      auth: new Auth(props, this.apiTokenChanged),
+      api: new DataManager(),
       podcastData: { top: [] },
       categories: [],
       dialogOpen: false,
-      media: episode != null ? { episode: episode, autoplay: false } : null
+      media: null
     };
   }
 
@@ -104,6 +101,20 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
     var media = { autoplay: true, episode: episode };
 
     this.setState({ media: media });
+  };
+
+  /**
+   * Called when the API token changes.
+   */
+  apiTokenChanged = async (token: string) => {
+    var api = new DataManager();
+    api.accessToken = token;
+    this.setState({ api: api });
+
+    var episode = await api.getCurrentPodcast();
+    this.setState({
+      media: { episode: episode, autoplay: false } as MediaState
+    });
   };
 
   /**
