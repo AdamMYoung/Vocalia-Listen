@@ -93,6 +93,7 @@ img {
 
   .player-controls {
     flex: 10 1 auto;
+    margin-left: 0px;
     align-self: flex-start;
     padding-bottom: 10px;
     text-align: center;
