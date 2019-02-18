@@ -132,7 +132,7 @@ export default class MediaPlayer extends PureComponent<
     audioObject.src = episode.content;
     audioObject.load();
 
-    audioObject.currentTime = episode.time;
+    if (episode.time != undefined) audioObject.currentTime = episode.time;
     if (autoplay) audioObject.play().then(() => this.setMediaMetadata());
 
     this.setState({ paused: !autoplay });
