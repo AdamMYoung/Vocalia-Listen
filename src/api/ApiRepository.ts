@@ -112,7 +112,9 @@ export default class ApiRepository {
    * @param accessToken Access token used for API authentication.
    */
   async setListenInfo(accessToken: string, listenInfo: Listen) {
-    if (Math.round(listenInfo.time) % 5 == 0) {
+    var rounded = Math.round(listenInfo.time);
+    var frequency = 3;
+    if (rounded != 0 && rounded % frequency == 0) {
       await this.getInjectedFetch(API + LISTEN, accessToken, "PUT", listenInfo);
     }
   }
