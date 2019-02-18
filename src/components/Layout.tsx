@@ -86,8 +86,9 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
     //Load top podcast data asynchronously.
     let podcasts = await api.getTopPodcasts();
 
-    if (podcasts) {
+    if (podcasts != null) {
       let loadedPodcasts = this.state.podcastData;
+
       loadedPodcasts["top"] = podcasts;
       this.setState({ podcastData: loadedPodcasts });
     }

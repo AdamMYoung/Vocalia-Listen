@@ -57,7 +57,7 @@ export default class DataManager {
   async getTopPodcasts(): Promise<Podcast[] | null> {
     var podcasts = null;
     try {
-      podcasts == (await this.api.getTopPodcasts());
+      podcasts = await this.api.getTopPodcasts();
     } catch {
       return this.local.getCategoryPodcasts("top");
     }
