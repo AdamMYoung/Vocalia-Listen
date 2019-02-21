@@ -1,6 +1,13 @@
 {
   "short_name": "Vocalia",
-  "name": "Vocalia Listen",
+  "name": "Vocalia | Listen",
+  "icons": [
+    {
+      "src": "https://vocalia.blob.core.windows.net/static-content/assets/logo_solo.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
   "start_url": "/top",
   "display": "standalone",
   "theme_color": "#3f51b5",
