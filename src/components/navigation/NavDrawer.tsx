@@ -171,9 +171,6 @@ class NavDrawer extends Component<INavDrawerProps, INavDrawerState> {
             <List>
               {/* Add To Home Screen */}
               <ListItem button>
-                <ListItemIcon>
-                  <BarChart />
-                </ListItemIcon>
                 <ListItemText
                   primary="Add to Home Screen"
                   onClick={this.addToHome}
