@@ -27,7 +27,7 @@ const styles = {
 interface IEpisodeProps {
   episode: PodcastEpisode; //Episode the component represents.
   selectedEpisode: PodcastEpisode | null; //The currently playing episode.
-  onEpisodeSelected: (episode: PodcastEpisode) => void; //Called when the entry has been selected.
+  onEpisodeSelected: (episode: PodcastEpisode | null) => void; //Called when the entry has been selected.
 }
 
 /**
@@ -48,7 +48,7 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
 
     let selectedItem =
       episode.content == (selectedEpisode != null && selectedEpisode.content)
-        ? ({ time: 0 } as PodcastEpisode)
+        ? null
         : episode;
     onEpisodeSelected(selectedItem);
   };

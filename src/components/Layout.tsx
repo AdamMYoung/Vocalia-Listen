@@ -97,11 +97,13 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
   /**
    * Called when an episode has been selected for playback.
    */
-  onEpisodeSelected = (episode: PodcastEpisode) => {
+  onEpisodeSelected = (episode: PodcastEpisode | null) => {
     this.state.api.setCurrentPodcast(episode);
-    var media = { autoplay: true, episode: episode };
 
-    this.setState({ media: media });
+    if (episode) {
+      var media = { autoplay: true, episode: episode };
+      this.setState({ media: media });
+    } else this.setState({ media: null });
   };
 
   /**

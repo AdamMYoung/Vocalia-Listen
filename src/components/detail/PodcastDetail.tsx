@@ -25,7 +25,7 @@ interface IDetailProps {
   isAuthenticated: boolean; // Indicates if the user is authenticated.
   selectedEpisode: PodcastEpisode | null; //The currently playing episode.
   onClose: () => void; //Called when the dialog requests to be closed.
-  onEpisodeSelected: (episode: PodcastEpisode) => void; //Called when an episode isselected.
+  onEpisodeSelected: (episode: PodcastEpisode | null) => void; //Called when an episode isselected.
 }
 
 /**
@@ -190,7 +190,7 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
                           key={item.content}
                           episode={item}
                           selectedEpisode={selectedEpisode}
-                          onEpisodeSelected={(episode: PodcastEpisode) =>
+                          onEpisodeSelected={(episode: PodcastEpisode | null) =>
                             onEpisodeSelected(episode)
                           }
                         />
