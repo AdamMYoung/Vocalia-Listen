@@ -71,7 +71,9 @@ interface INavDrawerProps extends WithStyles<typeof styles> {
  * State variables of the navigation drawer.
  */
 
-interface INavDrawerState {}
+interface INavDrawerState {
+  addToHomePrompt: any | null;
+}
 
 /**
  * Navigation drawer for selecting various routes of the application.
@@ -80,6 +82,18 @@ class NavDrawer extends Component<INavDrawerProps, INavDrawerState> {
   /**
    * Closes the drawer if the mobile varient has been opened.
    */
+
+  constructor(props: INavDrawerProps) {
+    super(props);
+    this.state = {
+      addToHomePrompt: null
+    };
+
+    window.addEventListener("beforeinstallprompt", (e: any) => {
+      this.setState({ addToHomePrompt: e });
+    });
+  }
+
   closeDrawer = () => {
     if (this.props.mobileOpen) this.props.handleDrawerToggle();
   };
@@ -91,6 +105,15 @@ class NavDrawer extends Component<INavDrawerProps, INavDrawerState> {
   logout() {
     this.props.auth.logout();
   }
+
+  /**
+   * Opens the window to add the SPA to the home page of the application.
+   */
+  addToHome = () => {
+    const { addToHomePrompt } = this.state;
+    addToHomePrompt.prompt();
+    addToHomePrompt.userChoice.then(this.setState({ addToHomePrompt: null }));
+  };
 
   render() {
     const { classes, theme } = this.props;
@@ -142,6 +165,25 @@ class NavDrawer extends Component<INavDrawerProps, INavDrawerState> {
           )}
         </List>
         <Divider />
+
+        {this.state.addToHomePrompt != null && (
+          <div>
+            <List>
+              {/* Add To Home Screen */}
+              <ListItem button>
+                <ListItemIcon>
+                  <BarChart />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Add to Home Screen"
+                  onClick={this.addToHome}
+                />
+              </ListItem>
+            </List>
+            <Divider />
+          </div>
+        )}
+
         <List>
           {/* Categories */}
           {this.props.categories.map(category => (
