@@ -129,27 +129,6 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
     else history.push("/top");
   };
 
-  /**
-   * Parses the hash from the url and passes it to the authentication class.
-   */
-  handleAuthentication = (nextState: any, replace: any) => {
-    if (/access_token|id_token|error/.test(nextState.location.hash)) {
-      this.state.auth.handleAuthentication();
-    }
-  };
-
-  /**
-   * Updates the access token in the API manager.
-   */
-  updateApiAccessToken = (accessToken: string) => {
-    let api = this.state.api;
-    if (api != null) {
-      api.accessToken = accessToken;
-
-      this.setState({ api: api });
-    }
-  };
-
   render() {
     const { podcastData, media, categories, auth, api } = this.state;
     const { isMobile } = this.props;

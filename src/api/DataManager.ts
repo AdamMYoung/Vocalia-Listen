@@ -1,4 +1,4 @@
-import ApiRepository from "./ApiRepository";
+import PodcastApiRepository from "./PodcastApiRepository";
 import LocalRepository from "./LocalRepository";
 import {
   Category,
@@ -9,7 +9,7 @@ import {
 } from "../utility/types";
 
 export default class DataManager {
-  private api: ApiRepository = new ApiRepository();
+  private api: PodcastApiRepository = new PodcastApiRepository();
   private local: LocalRepository = new LocalRepository();
   accessToken: string | null = null;
 

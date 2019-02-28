@@ -94,14 +94,23 @@ class NavDrawer extends Component<INavDrawerProps, INavDrawerState> {
     });
   }
 
+  /**
+   * Closes the mobile nav drawer.
+   */
   closeDrawer = () => {
     if (this.props.mobileOpen) this.props.handleDrawerToggle();
   };
 
+  /**
+   * Signs the user into the application.
+   */
   login() {
     this.props.auth.login();
   }
 
+  /**
+   * Signs the user out of the application.
+   */
   logout() {
     this.props.auth.logout();
   }

@@ -15,7 +15,7 @@ const SUBS = "subscriptions";
 const LISTEN = "listen";
 const LATEST = "latest";
 
-export default class ApiRepository {
+export default class PodcastApiRepository {
   /**
    * Gets all categories from the Vocalia API.
    */

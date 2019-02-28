@@ -1,10 +1,8 @@
 import auth0 from "auth0-js";
 import { RouteComponentProps } from "react-router";
-import Cookies from "universal-cookie";
 import DataManager from "../api/DataManager";
 
 export default class Auth {
-  cookies = new Cookies();
   accessToken: string | null = null;
   idToken: string | null = null;
   expiresAt: number | null = null;
