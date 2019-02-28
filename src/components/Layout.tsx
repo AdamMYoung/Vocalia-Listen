@@ -176,7 +176,7 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
           }}
         />
 
-        <Redirect exact from="/" to={"/top"} />
+        <Route render={() => <Redirect to="/top" />} />
       </Switch>
     );
 
