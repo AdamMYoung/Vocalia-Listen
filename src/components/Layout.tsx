@@ -119,8 +119,9 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
    */
   onDialogClose = () => {
     let history = this.props.history;
-    if (history.length > 1) history.goBack();
-    else history.push("/top");
+    let path = window.location.pathname;
+    let newUri = path.substring(0, path.lastIndexOf("/"));
+    history.push(newUri);
   };
 
   render() {
