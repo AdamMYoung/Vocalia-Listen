@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import { Slide } from "@material-ui/core";
-import {
-  Route,
-  RouteComponentProps,
-  withRouter,
-  Redirect,
-  Switch
-} from "react-router";
+import { Route, RouteComponentProps, withRouter, Redirect } from "react-router";
 import {
   Category,
   Podcast,
@@ -137,13 +131,16 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
      * Elements that can be routed to.
      */
     const RoutingContents = (
-      <Switch>
+      <React.Fragment>
         <Route
-          path="/top/"
+          path="/browse/top/"
           render={() => <PodcastBrowser podcasts={podcastData["top"]} />}
         />
 
-        <Route path="/subscribed/" render={() => <Subscriptions api={api} />} />
+        <Route
+          path="browse/subscribed/"
+          render={() => <Subscriptions api={api} />}
+        />
 
         <Route
           path="/browse/:id/"
@@ -153,8 +150,7 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
         />
 
         <Route
-          exact
-          path="/detail/:rss/"
+          path="/browse/:id/:rss"
           render={props => (
             <PodcastDetail
               open={true}
@@ -176,8 +172,8 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
           }}
         />
 
-        <Route render={() => <Redirect to="/top" />} />
-      </Switch>
+        <Route render={() => <Redirect to="/browse/top" />} />
+      </React.Fragment>
     );
 
     return (

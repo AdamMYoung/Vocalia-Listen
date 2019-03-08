@@ -7,9 +7,10 @@ import {
   Theme,
   withStyles,
   WithStyles,
-  Fade
+  Fade,
+  CardActionArea,
+  CardMedia
 } from "@material-ui/core";
-import "./PodcastEntry.css";
 
 /**
  * CSS Styles of the browser
@@ -60,19 +61,22 @@ class PodcastEntry extends Component<IEntryProps, IEntryState> {
 
     const Entry = (
       <Card className={classes.paper + " card"}>
-        <Fade in={isLoaded} timeout={300}>
-          <img
-            src={podcast.imageUrl}
-            alt={podcast.title}
-            onLoad={() => this.setState({ isLoaded: true })}
-            style={{ width: "100%", height: "100%" }}
-          />
-        </Fade>
+        <CardActionArea>
+          <Fade in={isLoaded} timeout={300}>
+            <CardMedia
+              component="img"
+              image={podcast.imageUrl}
+              onLoad={() => this.setState({ isLoaded: true })}
+            />
+          </Fade>
+        </CardActionArea>
       </Card>
     );
 
     return podcast.rssUrl != null ? (
-      <LinkContainer to={"/detail/" + encodeURIComponent(podcast.rssUrl)}>
+      <LinkContainer
+        to={window.location.pathname + "/" + encodeURIComponent(podcast.rssUrl)}
+      >
         {Entry}
       </LinkContainer>
     ) : (

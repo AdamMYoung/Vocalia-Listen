@@ -78,13 +78,16 @@ export default class Auth {
     this.scheduleRenewal();
 
     // navigate to the home route
-    this.routeProps.history.replace("/top");
+    var path = localStorage.getItem("path");
+    this.routeProps.history.replace(path != null ? path : "/browse/top");
   };
 
   /**
    * Silently renews the session information from the Auth0 portal.
    */
   renewSession = () => {
+    localStorage.setItem("path", window.location.pathname);
+
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);

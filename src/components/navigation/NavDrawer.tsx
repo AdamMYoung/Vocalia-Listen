@@ -105,6 +105,7 @@ class NavDrawer extends Component<INavDrawerProps, INavDrawerState> {
    * Signs the user into the application.
    */
   login() {
+    localStorage.setItem("path", window.location.pathname);
     this.props.auth.login();
   }
 
@@ -152,7 +153,7 @@ class NavDrawer extends Component<INavDrawerProps, INavDrawerState> {
         <Divider />
         <List>
           {/* Top */}
-          <LinkContainer to="/top">
+          <LinkContainer to="/browse/top">
             <ListItem button>
               <ListItemIcon>
                 <BarChart />
@@ -163,7 +164,7 @@ class NavDrawer extends Component<INavDrawerProps, INavDrawerState> {
 
           {/* Subscribed */}
           {isAuthenticated() && (
-            <LinkContainer to="/subscribed">
+            <LinkContainer to="/browse/subscribed">
               <ListItem button>
                 <ListItemIcon>
                   <Star />
