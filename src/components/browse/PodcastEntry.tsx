@@ -62,13 +62,15 @@ class PodcastEntry extends Component<IEntryProps, IEntryState> {
     const Entry = (
       <Card className={classes.paper + " card"}>
         <CardActionArea>
-          <Fade in={isLoaded} timeout={300}>
-            <CardMedia
-              component="img"
-              image={podcast.imageUrl}
-              onLoad={() => this.setState({ isLoaded: true })}
-            />
-          </Fade>
+          {podcast.imageUrl && (
+            <Fade in={isLoaded} timeout={300}>
+              <CardMedia
+                component="img"
+                image={podcast.imageUrl}
+                onLoad={() => this.setState({ isLoaded: true })}
+              />
+            </Fade>
+          )}
         </CardActionArea>
       </Card>
     );

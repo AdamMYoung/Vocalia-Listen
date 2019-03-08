@@ -139,7 +139,7 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
         />
 
         <Route
-          path="browse/subscribed/"
+          path="/browse/subscribed/"
           render={() => <Subscriptions api={api} />}
         />
 
