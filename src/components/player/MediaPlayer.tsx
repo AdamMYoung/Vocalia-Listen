@@ -48,16 +48,18 @@ export default class MediaPlayer extends PureComponent<
   constructor(props: IPlayerProps) {
     super(props);
 
+    let volume = props.isMobile ? 1 : 0.3;
+
     let audioObject = document.createElement("audio");
     audioObject.loop = false;
-    audioObject.volume = 0.3;
+    audioObject.volume = volume;
     audioObject.ontimeupdate = () => this.onHandleTimeUpdate();
     audioObject.onended = () => this.playbackFinished();
 
     this.state = {
       paused: true,
       time: 0,
-      volume: 0.3,
+      volume: volume,
       audioObject: audioObject,
       imageLoaded: false
     };
@@ -130,9 +132,15 @@ export default class MediaPlayer extends PureComponent<
     const { episode, autoplay } = this.props.media;
 
     audioObject.src = episode.content;
+
+    audioObject.onloadeddata = () => {
+      if (episode.time != undefined) {
+        audioObject.currentTime = episode.time;
+        this.setState({ time: audioObject.currentTime });
+      }
+    };
     audioObject.load();
 
-    if (episode.time != undefined) audioObject.currentTime = episode.time;
     if (autoplay) audioObject.play().then(() => this.setMediaMetadata());
 
     this.setState({ paused: !autoplay });

@@ -128,102 +128,89 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
     );
 
     return (
-      <Card
-        style={{
-          height: window.outerHeight,
-          width: window.outerWidth,
-          margin: -100
-        }}
-      >
+      <Dialog open={open} onClose={onClose} fullScreen={isMobile} maxWidth="md">
+        {/* Requires a nested dialog to have the two stage screen dim and fade in on content load */}
         <Dialog
-          open={open}
+          open={!loading && this.props.open}
           onClose={onClose}
           fullScreen={isMobile}
           maxWidth="md"
         >
-          {/* Requires a nested dialog to have the two stage screen dim and fade in on content load */}
-          <Dialog
-            open={!loading && this.props.open}
-            onClose={onClose}
-            fullScreen={isMobile}
-            maxWidth="md"
-          >
-            {!loading && (
-              <React.Fragment>
-                <DialogTitle disableTypography={true}>
-                  <Typography component={"span"}>
-                    <div style={{ display: "flex", maxHeight: 250 }}>
-                      <Fade in={imageLoaded}>
-                        <div style={{ height: 80, width: 80, paddingTop: 16 }}>
-                          <img
-                            src={feed.imageUrl}
-                            onLoad={() => this.setState({ imageLoaded: true })}
-                          />
-                        </div>
-                      </Fade>
-
-                      <div
-                        style={{
-                          display: "inline",
-                          paddingLeft: 15,
-                          maxHeight: 250
-                        }}
-                      >
-                        <h2>{feed.title}</h2>
-                        <p style={{ overflow: "auto", maxHeight: 200 }}>
-                          {removeTags(feed.description)}
-                        </p>
-                      </div>
-                    </div>
-                  </Typography>
-                  <div style={{ marginTop: "20px" }}>
-                    {isAuthenticated && button}
-                  </div>
-                </DialogTitle>
-                <DialogContent style={{ paddingTop: 5 }}>
-                  {/* Episodes */}
-                  {feed.items != null &&
-                    feed.items
-                      .slice(0, visibleEpisodes)
-                      .map(item => (
-                        <EpisodeEntry
-                          key={item.content}
-                          episode={item}
-                          selectedEpisode={selectedEpisode}
-                          onEpisodeSelected={(episode: PodcastEpisode | null) =>
-                            onEpisodeSelected(episode)
-                          }
+          {!loading && (
+            <React.Fragment>
+              <DialogTitle disableTypography={true}>
+                <Typography component={"span"}>
+                  <div style={{ display: "flex", maxHeight: 250 }}>
+                    <Fade in={imageLoaded}>
+                      <div style={{ height: 80, width: 80, paddingTop: 16 }}>
+                        <img
+                          src={feed.imageUrl}
+                          onLoad={() => this.setState({ imageLoaded: true })}
                         />
-                      ))}
+                      </div>
+                    </Fade>
 
-                  {/* Load more button */}
-                  {visibleEpisodes < feed.items.length && (
-                    <Button
-                      onClick={() =>
-                        this.setState(oldState => ({
-                          visibleEpisodes: oldState.visibleEpisodes + 20
-                        }))
-                      }
-                      color="primary"
+                    <div
+                      style={{
+                        display: "inline",
+                        paddingLeft: 15,
+                        maxHeight: 250
+                      }}
                     >
-                      Load More...
-                    </Button>
-                  )}
-                </DialogContent>
+                      <h2>{feed.title}</h2>
+                      <p style={{ overflow: "auto", maxHeight: 200 }}>
+                        {removeTags(feed.description)}
+                      </p>
+                    </div>
+                  </div>
+                </Typography>
+                <div style={{ marginTop: "20px" }}>
+                  {isAuthenticated && button}
+                </div>
+              </DialogTitle>
+              <DialogContent style={{ paddingTop: 5 }}>
+                {/* Episodes */}
+                {feed.items != null &&
+                  feed.items
+                    .slice(0, visibleEpisodes)
+                    .map(item => (
+                      <EpisodeEntry
+                        key={item.content}
+                        episode={item}
+                        selectedEpisode={selectedEpisode}
+                        onEpisodeSelected={(episode: PodcastEpisode | null) =>
+                          onEpisodeSelected(episode)
+                        }
+                      />
+                    ))}
 
-                {/* Close button */}
-                {!loading && (
-                  <DialogActions>
-                    <Button onClick={this.props.onClose} color="primary">
-                      Close
-                    </Button>
-                  </DialogActions>
+                {/* Load more button */}
+                {visibleEpisodes < feed.items.length && (
+                  <Button
+                    onClick={() =>
+                      this.setState(oldState => ({
+                        visibleEpisodes: oldState.visibleEpisodes + 20
+                      }))
+                    }
+                    color="primary"
+                  >
+                    Load More...
+                  </Button>
                 )}
-              </React.Fragment>
-            )}
-          </Dialog>
+              </DialogContent>
+
+              {/* Close button */}
+              {!loading && (
+                <DialogActions>
+                  <Button onClick={this.props.onClose} color="primary">
+                    Close
+                  </Button>
+                </DialogActions>
+              )}
+            </React.Fragment>
+          )}
         </Dialog>
-      </Card>
+      </Dialog>
     );
   }
 }
