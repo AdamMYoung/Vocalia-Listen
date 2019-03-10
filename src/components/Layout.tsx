@@ -151,6 +151,18 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
               <PodcastBrowser podcasts={podcastData[props.match.params.id]} />
             )}
           />
+
+          <Route
+            path="/callback"
+            render={() => {
+              return <Callback auth={this.state.auth} />;
+            }}
+          />
+          {auth.isAuthenticated() ? (
+            <Redirect to="/browse/top" />
+          ) : (
+            <Redirect to="/browse/subscribed" />
+          )}
         </Switch>
 
         <Route
@@ -167,13 +179,6 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
               onEpisodeSelected={episode => this.onEpisodeSelected(episode)}
             />
           )}
-        />
-
-        <Route
-          path="/callback"
-          render={() => {
-            return <Callback auth={this.state.auth} />;
-          }}
         />
       </React.Fragment>
     );
