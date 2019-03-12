@@ -85,7 +85,8 @@ export default class MediaPlayer extends PureComponent<
       episodeUrl: episode.content,
       episodeName: episode.title,
       time: Math.round(audioObject.currentTime),
-      isCompleted: false
+      isCompleted: false,
+      duration: Math.round(audioObject.duration)
     };
 
     api.setListenInfo(info);

@@ -26,8 +26,9 @@ export default class Subscriptions extends Component<
   async componentWillMount() {
     const { api } = this.props;
 
-    let subscriptions = await api.getSubscriptions();
-    if (subscriptions) this.setState({ subscriptions: subscriptions });
+    await api.getSubscriptions(subscriptions => {
+      if (subscriptions) this.setState({ subscriptions: subscriptions });
+    });
   }
 
   render() {

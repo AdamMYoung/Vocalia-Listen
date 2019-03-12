@@ -68,30 +68,32 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
     const { api } = this.state;
 
     //Load category list and category data asynchronously.
-    let categories = await api.getCategories();
-    this.setState({ categories: categories || [] });
+    await api.getCategories(categories => {
+      this.setState({ categories: categories || [] });
 
-    if (categories)
-      categories.forEach(async category => {
-        let id = category.id;
-        let podcasts = await api.getPodcastByCategory(id);
-        if (podcasts) {
-          let loadedPodcast = this.state.podcastData;
+      if (categories)
+        categories.forEach(async category => {
+          let id = category.id;
+          await api.getPodcastByCategory(id, podcasts => {
+            if (podcasts) {
+              let loadedPodcast = this.state.podcastData;
 
-          loadedPodcast[id] = podcasts;
-          this.setState({ podcastData: loadedPodcast });
-        }
-      });
+              loadedPodcast[id] = podcasts;
+              this.setState({ podcastData: loadedPodcast });
+            }
+          });
+        });
+    });
 
     //Load top podcast data asynchronously.
-    let podcasts = await api.getTopPodcasts();
+    await api.getTopPodcasts(podcasts => {
+      if (podcasts != null) {
+        let loadedPodcasts = this.state.podcastData;
 
-    if (podcasts != null) {
-      let loadedPodcasts = this.state.podcastData;
-
-      loadedPodcasts["top"] = podcasts;
-      this.setState({ podcastData: loadedPodcasts });
-    }
+        loadedPodcasts["top"] = podcasts;
+        this.setState({ podcastData: loadedPodcasts });
+      }
+    });
   }
 
   /**
@@ -114,9 +116,10 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
     api.accessToken = token;
     this.setState({ api: api });
 
-    var episode = await api.getCurrentPodcast();
-    this.setState({
-      media: { episode: episode, autoplay: false } as MediaState
+    await api.getCurrentPodcast(episode => {
+      this.setState({
+        media: { episode: episode, autoplay: false } as MediaState
+      });
     });
   };
 
@@ -158,6 +161,7 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
               return <Callback auth={this.state.auth} />;
             }}
           />
+
           {auth.isAuthenticated() ? (
             <Redirect to="/browse/top" />
           ) : (

@@ -7,7 +7,8 @@ import {
   Card,
   Button,
   Typography,
-  Fade
+  Fade,
+  List
 } from "@material-ui/core";
 import { PodcastFeed, PodcastEpisode, Podcast } from "../../utility/types";
 import EpisodeEntry from "./EpisodeEntry";
@@ -55,22 +56,29 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
     };
   }
 
-  /**
-   * Updates the detail dialog. Only refreshes if the RSS URL has changed to prevent unnecessary re-renders.
-   */
-  componentWillMount = async () => {
+  componentWillMount = () => {
+    this.loadRss();
+  };
+
+  componentDidUpdate(prevProps: IDetailProps) {
+    if (this.props.api.accessToken != prevProps.api.accessToken) {
+      this.loadRss();
+    }
+  }
+
+  private loadRss = async () => {
     const { rssFeed, api } = this.props;
 
     if (rssFeed !== null) {
       this.setState({ loading: true });
-      let feed = await api.parsePodcastFeed(rssFeed);
-
-      if (feed)
-        this.setState({
-          feed: feed,
-          loading: false,
-          isSubscribed: feed.isSubscribed
-        });
+      await api.parsePodcastFeed(rssFeed, feed => {
+        if (feed)
+          this.setState({
+            feed: feed,
+            loading: false,
+            isSubscribed: feed.isSubscribed
+          });
+      });
     }
   };
 
@@ -169,20 +177,22 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
                 </div>
               </DialogTitle>
               <DialogContent style={{ paddingTop: 5 }}>
-                {/* Episodes */}
-                {feed.items != null &&
-                  feed.items
-                    .slice(0, visibleEpisodes)
-                    .map(item => (
-                      <EpisodeEntry
-                        key={item.content}
-                        episode={item}
-                        selectedEpisode={selectedEpisode}
-                        onEpisodeSelected={(episode: PodcastEpisode | null) =>
-                          onEpisodeSelected(episode)
-                        }
-                      />
-                    ))}
+                <List>
+                  {/* Episodes */}
+                  {feed.items != null &&
+                    feed.items
+                      .slice(0, visibleEpisodes)
+                      .map(item => (
+                        <EpisodeEntry
+                          key={item.content}
+                          episode={item}
+                          selectedEpisode={selectedEpisode}
+                          onEpisodeSelected={(episode: PodcastEpisode | null) =>
+                            onEpisodeSelected(episode)
+                          }
+                        />
+                      ))}
+                </List>
 
                 {/* Load more button */}
                 {visibleEpisodes < feed.items.length && (

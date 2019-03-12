@@ -1,5 +1,5 @@
-import PodcastApiRepository from "./PodcastApiRepository";
-import LocalRepository from "./LocalRepository";
+import PodcastAPI from "./PodcastAPI";
+import PodcastLocal from "./PodcastLocal";
 import {
   Category,
   Podcast,
@@ -9,8 +9,8 @@ import {
 } from "../utility/types";
 
 export default class DataManager {
-  private api: PodcastApiRepository = new PodcastApiRepository();
-  private local: LocalRepository = new LocalRepository();
+  private api: PodcastAPI = new PodcastAPI();
+  private local: PodcastLocal = new PodcastLocal();
   accessToken: string | null = null;
 
   lastUpdate: number = 0;
@@ -27,84 +27,74 @@ export default class DataManager {
    * additional usage data using the Vocalia API.
    * @param rssUrl URL to parse.
    */
-  async parsePodcastFeed(rssUrl: string): Promise<PodcastFeed | null> {
-    var podcast = await this.api.parsePodcastFeed(rssUrl, this.accessToken);
-    if (podcast != null) {
-      this.local.setFeed(podcast);
-      return podcast;
-    }
+  async parsePodcastFeed(
+    rssUrl: string,
+    callback: (feed: PodcastFeed | null) => void
+  ) {
+    var feed = await this.local.getFeed(rssUrl);
+    callback(feed);
 
-    return this.local.getFeed(rssUrl);
+    var podcast = await this.api.parsePodcastFeed(rssUrl, this.accessToken);
+    if (podcast) {
+      await this.local.setFeed(rssUrl, podcast);
+      callback(podcast);
+    }
   }
 
   /**
    * Gets all categories from the Vocalia API.
    */
-  async getCategories(): Promise<Category[] | null> {
+  async getCategories(callback: (categories: Category[] | null) => void) {
+    callback(await this.local.getCategories());
+
     var categories = await this.api.getCategories();
-
-    if (categories != null) {
-      this.local.setCategories(categories);
-      return categories;
+    if (categories) {
+      callback(categories);
     }
-
-    return this.local.getCategories();
   }
 
   /**
    * Gets the top podcasts from the Vocalia API.
    */
-  async getTopPodcasts(): Promise<Podcast[] | null> {
-    var podcasts = null;
-    try {
-      podcasts = await this.api.getTopPodcasts();
-    } catch {
-      return this.local.getCategoryPodcasts("top");
-    }
+  async getTopPodcasts(callback: (podcasts: Podcast[] | null) => void) {
+    callback(await this.local.getCategoryPodcasts("top"));
 
+    var podcasts = await this.api.getTopPodcasts();
     if (podcasts != null) {
       this.local.setCategoryPodcasts(podcasts, "top");
-      return podcasts;
+      callback(podcasts);
     }
-
-    return this.local.getCategoryPodcasts("top");
   }
 
   /**
    * Gets the top podcasts from the provided category from the Vocalia API.
    * @param categoryId ID of the category to filter by.
    */
-  async getPodcastByCategory(categoryId: number): Promise<Podcast[] | null> {
-    var podcasts = null;
-    try {
-      podcasts = await this.api.getPodcastByCategory(categoryId);
-    } catch {
-      return this.local.getCategoryPodcasts(categoryId.toString());
-    }
+  async getPodcastByCategory(
+    categoryId: number,
+    callback: (podcasts: Podcast[] | null) => void
+  ) {
+    callback(await this.local.getCategoryPodcasts(categoryId.toString()));
 
-    if (podcasts != null) {
+    var podcasts = await this.api.getPodcastByCategory(categoryId);
+    if (podcasts) {
       this.local.setCategoryPodcasts(podcasts, categoryId.toString());
-      return podcasts;
+      callback(podcasts);
     }
-
-    return this.local.getCategoryPodcasts(categoryId.toString());
   }
 
   /**
    * Gets the subscriptions belonging to the user.
    */
-  async getSubscriptions(): Promise<Podcast[] | null> {
-    if (this.accessToken == null)
-      return this.local.getCategoryPodcasts("subscriptions");
-
-    var subs = await this.api.getSubscriptions(this.accessToken);
-
-    if (subs) {
-      this.local.setCategoryPodcasts(subs, "subscriptions");
-      return subs;
+  async getSubscriptions(callback: (podcasts: Podcast[] | null) => void) {
+    callback(await this.local.getCategoryPodcasts("subscriptions"));
+    if (this.accessToken != null) {
+      var subs = await this.api.getSubscriptions(this.accessToken);
+      if (subs) {
+        this.local.setCategoryPodcasts(subs, "subscriptions");
+        callback(subs);
+      }
     }
-
-    return null;
   }
 
   /**
@@ -132,40 +122,45 @@ export default class DataManager {
   async setListenInfo(listen: Listen) {
     if (this.accessToken != null && this.lastUpdate != listen.time) {
       this.lastUpdate = listen.time;
-      try {
-        await this.api.setListenInfo(this.accessToken, listen);
-      } catch {
-        this.local.setPlaybackTime(listen);
-      }
+      await this.api.setListenInfo(this.accessToken, listen);
     }
 
-    this.local.setPlaybackTime(listen);
+    this.local.setListenInfo(listen);
   }
 
   /**
    * Gets lisen info for the specified podcast.
    * @param rssUrl URL to fetch listen info for.
    */
-  async getListenInfo(episodeUrl: string): Promise<Listen | null> {
-    if (this.accessToken == null) return this.local.getPlaybackTime(episodeUrl);
+  async getListenInfo(
+    episodeUrl: string,
+    callback: (info: Listen | null) => void
+  ) {
+    callback(await this.local.getListenInfo(episodeUrl));
 
-    try {
-      return await this.api.getListenInfo(this.accessToken, episodeUrl);
-    } catch {
-      return this.local.getPlaybackTime(episodeUrl);
+    if (this.accessToken) {
+      var listen = await this.api.getListenInfo(this.accessToken, episodeUrl);
+
+      if (listen) {
+        this.local.setListenInfo(listen);
+        callback(listen);
+      }
     }
   }
 
   /**
    * Gets the current podcast from the API.
    */
-  async getCurrentPodcast(): Promise<PodcastEpisode | null> {
-    if (this.accessToken == null) return this.local.getCurrentPodcast();
+  async getCurrentPodcast(callback: (episode: PodcastEpisode | null) => void) {
+    callback(await this.local.getCurrentPodcast());
 
-    try {
-      return await this.api.getLatestPodcast(this.accessToken);
-    } catch {
-      return this.local.getCurrentPodcast();
+    if (this.accessToken) {
+      var latest = await this.api.getLatestPodcast(this.accessToken);
+
+      if (latest) {
+        this.local.setCurrentPodcast(latest);
+        callback(latest);
+      }
     }
   }
 

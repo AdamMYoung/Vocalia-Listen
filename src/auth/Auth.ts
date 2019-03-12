@@ -86,6 +86,8 @@ export default class Auth {
    * Silently renews the session information from the Auth0 portal.
    */
   renewSession = () => {
+    localStorage.setItem("path", this.routeProps.history.location.pathname);
+
     this.auth0.checkSession({}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);

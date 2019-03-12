@@ -30,6 +30,7 @@ export interface PodcastEpisode {
   author: string;
   content: string;
   time: number;
+  duration: number;
   isCompleted: boolean;
   storeLocally: boolean;
 }
@@ -45,4 +46,5 @@ export interface Listen {
   episodeName: string;
   time: number;
   isCompleted: boolean;
+  duration: number;
 }

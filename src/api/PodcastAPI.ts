@@ -15,14 +15,15 @@ const SUBS = "subscriptions";
 const LISTEN = "listen";
 const LATEST = "latest";
 
-export default class PodcastApiRepository {
+export default class PodcastAPI {
   /**
    * Gets all categories from the Vocalia API.
    */
   async getCategories(): Promise<Category[] | null> {
     return await fetch(API + CATEGORIES)
       .then(response => response.json())
-      .then(data => data as Category[]);
+      .then(data => data as Category[])
+      .catch(() => null);
   }
 
   /**
@@ -31,7 +32,8 @@ export default class PodcastApiRepository {
   async getTopPodcasts(): Promise<Podcast[] | null> {
     return await fetch(API + TOP)
       .then(response => response.json())
-      .then(data => data as Podcast[]);
+      .then(data => data as Podcast[])
+      .catch(() => null);
   }
 
   /**
@@ -40,7 +42,8 @@ export default class PodcastApiRepository {
   async searchPodcasts(query: string): Promise<Podcast[] | null> {
     return await fetch(API + SEARCH + "?term=" + query)
       .then(response => response.json())
-      .then(data => data as Podcast[]);
+      .then(data => data as Podcast[])
+      .catch(() => null);
   }
 
   /**
@@ -50,7 +53,8 @@ export default class PodcastApiRepository {
   async getPodcastByCategory(categoryId: number): Promise<Podcast[] | null> {
     return await fetch(API + TOP + "?categoryId=" + categoryId)
       .then(response => response.json())
-      .then(data => data as Podcast[]);
+      .then(data => data as Podcast[])
+      .catch(() => null);
   }
 
   /**
@@ -66,7 +70,8 @@ export default class PodcastApiRepository {
 
     return await this.getInjectedFetch(path, accessToken)
       .then(response => response.json())
-      .then(data => data as PodcastFeed);
+      .then(data => data as PodcastFeed)
+      .catch(() => null);
   }
 
   /**
@@ -76,7 +81,8 @@ export default class PodcastApiRepository {
   async getSubscriptions(accessToken: string): Promise<Podcast[] | null> {
     return await this.getInjectedFetch(API + SUBS, accessToken)
       .then(response => response.json())
-      .then(data => data as Podcast[]);
+      .then(data => data as Podcast[])
+      .catch(() => null);
   }
 
   /**
@@ -90,7 +96,7 @@ export default class PodcastApiRepository {
       accessToken,
       "POST",
       podcast
-    );
+    ).catch(() => null);
   }
 
   /**
@@ -103,7 +109,7 @@ export default class PodcastApiRepository {
       API + SUBS + "?rssUrl=" + rssUrl,
       accessToken,
       "DELETE"
-    );
+    ).catch(() => null);
   }
 
   /**
@@ -112,10 +118,15 @@ export default class PodcastApiRepository {
    * @param accessToken Access token used for API authentication.
    */
   async setListenInfo(accessToken: string, listenInfo: Listen) {
-    var rounded = Math.round(listenInfo.time);
     var frequency = 3;
-    if (rounded != 0 && rounded % frequency == 0) {
-      await this.getInjectedFetch(API + LISTEN, accessToken, "PUT", listenInfo);
+
+    if (listenInfo.time != 0 && listenInfo.time % frequency == 0) {
+      await this.getInjectedFetch(
+        API + LISTEN,
+        accessToken,
+        "PUT",
+        listenInfo
+      ).catch(() => null);
     }
   }
 
@@ -126,7 +137,8 @@ export default class PodcastApiRepository {
   async getLatestPodcast(accessToken: string) {
     return await this.getInjectedFetch(API + LATEST, accessToken)
       .then(response => response.json())
-      .then(data => data as PodcastEpisode);
+      .then(data => data as PodcastEpisode)
+      .catch(() => null);
   }
 
   /**
@@ -143,7 +155,8 @@ export default class PodcastApiRepository {
       accessToken
     )
       .then(response => response.json())
-      .then(data => data as Listen);
+      .then(data => data as Listen)
+      .catch(() => null);
   }
 
   /**

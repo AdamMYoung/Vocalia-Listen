@@ -4,11 +4,15 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   Typography,
-  IconButton
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText
 } from "@material-ui/core";
-import { ExpandMore, PlayArrow, Stop } from "@material-ui/icons";
-import { removeTags } from "../../utility/FormatUtils";
+import { PlayArrow, Stop } from "@material-ui/icons";
 import { PodcastEpisode } from "../../utility/types";
+import moment from "moment";
 
 /**
  * CSS styles for the entry.
@@ -66,26 +70,32 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
         <PlayArrow />
       );
 
+    const timeLeft = moment("2015-01-01")
+      .startOf("day")
+      .seconds(episode.duration - episode.time)
+      .format("H:mm:ss");
+
+    const description = (
+      <span>
+        {episode.storeLocally ? "Local" : ""}
+        {episode.storeLocally && episode.time ? " • " : ""}
+        {episode.time != 0 ? timeLeft + " remaining" : ""}
+      </span>
+    );
+
     return (
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-          <IconButton
-            style={styles.button}
-            onClick={e => {
-              this.onEpisodeSelect();
-              e.stopPropagation();
-            }}
-          >
-            {icon}
-          </IconButton>
-          <Typography style={{ marginTop: "7px", marginLeft: "3px" }}>
-            {episode.title}
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>{removeTags(episode.description)}</Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+      <ListItem divider>
+        <IconButton
+          style={styles.button}
+          onClick={e => {
+            this.onEpisodeSelect();
+            e.stopPropagation();
+          }}
+        >
+          {icon}
+        </IconButton>
+        <ListItemText primary={episode.title} secondary={description} />
+      </ListItem>
     );
   }
 }
