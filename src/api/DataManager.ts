@@ -88,11 +88,17 @@ export default class DataManager {
    */
   async getSubscriptions(callback: (podcasts: Podcast[] | null) => void) {
     callback(await this.local.getCategoryPodcasts("subscriptions"));
+
     if (this.accessToken != null) {
       var subs = await this.api.getSubscriptions(this.accessToken);
+
       if (subs) {
         this.local.setCategoryPodcasts(subs, "subscriptions");
         callback(subs);
+
+        subs.forEach(
+          async x => await this.parsePodcastFeed(x.rssUrl, () => {})
+        );
       }
     }
   }

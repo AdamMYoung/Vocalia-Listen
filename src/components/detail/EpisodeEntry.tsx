@@ -10,7 +10,7 @@ import {
   ListItemSecondaryAction,
   ListItemText
 } from "@material-ui/core";
-import { PlayArrow, Stop } from "@material-ui/icons";
+import { PlayArrow, Stop, VerticalAlignBottom } from "@material-ui/icons";
 import { PodcastEpisode } from "../../utility/types";
 import moment from "moment";
 

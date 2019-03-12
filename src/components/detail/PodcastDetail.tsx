@@ -56,16 +56,26 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
     };
   }
 
+  /**
+   * Loads the RSS feed from the passed props.
+   */
   componentWillMount = () => {
     this.loadRss();
   };
 
+  /**
+   * Reloads the RSS feed if the user login status has changed.
+   * @param prevProps Previous props.
+   */
   componentDidUpdate(prevProps: IDetailProps) {
     if (this.props.api.accessToken != prevProps.api.accessToken) {
       this.loadRss();
     }
   }
 
+  /**
+   * Reloads the RSS feed from the API.
+   */
   private loadRss = async () => {
     const { rssFeed, api } = this.props;
 
@@ -82,6 +92,9 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
     }
   };
 
+  /**
+   * Called when the subscribe button has been clicked.
+   */
   onSubscribeClick = async () => {
     const { isSubscribed, feed } = this.state;
     const { api, rssFeed } = this.props;
