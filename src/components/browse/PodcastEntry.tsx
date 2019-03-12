@@ -35,7 +35,7 @@ const styles = (theme: Theme) =>
  * Properties for a podcast entry.
  */
 interface IEntryProps extends WithStyles<typeof styles> {
-  podcast: Podcast;
+  podcast: Podcast | null;
 }
 
 interface IEntryState {
@@ -60,22 +60,26 @@ class PodcastEntry extends Component<IEntryProps, IEntryState> {
     const { isLoaded } = this.state;
 
     const Entry = (
-      <Card className={classes.paper + " card"}>
-        <CardActionArea>
-          {podcast.imageUrl && (
-            <Fade in={isLoaded} timeout={300}>
-              <CardMedia
-                component="img"
-                image={podcast.imageUrl}
-                onLoad={() => this.setState({ isLoaded: true })}
-              />
-            </Fade>
-          )}
-        </CardActionArea>
-      </Card>
+      <div className={classes.paper}>
+        {podcast && (
+          <Card className={classes.paper}>
+            <CardActionArea>
+              {podcast.imageUrl && (
+                <Fade in={isLoaded} timeout={300}>
+                  <CardMedia
+                    component="img"
+                    image={podcast.imageUrl}
+                    onLoad={() => this.setState({ isLoaded: true })}
+                  />
+                </Fade>
+              )}
+            </CardActionArea>
+          </Card>
+        )}
+      </div>
     );
 
-    return podcast.rssUrl != null ? (
+    return podcast && podcast.rssUrl != null ? (
       <LinkContainer
         to={window.location.pathname + "/" + encodeURIComponent(podcast.rssUrl)}
       >

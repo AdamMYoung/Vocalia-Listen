@@ -53,7 +53,7 @@ class PodcastBrowser extends Component<IBrowserProps, IBrowserState> {
 
         {podcasts != null &&
           Array.from(Array(100 - podcasts.length).keys()).map(num => (
-            <PodcastEntry key={num} podcast={{} as Podcast} />
+            <PodcastEntry key={num} podcast={null} />
           ))}
       </Grid>
     );
