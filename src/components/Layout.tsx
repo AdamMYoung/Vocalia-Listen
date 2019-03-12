@@ -163,9 +163,9 @@ export class Layout extends Component<ILayoutProps, ILayoutState> {
           />
 
           {auth.isAuthenticated() ? (
-            <Redirect to="/browse/top" />
-          ) : (
             <Redirect to="/browse/subscribed" />
+          ) : (
+            <Redirect to="/browse/top" />
           )}
         </Switch>
 
