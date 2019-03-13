@@ -178,7 +178,6 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
             .filter(c => c.time != 0 && !c.isCompleted)
             .map(item => (
               <EpisodeEntry
-                isArchive={false}
                 key={item.content}
                 episode={item}
                 selectedEpisode={selectedEpisode}
@@ -204,9 +203,8 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
           {feed.items
             .slice(0, visibleEpisodes)
             .filter(c => c.time == 0 || c.isCompleted)
-            .map((item, key) => (
+            .map(item => (
               <EpisodeEntry
-                isArchive={key > 5 || item.isCompleted}
                 key={item.content}
                 episode={item}
                 selectedEpisode={selectedEpisode}

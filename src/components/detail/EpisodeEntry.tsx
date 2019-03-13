@@ -28,7 +28,6 @@ const styles = {
  * Required properties for the episode entry.
  */
 interface IEpisodeProps {
-  isArchive: boolean; //Indicates if the episode is archived (Greater than 5 episodes old)
   episode: PodcastEpisode; //Episode the component represents.
   selectedEpisode: PodcastEpisode | null; //The currently playing episode.
   onEpisodeSelected: (episode: PodcastEpisode | null) => void; //Called when the entry has been selected.
@@ -149,7 +148,7 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
   };
 
   render() {
-    const { episode, selectedEpisode, isArchive } = this.props;
+    const { episode, selectedEpisode } = this.props;
     const { menuElement, timeLeft, releaseDate } = this.state;
 
     //Toggles between a stop button or play button depending if the
@@ -203,7 +202,9 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
           primary={
             <React.Fragment>
               <Typography color="textSecondary">{releaseDate}</Typography>
-              <Typography color={isArchive ? "textSecondary" : "textPrimary"}>
+              <Typography
+                color={episode.isCompleted ? "textSecondary" : "textPrimary"}
+              >
                 {episode.title}
               </Typography>
             </React.Fragment>
