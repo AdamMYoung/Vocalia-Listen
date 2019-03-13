@@ -187,15 +187,17 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
 
     return (
       <ListItem divider>
-        <IconButton
-          style={styles.button}
-          onClick={e => {
-            this.onEpisodeSelect();
-            e.stopPropagation();
-          }}
-        >
-          {icon}
-        </IconButton>
+        {!episode.isCompleted && (
+          <IconButton
+            style={styles.button}
+            onClick={e => {
+              this.onEpisodeSelect();
+              e.stopPropagation();
+            }}
+          >
+            {icon}
+          </IconButton>
+        )}
 
         <ListItemText
           primary={
