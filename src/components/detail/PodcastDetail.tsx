@@ -9,7 +9,7 @@ import {
   Fade,
   List
 } from "@material-ui/core";
-import { PodcastFeed, PodcastEpisode } from "../../utility/types";
+import { PodcastFeed, PodcastEpisode, Listen } from "../../utility/types";
 import EpisodeEntry from "./EpisodeEntry";
 import { removeTags } from "../../utility/FormatUtils";
 import DataManager from "../../api/DataManager";
@@ -79,7 +79,6 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
     const { rssFeed, api } = this.props;
 
     if (rssFeed !== null) {
-      this.setState({ loading: true });
       await api.parsePodcastFeed(rssFeed, feed => {
         if (feed)
           this.setState({
@@ -89,6 +88,17 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
           });
       });
     }
+  };
+
+  /**
+   * Updates the listen status of the episode.
+   */
+  private onUpdateEpisode = async (listen: Listen) => {
+    const { api } = this.props;
+    console.log(listen);
+
+    await api.setListenInfo(listen);
+    this.loadRss();
   };
 
   /**
@@ -174,6 +184,7 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
                 episode={item}
                 selectedEpisode={selectedEpisode}
                 onEpisodeSelected={onEpisodeSelected}
+                onUpdateEpisode={this.onUpdateEpisode}
               />
             ))}
         </List>
@@ -201,6 +212,7 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
                 episode={item}
                 selectedEpisode={selectedEpisode}
                 onEpisodeSelected={onEpisodeSelected}
+                onUpdateEpisode={this.onUpdateEpisode}
               />
             ))}
         </List>

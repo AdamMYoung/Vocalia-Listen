@@ -13,8 +13,6 @@ export default class DataManager {
   private local: PodcastLocal = new PodcastLocal();
   accessToken: string | null = null;
 
-  lastUpdate: number = 0;
-
   /**
    * Gets the subscribed podcasts from the Vocalia API.
    */
@@ -126,8 +124,7 @@ export default class DataManager {
    * @param listen Values to update.
    */
   async setListenInfo(listen: Listen) {
-    if (this.accessToken != null && this.lastUpdate != listen.time) {
-      this.lastUpdate = listen.time;
+    if (this.accessToken != null) {
       await this.api.setListenInfo(this.accessToken, listen);
     }
 

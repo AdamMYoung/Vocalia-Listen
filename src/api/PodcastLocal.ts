@@ -23,6 +23,7 @@ export default class PodcastLocal {
     let key = listenInfo.episodeUrl + LISTEN_INFO;
     await set(key, listenInfo);
 
+    //Attempts to update the stored feed.
     var feed = await this.getFeed(listenInfo.rssUrl);
     if (feed) {
       var item = feed.items.find(x => x.content == listenInfo.episodeUrl);
