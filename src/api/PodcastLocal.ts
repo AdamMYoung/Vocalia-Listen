@@ -118,27 +118,4 @@ export default class PodcastLocal {
       x == undefined ? null : (x as PodcastFeed)
     );
   }
-
-  /**
-   * Loads image URL into an image element, applies to a canvas then parses the canvas
-   * to get the image data.
-   * @param url URL to save.
-   */
-  private getImageDataFromUrl(url: string): string {
-    var element = document.createElement("img");
-    element.onloadeddata = () => {
-      var canvas = document.createElement("canvas"),
-        imageContext = canvas.getContext("2d");
-
-      canvas.width = element.width;
-      canvas.height = element.height;
-
-      if (imageContext) {
-        imageContext.drawImage(element, 0, 0, element.width, element.height);
-
-        return canvas.toDataURL();
-      }
-    };
-    return "";
-  }
 }

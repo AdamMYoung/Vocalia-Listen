@@ -93,7 +93,16 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
    * Sets the episode as played in the database.
    */
   onSetPlayed = async () => {
-    const { onUpdateEpisode, episode } = this.props;
+    const {
+      onUpdateEpisode,
+      onEpisodeSelected,
+      episode,
+      selectedEpisode
+    } = this.props;
+
+    if (selectedEpisode) {
+      if (episode.content == selectedEpisode.content) onEpisodeSelected(null);
+    }
 
     await onUpdateEpisode({
       rssUrl: episode.rssUrl,

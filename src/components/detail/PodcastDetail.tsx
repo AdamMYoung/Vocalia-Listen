@@ -95,7 +95,6 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
    */
   private onUpdateEpisode = async (listen: Listen) => {
     const { api } = this.props;
-    console.log(listen);
 
     await api.setListenInfo(listen);
     this.loadRss();
