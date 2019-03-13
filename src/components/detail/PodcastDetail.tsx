@@ -158,7 +158,7 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
         {feed.items.filter(c => c.time != 0 && !c.isCompleted).length > 0 && (
           <Typography variant="h6">In Progress</Typography>
         )}
-
+        {console.log(feed.items.filter(c => c.time != 0 && !c.isCompleted))}
         <List>
           {/* In Progress */}
 

@@ -86,8 +86,8 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
 
     const description = (
       <span>
-        {episode.storeLocally ? "Local" : ""}
-        {episode.storeLocally && episode.time ? " • " : ""}
+        {episode.isCompleted ? "Listened" : ""}
+        {episode.isCompleted && episode.time ? " • " : ""}
         {episode.time != 0 ? timeLeft + " remaining" : ""}
       </span>
     );

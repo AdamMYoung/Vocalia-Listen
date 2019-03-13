@@ -68,7 +68,8 @@ export default class MediaPlayer extends PureComponent<
   playbackFinished = async () => {
     const { api } = this.props;
 
-    this.savePlaybackPosition(true);
+    console.log("Ended");
+    await this.savePlaybackPosition(true);
 
     await api.setCurrentPodcast(null);
     this.setState({ paused: true });
