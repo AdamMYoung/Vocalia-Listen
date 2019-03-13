@@ -65,17 +65,19 @@ export default class MediaPlayer extends PureComponent<
     };
   }
 
-  playbackFinished = () => {
+  playbackFinished = async () => {
     const { api } = this.props;
 
-    api.setCurrentPodcast(null);
+    this.savePlaybackPosition(true);
+
+    await api.setCurrentPodcast(null);
     this.setState({ paused: true });
   };
 
   /**
    * Saves the current playback position to memory.
    */
-  savePlaybackPosition = () => {
+  savePlaybackPosition = async (isCompleted: boolean) => {
     const { audioObject } = this.state;
     const { api } = this.props;
     const { episode } = this.props.media;
@@ -85,11 +87,11 @@ export default class MediaPlayer extends PureComponent<
       episodeUrl: episode.content,
       episodeName: episode.title,
       time: Math.round(audioObject.currentTime),
-      isCompleted: false,
+      isCompleted: isCompleted,
       duration: Math.round(audioObject.duration)
     };
 
-    api.setListenInfo(info);
+    await api.setListenInfo(info);
   };
 
   /**
@@ -212,7 +214,9 @@ export default class MediaPlayer extends PureComponent<
   onHandleTimeUpdate = () => {
     const { audioObject } = this.state;
     this.setState({ time: audioObject.currentTime });
-    this.savePlaybackPosition();
+    this.savePlaybackPosition(
+      audioObject.currentTime == audioObject.duration ? true : false
+    );
   };
 
   /**
