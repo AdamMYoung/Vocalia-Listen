@@ -1,6 +1,5 @@
 import auth0 from "auth0-js";
 import { RouteComponentProps } from "react-router";
-import DataManager from "../api/DataManager";
 
 export default class Auth {
   accessToken: string | null = null;

@@ -10,8 +10,7 @@ import {
 } from "@material-ui/core";
 import { PlayArrow, Stop, MoreVert } from "@material-ui/icons";
 import { PodcastEpisode, Listen } from "../../utility/types";
-import moment, { duration } from "moment";
-import DataManager from "../../api/DataManager";
+import moment from "moment";
 
 /**
  * CSS styles for the entry.
