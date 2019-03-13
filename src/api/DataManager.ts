@@ -135,7 +135,7 @@ export default class DataManager {
   }
 
   /**
-   * Gets lisen info for the specified podcast.
+   * Gets listen info for the specified podcast.
    * @param rssUrl URL to fetch listen info for.
    */
   async getListenInfo(

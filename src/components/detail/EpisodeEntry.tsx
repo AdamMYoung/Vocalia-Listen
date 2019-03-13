@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
   Typography,
   IconButton,
   ListItem,
-  ListItemIcon,
   ListItemSecondaryAction,
-  ListItemText
+  ListItemText,
+  Menu,
+  MenuItem
 } from "@material-ui/core";
-import { PlayArrow, Stop, VerticalAlignBottom } from "@material-ui/icons";
+import { PlayArrow, Stop, MoreVert } from "@material-ui/icons";
 import { PodcastEpisode } from "../../utility/types";
 import moment from "moment";
 
@@ -29,6 +27,7 @@ const styles = {
  * Required properties for the episode entry.
  */
 interface IEpisodeProps {
+  isArchive: boolean; //Indicates if the episode is archived (Greater than 5 episodes old)
   episode: PodcastEpisode; //Episode the component represents.
   selectedEpisode: PodcastEpisode | null; //The currently playing episode.
   onEpisodeSelected: (episode: PodcastEpisode | null) => void; //Called when the entry has been selected.
@@ -58,7 +57,7 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
   };
 
   render() {
-    const { episode, selectedEpisode } = this.props;
+    const { episode, selectedEpisode, isArchive } = this.props;
 
     //Toggles between a stop button or play button depending if the
     // current episode matches the object being represented.
@@ -70,10 +69,20 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
         <PlayArrow />
       );
 
+    //Time left of the podcast
     const timeLeft = moment("2015-01-01")
       .startOf("day")
       .seconds(episode.duration - episode.time)
       .format("H:mm:ss");
+
+    //Parsed date of the episode.
+    const date = moment(episode.publishingDate);
+
+    //String formatted release date of the episode.
+    const releaseDate =
+      moment().year() != date.year()
+        ? date.format("DD MMMM YYYY")
+        : date.format("DD MMMM");
 
     const description = (
       <span>
@@ -94,7 +103,18 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
         >
           {icon}
         </IconButton>
-        <ListItemText primary={episode.title} secondary={description} />
+
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography color="textSecondary">{releaseDate}</Typography>
+              <Typography color={isArchive ? "textSecondary" : "textPrimary"}>
+                {episode.title}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={description}
+        />
       </ListItem>
     );
   }

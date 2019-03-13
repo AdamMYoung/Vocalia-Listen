@@ -10,7 +10,12 @@ import {
   Fade,
   List
 } from "@material-ui/core";
-import { PodcastFeed, PodcastEpisode, Podcast } from "../../utility/types";
+import {
+  PodcastFeed,
+  PodcastEpisode,
+  Podcast,
+  Listen
+} from "../../utility/types";
 import EpisodeEntry from "./EpisodeEntry";
 import { removeTags } from "../../utility/FormatUtils";
 import DataManager from "../../api/DataManager";
@@ -49,7 +54,7 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
 
     this.state = {
       feed: {} as PodcastFeed,
-      visibleEpisodes: 20,
+      visibleEpisodes: 5,
       loading: true,
       imageLoaded: false,
       isSubscribed: false
@@ -148,6 +153,48 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
       </Button>
     );
 
+    const podcastList = feed.items != null && (
+      <React.Fragment>
+        {feed.items.filter(c => c.time != 0 && !c.isCompleted).length > 0 && (
+          <Typography variant="h6">In Progress</Typography>
+        )}
+
+        <List>
+          {/* In Progress */}
+
+          {feed.items
+            .filter(c => c.time != 0 && !c.isCompleted)
+            .map(item => (
+              <EpisodeEntry
+                isArchive={false}
+                key={item.content}
+                episode={item}
+                selectedEpisode={selectedEpisode}
+                onEpisodeSelected={onEpisodeSelected}
+              />
+            ))}
+        </List>
+
+        <Typography variant="h6">Episodes</Typography>
+        <List>
+          {/* Unlistened & Archived */}
+
+          {feed.items
+            .slice(0, visibleEpisodes)
+            .filter(c => c.time == 0 || c.isCompleted)
+            .map((item, key) => (
+              <EpisodeEntry
+                isArchive={key > 5 || item.isCompleted}
+                key={item.content}
+                episode={item}
+                selectedEpisode={selectedEpisode}
+                onEpisodeSelected={onEpisodeSelected}
+              />
+            ))}
+        </List>
+      </React.Fragment>
+    );
+
     return (
       <Dialog open={open} onClose={onClose} fullScreen={isMobile} maxWidth="md">
         {/* Requires a nested dialog to have the two stage screen dim and fade in on content load */}
@@ -190,22 +237,7 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
                 </div>
               </DialogTitle>
               <DialogContent style={{ paddingTop: 5 }}>
-                <List>
-                  {/* Episodes */}
-                  {feed.items != null &&
-                    feed.items
-                      .slice(0, visibleEpisodes)
-                      .map(item => (
-                        <EpisodeEntry
-                          key={item.content}
-                          episode={item}
-                          selectedEpisode={selectedEpisode}
-                          onEpisodeSelected={(episode: PodcastEpisode | null) =>
-                            onEpisodeSelected(episode)
-                          }
-                        />
-                      ))}
-                </List>
+                {podcastList}
 
                 {/* Load more button */}
                 {visibleEpisodes < feed.items.length && (
