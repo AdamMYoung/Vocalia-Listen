@@ -29,6 +29,7 @@ export default class PodcastLocal {
       var item = feed.items.find(x => x.content == listenInfo.episodeUrl);
       if (item) {
         item.isCompleted = listenInfo.isCompleted;
+        item.time = listenInfo.time;
         this.setFeed(feed.link, feed);
       }
     }

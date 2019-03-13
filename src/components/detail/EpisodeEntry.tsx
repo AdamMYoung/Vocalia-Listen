@@ -119,7 +119,7 @@ class EpisodeEntry extends Component<IEpisodeProps, IEpisodeState> {
       episodeName: episode.title,
       isCompleted: false,
       time: 0,
-      duration: episode.duration
+      duration: 0
     } as Listen);
 
     this.handleClose();

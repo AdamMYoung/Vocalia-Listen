@@ -6,7 +6,7 @@ export function isMobile(): boolean {
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
       navigator.userAgent
     ) ||
-    window.innerWidth < 700
+    window.innerWidth < 800
   ) {
     return true;
   }
