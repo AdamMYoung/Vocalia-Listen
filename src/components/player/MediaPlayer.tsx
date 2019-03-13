@@ -135,19 +135,21 @@ export default class MediaPlayer extends PureComponent<
     const { audioObject } = this.state;
     const { episode, autoplay } = this.props.media;
 
-    audioObject.src = episode.content;
+    if (!episode.isCompleted) {
+      audioObject.src = episode.content;
 
-    audioObject.onloadeddata = () => {
-      if (episode.time != undefined) {
-        audioObject.currentTime = episode.time;
-        this.setState({ time: audioObject.currentTime });
-      }
-    };
-    audioObject.load();
+      audioObject.onloadeddata = () => {
+        if (episode.time != undefined) {
+          audioObject.currentTime = episode.time;
+          this.setState({ time: audioObject.currentTime });
+        }
+      };
+      audioObject.load();
 
-    if (autoplay) audioObject.play().then(() => this.setMediaMetadata());
+      if (autoplay) audioObject.play().then(() => this.setMediaMetadata());
 
-    this.setState({ paused: !autoplay });
+      this.setState({ paused: !autoplay });
+    }
   };
 
   /**
