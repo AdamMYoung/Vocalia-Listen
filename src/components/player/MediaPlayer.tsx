@@ -216,7 +216,7 @@ export default class MediaPlayer extends PureComponent<
     const { audioObject } = this.state;
     this.setState({ time: audioObject.currentTime });
     this.savePlaybackPosition(
-      audioObject.currentTime == audioObject.duration ? true : false
+      Math.round(audioObject.currentTime) == Math.round(audioObject.duration)
     );
   };
 

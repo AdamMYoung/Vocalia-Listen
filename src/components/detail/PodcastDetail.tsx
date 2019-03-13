@@ -4,18 +4,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Card,
   Button,
   Typography,
   Fade,
   List
 } from "@material-ui/core";
-import {
-  PodcastFeed,
-  PodcastEpisode,
-  Podcast,
-  Listen
-} from "../../utility/types";
+import { PodcastFeed, PodcastEpisode } from "../../utility/types";
 import EpisodeEntry from "./EpisodeEntry";
 import { removeTags } from "../../utility/FormatUtils";
 import DataManager from "../../api/DataManager";
@@ -156,9 +150,18 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
     const podcastList = feed.items != null && (
       <React.Fragment>
         {feed.items.filter(c => c.time != 0 && !c.isCompleted).length > 0 && (
-          <Typography variant="h6">In Progress</Typography>
+          <div
+            style={{
+              position: "sticky",
+              top: -8,
+              backgroundColor: "#ffffff",
+              zIndex: 100
+            }}
+          >
+            <Typography variant="h6">In Progress</Typography>
+          </div>
         )}
-        {console.log(feed.items.filter(c => c.time != 0 && !c.isCompleted))}
+
         <List>
           {/* In Progress */}
 
@@ -175,7 +178,16 @@ class PodcastDetail extends PureComponent<IDetailProps, IDetailState> {
             ))}
         </List>
 
-        <Typography variant="h6">Episodes</Typography>
+        <div
+          style={{
+            position: "sticky",
+            top: -8,
+            backgroundColor: "#ffffff",
+            zIndex: 100
+          }}
+        >
+          <Typography variant="h6">Episodes</Typography>
+        </div>
         <List>
           {/* Unlistened & Archived */}
 

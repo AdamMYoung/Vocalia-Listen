@@ -20,8 +20,17 @@ export default class PodcastLocal {
    * @param time Time to save.
    */
   async setListenInfo(listenInfo: Listen) {
-    let key = listenInfo.rssUrl + LISTEN_INFO;
+    let key = listenInfo.episodeUrl + LISTEN_INFO;
     await set(key, listenInfo);
+
+    var feed = await this.getFeed(listenInfo.rssUrl);
+    if (feed) {
+      var item = feed.items.find(x => x.content == listenInfo.episodeUrl);
+      if (item) {
+        item.isCompleted = listenInfo.isCompleted;
+        this.setFeed(feed.link, feed);
+      }
+    }
   }
 
   /**

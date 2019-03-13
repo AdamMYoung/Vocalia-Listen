@@ -119,6 +119,7 @@ export default class PodcastAPI {
    */
   async setListenInfo(accessToken: string, listenInfo: Listen) {
     var frequency = 3;
+    console.log(listenInfo);
 
     if (
       (listenInfo.time != 0 && listenInfo.time % frequency == 0) ||
