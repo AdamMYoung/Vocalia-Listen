@@ -20,7 +20,7 @@ interface IState {
   isImageLoaded: boolean;
 }
 
-export class DetailViewModel extends Component<IProps, IState> {
+class DetailViewModel extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 

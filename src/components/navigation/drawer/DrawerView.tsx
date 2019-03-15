@@ -60,7 +60,7 @@ interface IProps extends WithStyles<typeof styles> {
   categories: Category[];
   isMobile: boolean;
   isAuthenticated: boolean;
-  mobileOpen: boolean;
+  drawerOpen: boolean;
   addToHomePrompt: any;
   onAuth: () => void;
   onToggleDrawer: () => void;
@@ -72,6 +72,7 @@ class DrawerView extends Component<IProps> {
     const {
       theme,
       classes,
+      drawerOpen,
       isAuthenticated,
       addToHomePrompt,
       onAuth,
@@ -144,7 +145,7 @@ class DrawerView extends Component<IProps> {
             <SwipeableDrawer
               variant="temporary"
               anchor={theme.direction === "rtl" ? "right" : "left"}
-              open={this.props.mobileOpen}
+              open={drawerOpen}
               onClose={onToggleDrawer}
               onOpen={onToggleDrawer}
               classes={{

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import DataManager from "../../api/DataManager";
 import { Category } from "../../utility/types";
+import NavigationView from "./NavigationView";
+import SearchViewModel from "../search/SearchViewModel";
 
 interface IProps {
   api: DataManager;
@@ -59,6 +61,17 @@ export default class NavigationViewModel extends Component<IProps, IState> {
   };
 
   render() {
-    return <div />;
+    const { api } = this.props;
+
+    return (
+      <NavigationView
+        isAuthenticated={Boolean(api.accessToken)}
+        onAddToHome={this.onAddToHome}
+        onToggleDrawer={this.onToggleDrawer}
+        search={<SearchViewModel api={api} />}
+        {...this.props}
+        {...this.state}
+      />
+    );
   }
 }

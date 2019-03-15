@@ -2,18 +2,18 @@ import React, { Component } from "react";
 import DataManager from "../../api/DataManager";
 import { PodcastEpisode } from "../../utility/types";
 import { Listen } from "../../models/Listen";
+import PlayerView from "./PlayerView";
 
 interface IProps {
   api: DataManager;
-  currentEpisode: PodcastEpisode;
+  episode: PodcastEpisode;
   isMobile: boolean;
-  onPodcastFinished: () => void;
+  onEpisodeSelected: (episode: PodcastEpisode | null) => void;
 }
 
 interface IState {
   audioElement: HTMLAudioElement;
   isPaused: boolean;
-  isImageLoaded: boolean;
   progress: number;
   volume: number;
 }
@@ -27,13 +27,12 @@ export default class PlayerViewModel extends Component<IProps, IState> {
     let audioObject = document.createElement("audio");
     audioObject.loop = false;
     audioObject.volume = volume;
-    audioObject.ontimeupdate = () => this.onHandleTimeUpdate();
+    audioObject.ontimeupdate = this.onProgressChanged;
     audioObject.onended = this.onPlaybackFinished;
 
     this.state = {
       audioElement: audioObject,
       isPaused: true,
-      isImageLoaded: false,
       volume: volume,
       progress: 0
     };
@@ -43,10 +42,10 @@ export default class PlayerViewModel extends Component<IProps, IState> {
    * Called when playback is finished.
    */
   private onPlaybackFinished = async () => {
-    const { onPodcastFinished } = this.props;
+    const { onEpisodeSelected } = this.props;
 
     await this.setListenInfo();
-    onPodcastFinished();
+    onEpisodeSelected(null);
   };
 
   /**
@@ -54,12 +53,12 @@ export default class PlayerViewModel extends Component<IProps, IState> {
    */
   private setListenInfo = async () => {
     const { audioElement } = this.state;
-    const { api, currentEpisode } = this.props;
+    const { api, episode } = this.props;
 
     var currentTime = Math.round(audioElement.currentTime);
     var duration = Math.round(audioElement.duration);
 
-    var info = Listen.fromPodcastEpisode(currentEpisode);
+    var info = Listen.fromPodcastEpisode(episode);
     info.time = currentTime;
     info.duration = duration;
     info.isCompleted = currentTime == duration;
@@ -71,14 +70,14 @@ export default class PlayerViewModel extends Component<IProps, IState> {
    * Sets the media metadata to the browser.
    */
   private setMediaMetadata = async () => {
-    const { currentEpisode } = this.props;
+    const { episode } = this.props;
 
     if ("mediaSession" in navigator) {
       // @ts-ignore
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: currentEpisode.title,
-        artist: currentEpisode.author,
-        artwork: [{ src: currentEpisode.imageUrl, type: "image/png" }]
+        title: episode.title,
+        artist: episode.author,
+        artwork: [{ src: episode.imageUrl, type: "image/png" }]
       });
 
       // @ts-ignore
@@ -97,13 +96,13 @@ export default class PlayerViewModel extends Component<IProps, IState> {
    */
   private setupPodcast = (autoplay: boolean) => {
     const { audioElement } = this.state;
-    const { currentEpisode } = this.props;
+    const { episode } = this.props;
 
-    audioElement.src = currentEpisode.content;
+    audioElement.src = episode.content;
     audioElement.onloadeddata = () => {
-      if (currentEpisode.time) {
-        audioElement.currentTime = currentEpisode.time;
-        this.setState({ progress: currentEpisode.time });
+      if (episode.time) {
+        audioElement.currentTime = episode.time;
+        this.setState({ progress: episode.time });
       }
     };
 
@@ -123,6 +122,9 @@ export default class PlayerViewModel extends Component<IProps, IState> {
     this.setState({ progress });
   };
 
+  /**
+   * Calld on a rewind selection.
+   */
   private onRewind = () => {
     const { audioElement } = this.state;
 
@@ -130,4 +132,63 @@ export default class PlayerViewModel extends Component<IProps, IState> {
     audioElement.currentTime = progress;
     this.setState({ progress: Math.max(0, progress) });
   };
+
+  /**
+   * Called when play/pause is toggled.
+   */
+  private onTogglePlaying = () => {
+    const { audioElement, isPaused } = this.state;
+
+    if (isPaused) audioElement.play().then(this.setMediaMetadata);
+    else audioElement.pause();
+
+    this.setState({ isPaused: !isPaused });
+  };
+
+  /**
+   * Called when a seek has occured.
+   */
+  private onSeek = (e: any, progress: number) => {
+    const { audioElement } = this.state;
+
+    if (progress <= audioElement.duration) {
+      this.setState({ progress });
+      audioElement.currentTime = progress;
+    }
+  };
+
+  /**
+   * Called when the volume changes.
+   */
+  private onVolumeChanged = (e: any, volume: number) => {
+    const { audioElement } = this.state;
+
+    this.setState({ volume });
+    audioElement.volume = volume;
+  };
+
+  /**
+   * Called when the playback progress changes.
+   */
+  private onProgressChanged = () => {
+    const { audioElement } = this.state;
+
+    this.setState({ progress: audioElement.currentTime });
+    this.setListenInfo();
+  };
+
+  render() {
+    return (
+      <PlayerView
+        onPlaybackFinished={this.onPlaybackFinished}
+        onForward={this.onForward}
+        onRewind={this.onRewind}
+        onTogglePlaying={this.onTogglePlaying}
+        onSeek={this.onSeek}
+        onVolumeChanged={this.onVolumeChanged}
+        {...this.props}
+        {...this.state}
+      />
+    );
+  }
 }

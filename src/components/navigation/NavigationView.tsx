@@ -14,7 +14,7 @@ import {
 import { Category } from "../../utility/types";
 import MenuIcon from "@material-ui/icons/Menu";
 import { drawerWidth } from "../../utility/constants";
-import { DrawerView } from "./drawer/DrawerView";
+import DrawerView from "./drawer/DrawerView";
 
 /**
  * CSS styles of the top AppBar.
@@ -100,8 +100,9 @@ interface IProps extends WithStyles<typeof styles> {
   categories: Category[];
   isMobile: boolean;
   isAuthenticated: boolean;
-  mobileOpen: boolean;
+  drawerOpen: boolean;
   search: any;
+  addToHomePrompt: any;
   onAuth: () => void;
   onAddToHome: () => void;
   onToggleDrawer: () => void;

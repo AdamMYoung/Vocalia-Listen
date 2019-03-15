@@ -7,14 +7,14 @@ export default class Auth {
   expiresAt: number | null = null;
   tokenRenewalTimeout: NodeJS.Timeout | null = null;
   routeProps: RouteComponentProps;
-  tokenUpdatedCallback: (token: string) => void;
+  onTokenChanged: (token: string | null) => void;
 
   constructor(
     routeProps: RouteComponentProps,
-    callback: (token: string) => void
+    callback: (token: string | null) => void
   ) {
     this.routeProps = routeProps;
-    this.tokenUpdatedCallback = callback;
+    this.onTokenChanged = callback;
 
     this.renewSession();
     this.scheduleRenewal();
@@ -73,7 +73,7 @@ export default class Auth {
     this.idToken = authResult.idToken as string;
     this.expiresAt = expiresAt;
 
-    this.tokenUpdatedCallback(this.accessToken);
+    this.onTokenChanged(this.accessToken);
     this.scheduleRenewal();
 
     // navigate to the home route
@@ -137,6 +137,7 @@ export default class Auth {
    */
   logout = () => {
     this.clearSignIn();
+    this.onTokenChanged(null);
     this.auth0.logout({ returnTo: process.env.REACT_APP_AUTH_HOME });
   };
 
