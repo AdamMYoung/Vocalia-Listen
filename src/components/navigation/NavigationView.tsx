@@ -1,23 +1,20 @@
 import React, { Component } from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import {
-  createStyles,
-  Theme,
   withStyles,
-  WithStyles
-} from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import NavDrawer from "./NavDrawer";
+  WithStyles,
+  CssBaseline,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Theme,
+  createStyles,
+  Typography
+} from "@material-ui/core";
 import { Category } from "../../utility/types";
+import MenuIcon from "@material-ui/icons/Menu";
 import { drawerWidth } from "../../utility/constants";
-import Auth from "../../auth/Auth";
-import Search from "../search/Search";
-import DataManager from "../../api/DataManager";
+import { DrawerView } from "./drawer/DrawerView";
 
 /**
  * CSS styles of the top AppBar.
@@ -99,45 +96,24 @@ const styles = (theme: Theme) =>
     }
   });
 
-/**
- * Required properties of the top AppBar.
- */
-interface INavigationProps extends WithStyles<typeof styles> {
-  categories: Category[]; //Categories to display.
-  isMobile: boolean; //Indicates if the device is a mobile device.
-  auth: Auth; //Auth0 authentication object.
-  api: DataManager; //Manager for I/O of API calls.
+interface IProps extends WithStyles<typeof styles> {
+  categories: Category[];
+  isMobile: boolean;
+  isAuthenticated: boolean;
+  mobileOpen: boolean;
+  search: any;
+  onAuth: () => void;
+  onAddToHome: () => void;
+  onToggleDrawer: () => void;
 }
 
-/**
- * State information of the top AppBar.
- */
-interface INavigationState {
-  mobileOpen: boolean; //Indicates if the mobile navigation drawer is open.
-}
-
-/**
- * Provides a top AppBar component as well as drawer integration for search.
- * Child properties are displayed within the content area.
- */
-class Navigation extends Component<INavigationProps, INavigationState> {
-  constructor(props: INavigationProps) {
-    super(props);
-
-    this.state = {
-      mobileOpen: false
-    };
-  }
-
-  /**
-   * Opens/closes the navigation drawer depending on it's current state.
-   */
-  onDrawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+class NavigationView extends Component<IProps> {
+  public static defaultProps = {
+    search: ""
   };
 
   render() {
-    const { classes, isMobile, api } = this.props;
+    const { classes, isMobile, search, onToggleDrawer } = this.props;
 
     return (
       <div className={classes.root}>
@@ -150,7 +126,7 @@ class Navigation extends Component<INavigationProps, INavigationState> {
               color="inherit"
               aria-label="Open drawer"
               className={classes.menuButton}
-              onClick={this.onDrawerToggle}
+              onClick={onToggleDrawer}
             >
               <MenuIcon />
             </IconButton>
@@ -163,17 +139,12 @@ class Navigation extends Component<INavigationProps, INavigationState> {
               Vocalia
             </Typography>
             <div className={classes.grow} />
-            <Search api={api} />
+            {search}
           </Toolbar>
         </AppBar>
 
         {/* Navigation drawer. */}
-        <NavDrawer
-          auth={this.props.auth}
-          categories={this.props.categories}
-          handleDrawerToggle={this.onDrawerToggle}
-          mobileOpen={this.state.mobileOpen}
-        />
+        <DrawerView {...this.props} />
 
         {/* Content to display. */}
         <main className={classes.content}>
@@ -185,4 +156,4 @@ class Navigation extends Component<INavigationProps, INavigationState> {
   }
 }
 
-export default withStyles(styles)(Navigation);
+export default withStyles(styles)(NavigationView);

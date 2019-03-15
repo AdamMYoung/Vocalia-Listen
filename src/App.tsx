@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { isMobile } from "./utility/DeviceUtils";
-import Layout from "./components/Layout";
 
 /**
  * State information for the application.

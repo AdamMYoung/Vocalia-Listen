@@ -1,0 +1,6 @@
+.list-title {
+  position: "sticky";
+  top: -8;
+  background-color: "#ffffff";
+  z-index: 10;
+}

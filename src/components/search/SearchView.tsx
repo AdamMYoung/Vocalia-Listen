@@ -1,22 +1,18 @@
 import React, { Component } from "react";
 import {
-  Card,
-  List,
-  ListItem,
-  ListItemText,
-  createStyles,
   Theme,
-  withStyles,
+  createStyles,
   WithStyles,
-  Divider,
+  withStyles,
+  InputBase,
   Fade,
-  InputBase
+  List,
+  Card
 } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import { Podcast } from "../../utility/types";
-import { LinkContainer } from "react-router-bootstrap";
-import DataManager from "../../api/DataManager";
+import SearchEntryView from "./SearchEntryView";
+import { Search } from "@material-ui/icons";
 
 /**
  * CSS styles of the top AppBar.
@@ -30,11 +26,6 @@ const styles = (theme: Theme) =>
       position: "relative",
       overflow: "auto",
       maxHeight: 300
-    },
-    image: {
-      borderRadius: "3px",
-      height: "50px",
-      width: "50px"
     },
     search: {
       position: "relative",
@@ -80,71 +71,28 @@ const styles = (theme: Theme) =>
     }
   });
 
-interface ISearchProps extends WithStyles<typeof styles> {
-  api: DataManager; //Manager for I/O of API calls.
-}
-
-interface ISearchState {
-  podcasts: Podcast[];
-  term: string;
+interface IProps extends WithStyles<typeof styles> {
+  searchResults: Podcast[];
+  searchTerm: string;
   isOpen: boolean;
+  onSearch: (term: string) => void;
+  onVisibilityChanged: (visible: boolean) => void;
 }
 
-interface IEntryProps {
-  podcast: Podcast;
-}
-
-class Search extends Component<ISearchProps, ISearchState> {
-  constructor(props: ISearchProps) {
-    super(props);
-
-    this.state = {
-      podcasts: [],
-      term: "",
-      isOpen: false
-    };
-  }
-
-  querySearch = async (term: string) => {
-    const { api } = this.props;
-
-    if (term.length >= 3) {
-      var podcasts = await api.searchPodcasts(term);
-
-      if (podcasts) this.setState({ podcasts: podcasts });
-    }
-  };
-
+class SearchView extends Component<IProps> {
   render() {
-    const { podcasts, isOpen } = this.state;
-    const { classes } = this.props;
-
-    function Entry(props: IEntryProps) {
-      const { podcast } = props;
-
-      return (
-        <LinkContainer to={"/detail/" + encodeURIComponent(podcast.rssUrl)}>
-          <div className="item">
-            <ListItem alignItems="flex-start" button={true}>
-              <div className={classes.image}>
-                <img
-                  className={classes.image}
-                  src={podcast.imageUrl}
-                  alt={podcast.title}
-                />
-              </div>
-              <ListItemText primary={podcast.title} />
-            </ListItem>
-            <Divider />
-          </div>
-        </LinkContainer>
-      );
-    }
+    const {
+      classes,
+      searchResults,
+      isOpen,
+      onSearch,
+      onVisibilityChanged
+    } = this.props;
 
     return (
       <div className={classes.search}>
         <div className={classes.searchIcon}>
-          <SearchIcon />
+          <Search />
         </div>
         <InputBase
           placeholder="Search…"
@@ -152,19 +100,16 @@ class Search extends Component<ISearchProps, ISearchState> {
             root: classes.inputRoot,
             input: classes.inputInput
           }}
-          onChange={event => this.querySearch(event.target.value)}
-          onFocus={() => this.setState({ isOpen: true })}
-          onBlur={() => setTimeout(() => this.setState({ isOpen: false }), 500)}
+          onChange={event => onSearch(event.target.value)}
+          onFocus={() => onVisibilityChanged(true)}
+          onBlur={() => setTimeout(() => onVisibilityChanged(false), 500)}
         />
         {isOpen && (
           <Fade in={isOpen}>
             <Card style={{ position: "absolute" }}>
               <List className={classes.root}>
-                {podcasts.map(podcast => (
-                  <Entry
-                    podcast={podcast}
-                    key={podcast.rssUrl + podcast.title}
-                  />
+                {searchResults.map(podcast => (
+                  <SearchEntryView podcast={podcast} key={podcast.rssUrl} />
                 ))}
               </List>
             </Card>
@@ -175,4 +120,4 @@ class Search extends Component<ISearchProps, ISearchState> {
   }
 }
 
-export default withStyles(styles)(Search);
+export default withStyles(styles)(SearchView);
