@@ -105,7 +105,7 @@ interface IProps extends WithStyles<typeof styles> {
   addToHomePrompt: any;
   onAuth: () => void;
   onAddToHome: () => void;
-  onToggleDrawer: () => void;
+  setDrawer: (open: boolean) => void;
 }
 
 class NavigationView extends Component<IProps> {
@@ -114,7 +114,7 @@ class NavigationView extends Component<IProps> {
   };
 
   render() {
-    const { classes, isMobile, search, onToggleDrawer } = this.props;
+    const { classes, isMobile, search, setDrawer } = this.props;
 
     return (
       <div className={classes.root}>
@@ -127,7 +127,7 @@ class NavigationView extends Component<IProps> {
               color="inherit"
               aria-label="Open drawer"
               className={classes.menuButton}
-              onClick={onToggleDrawer}
+              onClick={() => setDrawer(true)}
             >
               <MenuIcon />
             </IconButton>

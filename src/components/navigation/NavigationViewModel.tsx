@@ -46,9 +46,8 @@ export default class NavigationViewModel extends Component<IProps, IState> {
   /**
    * Toggles the status of the drawer.
    */
-  onToggleDrawer = () => {
-    const { drawerOpen } = this.state;
-    this.setState({ drawerOpen: !drawerOpen });
+  setDrawer = (drawerOpen: boolean) => {
+    this.setState({ drawerOpen });
   };
 
   /**
@@ -67,7 +66,7 @@ export default class NavigationViewModel extends Component<IProps, IState> {
       <NavigationView
         isAuthenticated={Boolean(api.accessToken)}
         onAddToHome={this.onAddToHome}
-        onToggleDrawer={this.onToggleDrawer}
+        setDrawer={this.setDrawer}
         search={<SearchViewModel api={api} />}
         {...this.props}
         {...this.state}

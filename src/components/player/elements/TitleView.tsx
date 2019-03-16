@@ -38,11 +38,9 @@ export default class TitleView extends Component<IProps> {
       </Typography>
     );
 
-    return (
-      <div className="player-center no-wrap">
-        <div className="episode">
-          <span className="episode-title">{podcastName}</span>
-        </div>
+    const info = (
+      <React.Fragment>
+        <span className="episode episode-title">{podcastName}</span>
 
         <div className="title">
           <span className="podcast-title">
@@ -50,21 +48,29 @@ export default class TitleView extends Component<IProps> {
               to={Podcast.getDetailUrl(rssUrl)}
               style={{ textDecoration: "none" }}
             >
-              <Typography component="p" color="textSecondary">
-                {author}
-              </Typography>
+              <Typography color="textSecondary">{author}</Typography>
             </Link>
           </span>
         </div>
+      </React.Fragment>
+    );
 
-        <div className="seek-bar">
-          <Slider min={0} max={duration} value={progress} onChange={onSeek} />
-          <span className="time-text current-time">{formatTime(progress)}</span>
+    const seek = (
+      <div className="seek-bar">
+        <Slider min={0} max={duration} value={progress} onChange={onSeek} />
 
-          <span className="time-text time-remaining">
-            {formatTime(isNaN(duration) ? 0 : duration)}
-          </span>
-        </div>
+        <span className="time-text current-time">{formatTime(progress)}</span>
+
+        <span className="time-text time-remaining">
+          {formatTime(isNaN(duration) ? 0 : duration)}
+        </span>
+      </div>
+    );
+
+    return (
+      <div className="player-center no-wrap">
+        {info}
+        {seek}
       </div>
     );
   }

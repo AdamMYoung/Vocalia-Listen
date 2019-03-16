@@ -17,7 +17,18 @@ export default class BrowserViewModel extends Component<IProps, IState> {
     super(props);
 
     this.state = { podcasts: null };
+  }
+
+  componentWillMount() {
     this.loadPodcasts();
+  }
+
+  /**
+   * Called when props change.
+   * @param oldProps Old props to laod.
+   */
+  componentDidUpdate(oldProps: IProps) {
+    if (oldProps.category !== this.props.category) this.loadPodcasts();
   }
 
   /**
@@ -25,17 +36,18 @@ export default class BrowserViewModel extends Component<IProps, IState> {
    */
   private loadPodcasts = async () => {
     const { api, category } = this.props;
+    this.setState({ podcasts: null });
+
     var categoryId = parseInt(category);
 
-    if (categoryId != NaN) {
-      //Genre
-      await api.getPodcastByCategory(categoryId, this.onPodcastsLoaded);
-    } else if (category == "top") {
+    if (category == "top") {
       //Top
       await api.getTopPodcasts(this.onPodcastsLoaded);
-    } else if (category == "subscriptions") {
+    } else if (category == "subscribed") {
       //Subscriptions
       await api.getSubscriptions(this.onPodcastsLoaded);
+    } else if (!isNaN(categoryId)) {
+      await api.getPodcastByCategory(categoryId, this.onPodcastsLoaded);
     }
   };
 
@@ -48,6 +60,6 @@ export default class BrowserViewModel extends Component<IProps, IState> {
 
   render() {
     const { podcasts } = this.state;
-    return podcasts && <BrowserView podcasts={podcasts} />;
+    return <BrowserView podcasts={podcasts} />;
   }
 }

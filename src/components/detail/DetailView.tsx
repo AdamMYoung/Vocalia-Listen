@@ -86,23 +86,30 @@ export default class DetailView extends Component<IProps> {
 
     //List of episodes belonging to the feed.
     const episodeList = feed && (
-      <React.Component>
+      <React.Fragment>
         <EpisodeListView
           title="In Progress"
-          episodes={feed.items.filter(c => c.time > 0 && c.isCompleted)}
+          episodes={feed.items.filter(c => c.time > 0 && !c.isCompleted)}
           {...this.props}
         />
         <EpisodeListView
           title="Episodes"
-          episodes={feed.items.filter(c => c.time == 0 || c.isCompleted)}
+          episodes={feed.items
+            .filter(c => c.time == 0 || c.isCompleted)
+            .slice(0, visibleEpisodeCount)}
           {...this.props}
         />
-      </React.Component>
+      </React.Fragment>
     );
 
     return (
-      <Dialog open={true} onClose={onClose} fullScreen={isMobile} maxWidth="md">
-        <Dialog open={Boolean(feed)} fullScreen={isMobile} maxWidth="md">
+      <Dialog open={true} fullScreen={isMobile} maxWidth="md">
+        <Dialog
+          open={Boolean(feed)}
+          onClose={onClose}
+          fullScreen={isMobile}
+          maxWidth="md"
+        >
           <DialogTitle disableTypography={true}>
             {heading}
             {isAuthenticated && subscribeButton}

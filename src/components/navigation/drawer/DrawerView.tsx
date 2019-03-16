@@ -19,7 +19,7 @@ import { Category } from "../../../models/Category";
  * CSS styles for the navigation drawer.
  * @param theme Theme of the navigation drawer.
  */
-const styles = (theme: Theme) =>
+const drawerStyles = (theme: Theme) =>
   createStyles({
     root: {
       display: "flex"
@@ -55,7 +55,7 @@ const styles = (theme: Theme) =>
 /**
  * Required properties for the navigation drawer, also bundling the current styles.
  */
-interface IProps extends WithStyles<typeof styles> {
+interface IProps extends WithStyles<typeof drawerStyles> {
   theme: Theme;
   categories: Category[];
   isMobile: boolean;
@@ -63,7 +63,7 @@ interface IProps extends WithStyles<typeof styles> {
   drawerOpen: boolean;
   addToHomePrompt: any;
   onAuth: () => void;
-  onToggleDrawer: () => void;
+  setDrawer: (open: boolean) => void;
   onAddToHome: () => void;
 }
 
@@ -76,7 +76,7 @@ class DrawerView extends Component<IProps> {
       isAuthenticated,
       addToHomePrompt,
       onAuth,
-      onToggleDrawer,
+      setDrawer,
       onAddToHome,
       categories
     } = this.props;
@@ -96,14 +96,14 @@ class DrawerView extends Component<IProps> {
             <DrawerElementView
               route="/browse/top"
               title="Top"
-              onClick={onToggleDrawer}
+              onClick={() => setDrawer(false)}
               icon={<BarChart />}
             />
             {isAuthenticated && (
               <DrawerElementView
                 route="/browse/subscribed"
                 title="Subscribed"
-                onClick={onToggleDrawer}
+                onClick={() => setDrawer(false)}
                 icon={<Star />}
               />
             )}
@@ -129,7 +129,7 @@ class DrawerView extends Component<IProps> {
                 key={category.id}
                 route={"/browse/" + category.id}
                 title={category.title}
-                onClick={onToggleDrawer}
+                onClick={() => setDrawer(false)}
               />
             ))}
           </List>
@@ -146,8 +146,8 @@ class DrawerView extends Component<IProps> {
               variant="temporary"
               anchor={theme.direction === "rtl" ? "right" : "left"}
               open={drawerOpen}
-              onClose={onToggleDrawer}
-              onOpen={onToggleDrawer}
+              onClose={() => setDrawer(false)}
+              onOpen={() => setDrawer(true)}
               classes={{
                 paper: classes.drawerPaper
               }}
@@ -174,4 +174,4 @@ class DrawerView extends Component<IProps> {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(DrawerView);
+export default withStyles(drawerStyles, { withTheme: true })(DrawerView);

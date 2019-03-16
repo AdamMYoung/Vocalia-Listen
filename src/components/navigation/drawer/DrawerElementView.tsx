@@ -21,7 +21,7 @@ export default class DrawerElementView extends Component<IProps> {
 
     return (
       <LinkContainer to={route}>
-        <ListItem>
+        <ListItem button>
           {icon && <ListItemIcon>{icon}</ListItemIcon>}
           <ListItemText primary={title} onClick={onClick} />
         </ListItem>

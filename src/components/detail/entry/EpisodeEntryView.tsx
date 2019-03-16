@@ -92,15 +92,17 @@ export default class EpisodeEntryView extends Component<IProps> {
     return (
       <ListItem>
         <IconButton style={styles.button} onClick={this.onEpisodeSelect}>
-          {icon}
+          {!episode.isCompleted && icon}
         </IconButton>
         <ListItemText primary={episodeName} secondary={description} />
         <ListItemSecondaryAction>
-          <IconButton onClick={onMenuOpen}>
-            <MoreVert />
-          </IconButton>
+          <div>
+            <IconButton onClick={onMenuOpen}>
+              <MoreVert />
+            </IconButton>
+            {menu}
+          </div>
         </ListItemSecondaryAction>
-        {menu}
       </ListItem>
     );
   }

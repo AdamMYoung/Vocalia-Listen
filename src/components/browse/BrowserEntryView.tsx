@@ -37,30 +37,46 @@ interface IState {
 }
 
 class BrowseEntryView extends Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+
+    this.state = {
+      isLoaded: false
+    };
+  }
+
   render() {
     const { classes, podcast } = this.props;
     const { isLoaded } = this.state;
 
     const image = (
       <Fade in={isLoaded} timeout={300}>
-        <CardMedia
-          component="img"
-          image={podcast ? podcast.imageUrl : ""}
-          onLoad={() => this.setState({ isLoaded: true })}
-        />
+        {podcast && (
+          <CardMedia
+            component="img"
+            image={podcast.imageUrl ? podcast.imageUrl : "s"}
+            onLoad={() => this.setState({ isLoaded: true })}
+          />
+        )}
       </Fade>
     );
 
-    return (
+    const item = (
+      <div className={classes.paper}>
+        {podcast && (
+          <Card className={classes.paper}>
+            <CardActionArea>{image}</CardActionArea>
+          </Card>
+        )}
+      </div>
+    );
+
+    return podcast ? (
       <LinkContainer to={podcast ? Podcast.getDetailUrl(podcast.rssUrl) : ""}>
-        <div className={classes.paper}>
-          {podcast && (
-            <Card className={classes.paper}>
-              <CardActionArea>{image}</CardActionArea>
-            </Card>
-          )}
-        </div>
+        {item}
       </LinkContainer>
+    ) : (
+      item
     );
   }
 }

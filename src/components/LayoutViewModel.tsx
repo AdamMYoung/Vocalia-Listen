@@ -27,7 +27,7 @@ export class LayoutViewModel extends Component<IProps, IState> {
   /**
    * Loads the latest podcast if available.
    */
-  componentWillMount() {
+  componentDidMount() {
     this.getCurrentPodcast();
   }
 
@@ -35,10 +35,10 @@ export class LayoutViewModel extends Component<IProps, IState> {
    * Gets the latest podcast after auth status changes.
    * @param prevProps Previous props of the component.
    */
-  componentDidUpdate(prevProps: IProps) {
+  componentDidUpdate = async (prevProps: IProps) => {
     if (prevProps.auth.accessToken != this.props.auth.accessToken)
-      this.getCurrentPodcast();
-  }
+      await this.getCurrentPodcast();
+  };
 
   /**
    * Called when an episode has been selected.
@@ -55,6 +55,7 @@ export class LayoutViewModel extends Component<IProps, IState> {
    */
   private getCurrentPodcast = async () => {
     const { api } = this.props;
+    console.log("Getting podcst");
 
     await api.getCurrentPodcast(currentEpisode => {
       this.setState({ currentEpisode });
