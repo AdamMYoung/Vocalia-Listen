@@ -1,4 +1,4 @@
-import { PodcastEpisode } from "../utility/types";
+import { PodcastEpisode } from "./PodcastEpisode";
 
 export class Listen {
   rssUrl: string;

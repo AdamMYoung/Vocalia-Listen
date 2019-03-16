@@ -11,10 +11,10 @@ import {
   createStyles,
   Typography
 } from "@material-ui/core";
-import { Category } from "../../utility/types";
 import MenuIcon from "@material-ui/icons/Menu";
 import { drawerWidth } from "../../utility/constants";
 import DrawerView from "./drawer/DrawerView";
+import { Category } from "../../models/Category";
 
 /**
  * CSS styles of the top AppBar.

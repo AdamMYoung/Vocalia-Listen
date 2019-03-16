@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import DataManager from "../api/DataManager";
-import { PodcastEpisode } from "../utility/types";
 import NavigationViewModel from "./navigation/NavigationViewModel";
 import PlayerViewModel from "./player/PlayerViewModel";
 import { Slide } from "@material-ui/core";
@@ -9,6 +8,7 @@ import { Route, Switch, Redirect } from "react-router";
 import Callback from "../auth/Callback";
 import Auth from "../auth/Auth";
 import BrowserViewModel from "./browse/BrowserViewModel";
+import { PodcastEpisode } from "../models/PodcastEpisode";
 
 interface IProps {
   isMobile: boolean;

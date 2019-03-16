@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import DataManager from "../../api/DataManager";
-import { Podcast } from "../../utility/types";
 import SearchView from "./SearchView";
+import { Podcast } from "../../models/Podcast";
 
 interface IProps {
   api: DataManager;

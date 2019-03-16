@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Podcast } from "../../utility/types";
 import { Grid } from "@material-ui/core";
 import BrowseEntryView from "./BrowserEntryView";
+import { Podcast } from "../../models/Podcast";
 
 interface IProps {
-  podcasts: Podcast[];
+  podcasts: Podcast[] | null;
 }
 
 export default class BrowserView extends Component<IProps> {

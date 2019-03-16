@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Card, IconButton, Fab } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 import "./PlayerView.css";
-import { PodcastEpisode } from "../../utility/types";
-import { Replay10, Forward30, PlayArrow, Pause } from "@material-ui/icons";
 import ControlsView from "./elements/ControlsView";
 import TitleView from "./elements/TitleView";
 import VolumeView from "./elements/VolumeView";
+import { PodcastEpisode } from "../../models/PodcastEpisode";
 
 interface IProps {
   isMobile: boolean;

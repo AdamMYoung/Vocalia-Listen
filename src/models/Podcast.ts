@@ -1,4 +1,4 @@
-import { PodcastFeed } from "../utility/types";
+import { PodcastFeed } from "./PodcastFeed";
 
 export class Podcast {
   title: string;

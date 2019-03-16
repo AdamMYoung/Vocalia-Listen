@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import DataManager from "../api/DataManager";
-import { PodcastEpisode } from "../utility/types";
 import LayoutView from "./LayoutView";
 import Auth from "../auth/Auth";
+import { PodcastEpisode } from "../models/PodcastEpisode";
 
 interface IProps {
   isMobile: boolean;

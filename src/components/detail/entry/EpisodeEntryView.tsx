@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { PodcastEpisode } from "../../../utility/types";
 import {
   ListItem,
   IconButton,
@@ -10,6 +9,7 @@ import {
   MenuItem
 } from "@material-ui/core";
 import { PlayArrow, Stop, MoreVert } from "@material-ui/icons";
+import { PodcastEpisode } from "../../../models/PodcastEpisode";
 
 const styles = {
   button: {

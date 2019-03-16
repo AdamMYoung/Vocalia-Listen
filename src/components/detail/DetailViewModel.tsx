@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import DataManager from "../../api/DataManager";
-import { PodcastEpisode, PodcastFeed } from "../../utility/types";
 import { Podcast } from "../../models/Podcast";
 import { Listen } from "../../models/Listen";
 import { withRouter, RouteComponentProps } from "react-router";
 import DetailView from "./DetailView";
+import { PodcastEpisode } from "../../models/PodcastEpisode";
+import { PodcastFeed } from "../../models/PodcastFeed";
 
 interface IProps extends RouteComponentProps {
   api: DataManager;

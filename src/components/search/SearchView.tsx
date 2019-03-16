@@ -10,9 +10,9 @@ import {
   Card
 } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import { Podcast } from "../../utility/types";
 import SearchEntryView from "./SearchEntryView";
 import { Search } from "@material-ui/icons";
+import { Podcast } from "../../models/Podcast";
 
 /**
  * CSS styles of the top AppBar.

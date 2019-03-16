@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import DataManager from "../../api/DataManager";
-import { PodcastEpisode } from "../../utility/types";
 import { Listen } from "../../models/Listen";
 import PlayerView from "./PlayerView";
+import { PodcastEpisode } from "../../models/PodcastEpisode";
 
 interface IProps {
   api: DataManager;

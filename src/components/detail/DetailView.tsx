@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { PodcastEpisode, PodcastFeed } from "../../utility/types";
 import {
   Dialog,
   Fade,
@@ -11,6 +10,8 @@ import {
 } from "@material-ui/core";
 import { removeTags } from "../../utility/FormatUtils";
 import EpisodeListView from "./list/EpisodeListView";
+import { PodcastEpisode } from "../../models/PodcastEpisode";
+import { PodcastFeed } from "../../models/PodcastFeed";
 
 interface IProps {
   isMobile: boolean;

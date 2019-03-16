@@ -1,10 +1,9 @@
-import {
-  PodcastEpisode,
-  Listen,
-  Category,
-  Podcast,
-  PodcastFeed
-} from "../utility/types";
+import { Podcast } from "../models/Podcast";
+import { PodcastFeed } from "../models/PodcastFeed";
+import { Listen } from "../models/Listen";
+import { PodcastEpisode } from "../models/PodcastEpisode";
+import { Category } from "../models/Category";
+
 import { get, set, del } from "idb-keyval";
 
 const LISTEN_INFO = "|position";

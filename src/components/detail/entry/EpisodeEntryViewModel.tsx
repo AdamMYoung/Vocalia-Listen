@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import EpisodeEntryView from "./EpisodeEntryView";
-import { PodcastEpisode } from "../../../utility/types";
 import moment from "moment";
+import { PodcastEpisode } from "../../../models/PodcastEpisode";
 
 interface IProps {
   episode: PodcastEpisode;

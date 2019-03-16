@@ -11,9 +11,9 @@ import {
   withStyles
 } from "@material-ui/core";
 import { drawerWidth } from "../../../utility/constants";
-import { Category } from "../../../utility/types";
 import DrawerElementView from "./DrawerElementView";
 import { Person, BarChart, Star } from "@material-ui/icons";
+import { Category } from "../../../models/Category";
 
 /**
  * CSS styles for the navigation drawer.
