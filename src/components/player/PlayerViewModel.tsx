@@ -6,8 +6,9 @@ import { PodcastEpisode } from "../../models/PodcastEpisode";
 
 interface IProps {
   api: DataManager;
-  episode: PodcastEpisode;
+  episode: PodcastEpisode | null;
   isMobile: boolean;
+  isAuthenticated: boolean;
   onEpisodeSelected: (episode: PodcastEpisode | null) => void;
 }
 
@@ -19,7 +20,11 @@ interface IState {
   duration: number;
 }
 
+const UPDATE_FREQUENCY_SECONDS = 2;
+
 export default class PlayerViewModel extends Component<IProps, IState> {
+  lastUpdateTime: number = 0;
+
   constructor(props: IProps) {
     super(props);
 
@@ -28,8 +33,8 @@ export default class PlayerViewModel extends Component<IProps, IState> {
     let audioObject = document.createElement("audio");
     audioObject.loop = false;
     audioObject.volume = volume;
-    audioObject.ontimeupdate = this.onProgressChanged;
     audioObject.onended = this.onPlaybackFinished;
+    audioObject.ontimeupdate = this.onProgressChanged;
 
     this.state = {
       audioElement: audioObject,
@@ -47,12 +52,22 @@ export default class PlayerViewModel extends Component<IProps, IState> {
     this.setupPodcast(false);
   }
 
+  /**
+   * Called when the player episode or duration changes.
+   * @param oldProps Old properties of the player
+   */
   componentDidUpdate(oldProps: IProps) {
-    if (
-      oldProps.episode.content !== this.props.episode.content ||
-      oldProps.episode.duration != this.props.episode.duration
-    )
+    const { audioElement } = this.state;
+    var newEpisode = this.props.episode;
+    var oldEpisode = oldProps.episode;
+
+    if (!oldEpisode) {
+      this.setupPodcast(false);
+    } else if (!newEpisode) {
+      audioElement.pause();
+    } else if (newEpisode.content != oldEpisode.content) {
       this.setupPodcast(true);
+    }
   }
 
   /**
@@ -75,12 +90,18 @@ export default class PlayerViewModel extends Component<IProps, IState> {
     var currentTime = Math.round(audioElement.currentTime);
     var duration = Math.round(audioElement.duration);
 
-    var info = Listen.fromPodcastEpisode(episode);
-    info.time = currentTime;
-    info.duration = duration;
-    info.isCompleted = currentTime == duration;
+    if (
+      episode &&
+      currentTime > this.lastUpdateTime + UPDATE_FREQUENCY_SECONDS
+    ) {
+      this.lastUpdateTime = currentTime;
+      var info = Listen.fromPodcastEpisode(episode);
+      info.time = currentTime;
+      info.duration = duration;
+      info.isCompleted = currentTime == duration;
 
-    await api.setListenInfo(info);
+      await api.setListenInfo(info);
+    }
   };
 
   /**
@@ -89,7 +110,7 @@ export default class PlayerViewModel extends Component<IProps, IState> {
   private setMediaMetadata = async () => {
     const { episode } = this.props;
 
-    if ("mediaSession" in navigator) {
+    if ("mediaSession" in navigator && episode) {
       // @ts-ignore
       navigator.mediaSession.metadata = new MediaMetadata({
         title: episode.title,
@@ -115,13 +136,15 @@ export default class PlayerViewModel extends Component<IProps, IState> {
     const { audioElement } = this.state;
     const { episode } = this.props;
 
-    audioElement.src = episode.content;
+    if (episode) {
+      audioElement.src = episode.content;
 
-    audioElement.onloadeddata = this.onLoadedData;
-    audioElement.load();
+      audioElement.onloadeddata = this.onLoadedData;
+      audioElement.load();
 
-    if (autoplay) audioElement.play().then(this.setMediaMetadata);
-    this.setState({ isPaused: !autoplay });
+      if (autoplay) audioElement.play().then(this.setMediaMetadata);
+      this.setState({ isPaused: !autoplay });
+    }
   };
 
   /**
@@ -131,7 +154,7 @@ export default class PlayerViewModel extends Component<IProps, IState> {
     const { audioElement } = this.state;
     const { episode } = this.props;
 
-    if (episode.time) {
+    if (episode && episode.time) {
       this.setState({ progress: audioElement.currentTime = episode.time });
     }
     this.setState({ duration: audioElement.duration });
@@ -198,6 +221,10 @@ export default class PlayerViewModel extends Component<IProps, IState> {
    */
   private onProgressChanged = () => {
     const { audioElement } = this.state;
+
+    if (audioElement.currentTime < this.lastUpdateTime) {
+      this.lastUpdateTime = audioElement.currentTime;
+    }
 
     this.setState({ progress: audioElement.currentTime });
     this.setListenInfo();

@@ -11,6 +11,7 @@ interface IProps extends RouteComponentProps {
   api: DataManager;
   feedUrl: string;
   isMobile: boolean;
+  isAuthenticated: boolean;
   currentEpisode: PodcastEpisode | null;
   onEpisodeSelected: (episode: PodcastEpisode | null) => void;
 }
@@ -43,7 +44,7 @@ class DetailViewModel extends Component<IProps, IState> {
    * Called when the user's auth token has been updated, updating the feed.
    */
   componentDidUpdate(prevProps: IProps) {
-    if (prevProps.api.accessToken !== prevProps.api.accessToken) {
+    if (prevProps.isAuthenticated != this.props.isAuthenticated) {
       this.getFeed();
     }
   }
@@ -82,14 +83,18 @@ class DetailViewModel extends Component<IProps, IState> {
    */
   private onListenStatusChanged = async (episode: PodcastEpisode) => {
     const { feed } = this.state;
-    const { api } = this.props;
+    const { api, currentEpisode, onEpisodeSelected } = this.props;
 
     await api.setListenInfo(Listen.fromPodcastEpisode(episode));
+
     if (feed) {
       var index = feed.items.findIndex(e => e.content == episode.content);
       feed.items[index] = episode;
       this.setState({ feed });
     }
+
+    if (currentEpisode && episode.content == currentEpisode.content)
+      onEpisodeSelected(null);
   };
 
   /**

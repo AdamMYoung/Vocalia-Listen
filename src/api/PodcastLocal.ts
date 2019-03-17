@@ -25,11 +25,11 @@ export default class PodcastLocal {
     //Attempts to update the stored feed.
     var feed = await this.getFeed(listenInfo.rssUrl);
     if (feed) {
-      var item = feed.items.find(x => x.content == listenInfo.episodeUrl);
-      if (item) {
-        item.isCompleted = listenInfo.isCompleted;
-        item.time = listenInfo.time;
-        this.setFeed(feed.link, feed);
+      var index = feed.items.findIndex(x => x.content == listenInfo.episodeUrl);
+      if (index) {
+        feed.items[index].isCompleted = listenInfo.isCompleted;
+        feed.items[index].time = listenInfo.time;
+        this.setFeed(listenInfo.rssUrl, feed);
       }
     }
   }

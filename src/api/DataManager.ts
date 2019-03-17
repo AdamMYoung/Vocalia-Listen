@@ -92,6 +92,7 @@ export default class DataManager {
         this.local.setCategoryPodcasts(subs, "subscriptions");
         callback(subs);
 
+        //Parses all subscriptions to store in local memory for quicker access.
         subs.forEach(
           async x => await this.parsePodcastFeed(x.rssUrl, () => {})
         );
@@ -122,11 +123,11 @@ export default class DataManager {
    * @param listen Values to update.
    */
   async setListenInfo(listen: Listen) {
-    if (this.accessToken != null) {
+    this.local.setListenInfo(listen);
+
+    if (this.accessToken) {
       await this.api.setListenInfo(this.accessToken, listen);
     }
-
-    this.local.setListenInfo(listen);
   }
 
   /**
@@ -141,7 +142,6 @@ export default class DataManager {
 
     if (this.accessToken) {
       var listen = await this.api.getListenInfo(this.accessToken, episodeUrl);
-
       if (listen) {
         this.local.setListenInfo(listen);
         callback(listen);

@@ -116,18 +116,12 @@ export default class PodcastAPI {
    * @param accessToken Access token used for API authentication.
    */
   async setListenInfo(accessToken: string, listenInfo: Listen) {
-    var frequency = 3;
-    if (
-      (listenInfo.time != 0 && listenInfo.time % frequency == 0) ||
-      listenInfo.time == listenInfo.duration
-    ) {
-      await this.getInjectedFetch(
-        API + LISTEN,
-        accessToken,
-        "PUT",
-        listenInfo
-      ).catch(() => null);
-    }
+    await this.getInjectedFetch(
+      API + LISTEN,
+      accessToken,
+      "PUT",
+      listenInfo
+    ).catch(() => null);
   }
 
   /**

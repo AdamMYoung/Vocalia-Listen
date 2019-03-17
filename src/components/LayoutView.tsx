@@ -12,6 +12,7 @@ import { PodcastEpisode } from "../models/PodcastEpisode";
 
 interface IProps {
   isMobile: boolean;
+  isAuthenticated: boolean;
   api: DataManager;
   auth: Auth;
   currentEpisode: PodcastEpisode | null;
@@ -62,11 +63,10 @@ export default class LayoutView extends Component<IProps> {
     return (
       <NavigationViewModel {...this.props}>
         {route}
-        {currentEpisode && (
-          <Slide direction={"up"} in={Boolean(currentEpisode)}>
-            <PlayerViewModel episode={currentEpisode} {...this.props} />
-          </Slide>
-        )}
+
+        <Slide direction={"up"} in={Boolean(currentEpisode)}>
+          <PlayerViewModel episode={currentEpisode} {...this.props} />
+        </Slide>
       </NavigationViewModel>
     );
   }

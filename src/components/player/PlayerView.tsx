@@ -8,7 +8,7 @@ import "./PlayerView.css";
 
 interface IProps {
   isMobile: boolean;
-  episode: PodcastEpisode;
+  episode: PodcastEpisode | null;
   volume: number;
   progress: number;
   duration: number;
@@ -27,14 +27,19 @@ export default class PlayerView extends Component<IProps> {
 
     return (
       <Card className="player">
-        <ControlsView imageUrl={episode.imageUrl} {...this.props} />
-        <TitleView
-          duration={duration}
-          title={episode.title}
-          author={episode.author}
-          rssUrl={episode.rssUrl}
-          {...this.props}
-        />
+        {episode && (
+          <React.Fragment>
+            <ControlsView imageUrl={episode.imageUrl} {...this.props} />
+            <TitleView
+              duration={duration}
+              title={episode.title}
+              author={episode.author}
+              rssUrl={episode.rssUrl}
+              {...this.props}
+            />
+          </React.Fragment>
+        )}
+
         {!isMobile && <VolumeView {...this.props} />}
       </Card>
     );

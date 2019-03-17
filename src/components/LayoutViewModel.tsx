@@ -6,6 +6,7 @@ import { PodcastEpisode } from "../models/PodcastEpisode";
 
 interface IProps {
   isMobile: boolean;
+  isAuthenticated: boolean;
   api: DataManager;
   auth: Auth;
   onAuth: () => void;
@@ -35,10 +36,11 @@ export class LayoutViewModel extends Component<IProps, IState> {
    * Gets the latest podcast after auth status changes.
    * @param prevProps Previous props of the component.
    */
-  componentDidUpdate = async (prevProps: IProps) => {
-    if (prevProps.auth.accessToken != this.props.auth.accessToken)
-      await this.getCurrentPodcast();
-  };
+  componentWillReceiveProps(prevProps: IProps) {
+    if (prevProps.isAuthenticated != this.props.isAuthenticated) {
+      this.getCurrentPodcast();
+    }
+  }
 
   /**
    * Called when an episode has been selected.
@@ -55,7 +57,6 @@ export class LayoutViewModel extends Component<IProps, IState> {
    */
   private getCurrentPodcast = async () => {
     const { api } = this.props;
-    console.log("Getting podcst");
 
     await api.getCurrentPodcast(currentEpisode => {
       this.setState({ currentEpisode });

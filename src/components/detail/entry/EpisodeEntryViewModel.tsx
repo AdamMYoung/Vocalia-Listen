@@ -40,16 +40,19 @@ export default class EpisodeEntryViewModel extends Component<IProps, IState> {
   private onListenStatusChanged = () => {
     const { episode, onListenStatusChanged } = this.props;
 
+    console.log("Setting is listened: " + !episode.isCompleted);
+
     episode.isCompleted = !episode.isCompleted;
     episode.time = episode.isCompleted ? episode.duration : 0;
     onListenStatusChanged(episode);
+    this.onMenuClose();
   };
 
   /**
    * Called when the more menu has been opened.
    */
-  private onMenuOpen = (menuTarget: any) => {
-    this.setState({ menuTarget });
+  private onMenuOpen = (event: any) => {
+    this.setState({ menuTarget: event.currentTarget });
   };
 
   /**
