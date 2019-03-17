@@ -1,6 +1,6 @@
 .player {
-  width: "100%";
-  position: "sticky";
+  width: 100%;
+  position: sticky;
   bottom: 0;
   display: flex;
   align-items: center;
@@ -9,7 +9,7 @@
 .player .player-left {
   flex: 0 0 150px;
   display: flex;
-  position: "sticky";
+
   justify-content: center;
   align-items: center;
 }
@@ -17,7 +17,6 @@
 .player-right {
   flex: 0 0 200px;
   display: flex;
-  position: "sticky";
   justify-content: center;
   align-items: center;
   padding: 0 30px;
