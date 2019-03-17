@@ -5,23 +5,22 @@ import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 interface IProps {
   route: string;
   title: string;
-  icon: any | null;
-  onClick: () => void;
+  icon?: any;
+  divider?: boolean;
+  onClick?: () => void;
 }
 
 export default class DrawerElementView extends Component<IProps> {
   public static defaultProps = {
-    icon: null,
-    route: "",
-    onClick: () => {}
+    route: ""
   };
 
   render() {
-    const { route, title, icon, onClick } = this.props;
+    const { route, title, icon, divider, onClick } = this.props;
 
     return (
       <LinkContainer to={route}>
-        <ListItem button>
+        <ListItem button divider={divider}>
           {icon && <ListItemIcon>{icon}</ListItemIcon>}
           <ListItemText primary={title} onClick={onClick} />
         </ListItem>

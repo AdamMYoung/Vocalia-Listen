@@ -9,6 +9,7 @@ import Callback from "../data/auth/Callback";
 import Auth from "../data/auth/Auth";
 import BrowserViewModel from "./browse/BrowserViewModel";
 import { PodcastEpisode } from "../models/PodcastEpisode";
+import OptionsViewModel from "./options/OptionsViewModel";
 
 interface IProps {
   isMobile: boolean;
@@ -17,6 +18,7 @@ interface IProps {
   auth: Auth;
   currentEpisode: PodcastEpisode | null;
   onAuth: () => void;
+  onOptionsChanged: () => void;
   onEpisodeSelected: (episode: PodcastEpisode | null) => void;
 }
 
@@ -52,10 +54,17 @@ export default class LayoutView extends Component<IProps> {
         </Switch>
 
         <Route
-          path="/browse/:id/:rss"
-          render={props => (
-            <DetailViewModel feedUrl={props.match.params.rss} {...this.props} />
-          )}
+          path="/browse/:location/:dialog"
+          render={props =>
+            props.match.params.dialog == "options" ? (
+              <OptionsViewModel {...this.props} />
+            ) : (
+              <DetailViewModel
+                feedUrl={props.match.params.dialog}
+                {...this.props}
+              />
+            )
+          }
         />
       </React.Fragment>
     );
@@ -63,7 +72,6 @@ export default class LayoutView extends Component<IProps> {
     return (
       <NavigationViewModel {...this.props}>
         {route}
-
         <Slide direction={"up"} in={Boolean(currentEpisode)}>
           <PlayerViewModel episode={currentEpisode} {...this.props} />
         </Slide>

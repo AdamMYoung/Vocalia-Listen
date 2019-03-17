@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { drawerWidth } from "../../../utility/constants";
 import DrawerElementView from "./DrawerElementView";
-import { Person, BarChart, Star } from "@material-ui/icons";
+import { Person, BarChart, Star, Settings } from "@material-ui/icons";
 import { Category } from "../../../models/Category";
 
 /**
@@ -82,58 +82,63 @@ class DrawerView extends Component<IProps> {
     } = this.props;
 
     const drawer = (
-      <div>
-        <div className={classes.toolbar}>
-          <List>
+      <div className={classes.toolbar}>
+        <List>
+          <DrawerElementView
+            title={isAuthenticated ? "Sign Out" : "Sign In"}
+            icon={<Person />}
+            onClick={onAuth}
+          />
+        </List>
+        <Divider />
+        <List>
+          <DrawerElementView
+            route="/browse/top"
+            title="Top"
+            onClick={() => setDrawer(false)}
+            icon={<BarChart />}
+          />
+          {isAuthenticated && (
             <DrawerElementView
-              title={isAuthenticated ? "Sign Out" : "Sign In"}
-              icon={<Person />}
-              onClick={onAuth}
-            />
-          </List>
-          <Divider />
-          <List>
-            <DrawerElementView
-              route="/browse/top"
-              title="Top"
+              route="/browse/subscribed"
+              title="Subscribed"
               onClick={() => setDrawer(false)}
-              icon={<BarChart />}
+              icon={<Star />}
             />
-            {isAuthenticated && (
-              <DrawerElementView
-                route="/browse/subscribed"
-                title="Subscribed"
-                onClick={() => setDrawer(false)}
-                icon={<Star />}
-              />
-            )}
-          </List>
-          <Divider />
-
-          {addToHomePrompt != null && (
-            <div>
-              <List>
-                {/* Add To Home Screen */}
-                <DrawerElementView
-                  title="Add to Home Screen"
-                  onClick={onAddToHome}
-                />
-              </List>
-              <Divider />
-            </div>
           )}
+        </List>
+        <Divider />
 
-          <List>
-            {categories.map(category => (
+        {addToHomePrompt != null && (
+          <div>
+            <List>
+              {/* Add To Home Screen */}
               <DrawerElementView
-                key={category.id}
-                route={"/browse/" + category.id}
-                title={category.title}
-                onClick={() => setDrawer(false)}
+                title="Add to Home Screen"
+                onClick={onAddToHome}
               />
-            ))}
-          </List>
-        </div>
+            </List>
+            <Divider />
+          </div>
+        )}
+        <List>
+          {categories.map(category => (
+            <DrawerElementView
+              key={category.id}
+              route={"/browse/" + category.id}
+              title={category.title}
+              onClick={() => setDrawer(false)}
+            />
+          ))}
+        </List>
+        <Divider />
+        <List>
+          <DrawerElementView
+            title="Options"
+            icon={<Settings />}
+            route={window.location.pathname + "/options"}
+          />
+        </List>
       </div>
     );
 

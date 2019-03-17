@@ -5,18 +5,20 @@ import {
   DialogContent,
   List,
   DialogActions,
-  Button
+  Button,
+  Card
 } from "@material-ui/core";
 import OptionsListToggleView from "./elements/OptionsListToggleView";
 
 interface IProps {
   isDarkMode: boolean;
+  onClose: () => void;
   onToggleDarkMode: () => void;
 }
 
 export default class OptionsView extends Component<IProps> {
   render() {
-    const { isDarkMode, onToggleDarkMode } = this.props;
+    const { isDarkMode, onClose, onToggleDarkMode } = this.props;
 
     return (
       <Dialog open={true}>
@@ -31,7 +33,9 @@ export default class OptionsView extends Component<IProps> {
           </List>
         </DialogContent>
         <DialogActions>
-          <Button color="primary">Close</Button>
+          <Button color="primary" onClick={onClose}>
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     );

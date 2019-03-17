@@ -18,7 +18,7 @@ export default class OptionsListToggleView extends Component<IProps> {
     const { text, description, toggleValue, onToggle } = this.props;
 
     return (
-      <ListItem>
+      <ListItem style={{ minWidth: 300 }}>
         <ListItemText primary={text} secondary={description} />
         <ListItemSecondaryAction>
           <Switch onClick={onToggle} checked={toggleValue} />

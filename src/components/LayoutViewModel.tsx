@@ -10,6 +10,7 @@ interface IProps {
   api: DataManager;
   auth: Auth;
   onAuth: () => void;
+  onOptionsChanged: () => void;
 }
 
 interface IState {

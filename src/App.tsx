@@ -4,11 +4,16 @@ import DataManager from "./data/api/DataManager";
 import Auth from "./data/auth/Auth";
 import { LayoutViewModel } from "./components/LayoutViewModel";
 import { RouteComponentProps, withRouter } from "react-router";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { ThemeOptions, Theme } from "@material-ui/core/styles/createMuiTheme";
+import { SettingsManager } from "./data/settings/SettingsManager";
+import { PaletteOptions } from "@material-ui/core/styles/createPalette";
 
 interface IProps extends RouteComponentProps {}
 
 interface IState {
   isMobile: boolean;
+  theme: Theme;
   isAuthenticated: boolean;
   api: DataManager;
   auth: Auth;
@@ -27,7 +32,8 @@ class App extends Component<IProps, IState> {
       isMobile: false,
       isAuthenticated: false,
       auth: new Auth(props, this.onTokenChanged),
-      api: new DataManager()
+      api: new DataManager(),
+      theme: createMuiTheme()
     };
   }
 
@@ -36,6 +42,7 @@ class App extends Component<IProps, IState> {
    */
   componentDidMount() {
     this.onResize();
+    this.onOptionsChanged();
     window.addEventListener("resize", this.onResize);
   }
 
@@ -51,6 +58,19 @@ class App extends Component<IProps, IState> {
    */
   private onResize = () => {
     this.setState({ isMobile: isMobile() });
+  };
+
+  /**
+   * Returns the current theme.
+   */
+  private getTheme = async (): Promise<Theme> => {
+    var options = new SettingsManager();
+
+    return createMuiTheme({
+      palette: {
+        type: (await options.getDarkMode()) ? "dark" : "light"
+      }
+    });
   };
 
   /**
@@ -73,8 +93,25 @@ class App extends Component<IProps, IState> {
     else auth.login();
   };
 
+  /*
+   * Called when the options have changed.
+   */
+  private onOptionsChanged = async () => {
+    this.setState({ theme: await this.getTheme() });
+  };
+
   render() {
-    return <LayoutViewModel onAuth={this.onAuth} {...this.state} />;
+    const { theme } = this.state;
+
+    return (
+      <MuiThemeProvider theme={theme}>
+        <LayoutViewModel
+          onAuth={this.onAuth}
+          onOptionsChanged={this.onOptionsChanged}
+          {...this.state}
+        />
+      </MuiThemeProvider>
+    );
   }
 }
 
