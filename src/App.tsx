@@ -68,7 +68,8 @@ class App extends Component<IProps, IState> {
 
     return createMuiTheme({
       palette: {
-        type: (await options.getDarkMode()) ? "dark" : "light"
+        type: (await options.getDarkMode()) ? "dark" : "light",
+        tonalOffset: 0.2
       }
     });
   };
