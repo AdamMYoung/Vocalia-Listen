@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import DataManager from "../api/DataManager";
+import DataManager from "../data/api/DataManager";
 import NavigationViewModel from "./navigation/NavigationViewModel";
 import PlayerViewModel from "./player/PlayerViewModel";
 import { Slide } from "@material-ui/core";
 import DetailViewModel from "./detail/DetailViewModel";
 import { Route, Switch, Redirect } from "react-router";
-import Callback from "../auth/Callback";
-import Auth from "../auth/Auth";
+import Callback from "../data/auth/Callback";
+import Auth from "../data/auth/Auth";
 import BrowserViewModel from "./browse/BrowserViewModel";
 import { PodcastEpisode } from "../models/PodcastEpisode";
 

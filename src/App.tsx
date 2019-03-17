@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { isMobile } from "./utility/DeviceUtils";
-import DataManager from "./api/DataManager";
-import Auth from "./auth/Auth";
+import DataManager from "./data/api/DataManager";
+import Auth from "./data/auth/Auth";
 import { LayoutViewModel } from "./components/LayoutViewModel";
 import { RouteComponentProps, withRouter } from "react-router";
 

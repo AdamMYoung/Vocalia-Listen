@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DataManager from "../../api/DataManager";
+import DataManager from "../../data/api/DataManager";
 import { Podcast } from "../../models/Podcast";
 import { Listen } from "../../models/Listen";
 import { withRouter, RouteComponentProps } from "react-router";

@@ -1,8 +1,8 @@
-import { Podcast } from "../models/Podcast";
-import { PodcastFeed } from "../models/PodcastFeed";
-import { Listen } from "../models/Listen";
-import { PodcastEpisode } from "../models/PodcastEpisode";
-import { Category } from "../models/Category";
+import { Podcast } from "../../models/Podcast";
+import { PodcastFeed } from "../../models/PodcastFeed";
+import { Listen } from "../../models/Listen";
+import { PodcastEpisode } from "../../models/PodcastEpisode";
+import { Category } from "../../models/Category";
 
 const API = process.env.REACT_APP_PODCAST_API_URL;
 const CATEGORIES = "categories";

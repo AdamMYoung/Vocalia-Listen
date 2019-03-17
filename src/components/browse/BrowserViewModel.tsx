@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import BrowserView from "./BrowserView";
-import DataManager from "../../api/DataManager";
+import DataManager from "../../data/api/DataManager";
 import { Podcast } from "../../models/Podcast";
 
 interface IProps {

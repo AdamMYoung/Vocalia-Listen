@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import DataManager from "../api/DataManager";
+import DataManager from "../data/api/DataManager";
 import LayoutView from "./LayoutView";
-import Auth from "../auth/Auth";
+import Auth from "../data/auth/Auth";
 import { PodcastEpisode } from "../models/PodcastEpisode";
 
 interface IProps {
