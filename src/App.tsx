@@ -13,7 +13,6 @@ interface IProps extends RouteComponentProps {}
 
 interface IState {
   isMobile: boolean;
-  theme: Theme;
   isAuthenticated: boolean;
   api: DataManager;
   auth: Auth;
@@ -32,8 +31,7 @@ class App extends Component<IProps, IState> {
       isMobile: false,
       isAuthenticated: false,
       auth: new Auth(props, this.onTokenChanged),
-      api: new DataManager(),
-      theme: createMuiTheme()
+      api: new DataManager()
     };
   }
 
@@ -42,7 +40,6 @@ class App extends Component<IProps, IState> {
    */
   componentDidMount() {
     this.onResize();
-    this.onOptionsChanged();
     window.addEventListener("resize", this.onResize);
   }
 
@@ -58,19 +55,6 @@ class App extends Component<IProps, IState> {
    */
   private onResize = () => {
     this.setState({ isMobile: isMobile() });
-  };
-
-  /**
-   * Returns the current theme.
-   */
-  private getTheme = async (): Promise<Theme> => {
-    var options = new SettingsManager();
-
-    return createMuiTheme({
-      palette: {
-        type: (await options.getDarkMode()) ? "dark" : "light"
-      }
-    });
   };
 
   /**
@@ -93,25 +77,8 @@ class App extends Component<IProps, IState> {
     else auth.login();
   };
 
-  /*
-   * Called when the options have changed.
-   */
-  private onOptionsChanged = async () => {
-    this.setState({ theme: await this.getTheme() });
-  };
-
   render() {
-    const { theme } = this.state;
-
-    return (
-      <MuiThemeProvider theme={theme}>
-        <LayoutViewModel
-          onAuth={this.onAuth}
-          onOptionsChanged={this.onOptionsChanged}
-          {...this.state}
-        />
-      </MuiThemeProvider>
-    );
+    return <LayoutViewModel onAuth={this.onAuth} {...this.state} />;
   }
 }
 
