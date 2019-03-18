@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import BrowserView from "./BrowserView";
-import DataManager from "../../api/DataManager";
+import DataManager from "../../data/api/DataManager";
 import { Podcast } from "../../models/Podcast";
 
 interface IProps {
@@ -19,6 +19,9 @@ export default class BrowserViewModel extends Component<IProps, IState> {
     this.state = { podcasts: null };
   }
 
+  /**
+   * Loads the podcasts belonging to the current category.
+   */
   componentWillMount() {
     this.loadPodcasts();
   }
@@ -47,6 +50,7 @@ export default class BrowserViewModel extends Component<IProps, IState> {
       //Subscriptions
       await api.getSubscriptions(this.onPodcastsLoaded);
     } else if (!isNaN(categoryId)) {
+      //Genre
       await api.getPodcastByCategory(categoryId, this.onPodcastsLoaded);
     }
   };

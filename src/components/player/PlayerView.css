@@ -49,25 +49,6 @@
   padding-right: 10px;
 }
 
-.time-text {
-  font-weight: 600;
-  -webkit-font-feature-settings: "tnum" 1;
-  font-feature-settings: "tnum" 1;
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.seek-bar .current-time {
-  float: left;
-  left: 0;
-  padding-bottom: 6px;
-}
-
-.seek-bar .time-remaining {
-  float: right;
-  right: 0;
-}
-
 .podcast .podcast-title {
   font-size: 12px;
 }

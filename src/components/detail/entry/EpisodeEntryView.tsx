@@ -90,7 +90,7 @@ export default class EpisodeEntryView extends Component<IProps> {
     );
 
     return (
-      <ListItem>
+      <ListItem divider>
         <IconButton style={styles.button} onClick={this.onEpisodeSelect}>
           {!episode.isCompleted && icon}
         </IconButton>

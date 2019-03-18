@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DataManager from "../../api/DataManager";
+import DataManager from "../../data/api/DataManager";
 import { Listen } from "../../models/Listen";
 import PlayerView from "./PlayerView";
 import { PodcastEpisode } from "../../models/PodcastEpisode";

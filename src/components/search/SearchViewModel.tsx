@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DataManager from "../../api/DataManager";
+import DataManager from "../../data/api/DataManager";
 import SearchView from "./SearchView";
 import { Podcast } from "../../models/Podcast";
 

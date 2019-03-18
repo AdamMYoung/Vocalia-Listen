@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DataManager from "../../api/DataManager";
+import DataManager from "../../data/api/DataManager";
 import NavigationView from "./NavigationView";
 import SearchViewModel from "../search/SearchViewModel";
 import { Category } from "../../models/Category";
