@@ -156,8 +156,9 @@ export default class PlayerViewModel extends Component<IProps, IState> {
 
     if (episode) {
       await api.getListenInfo(episode.content, info => {
-        if (info)
+        if (info && info.time)
           this.setState({ progress: audioElement.currentTime = info.time });
+        else this.setState({ progress: audioElement.currentTime = 0 });
       });
     }
 

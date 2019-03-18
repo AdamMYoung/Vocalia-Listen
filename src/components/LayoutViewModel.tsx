@@ -5,6 +5,7 @@ import Auth from "../data/auth/Auth";
 import { PodcastEpisode } from "../models/PodcastEpisode";
 import { Theme, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import { SettingsManager } from "../data/settings/SettingsManager";
+import { blue, lightBlue, orange } from "@material-ui/core/colors";
 
 interface IProps {
   isMobile: boolean;
@@ -25,7 +26,11 @@ export class LayoutViewModel extends Component<IProps, IState> {
 
     this.state = {
       currentEpisode: null,
-      theme: createMuiTheme()
+      theme: createMuiTheme({
+        typography: {
+          useNextVariants: true
+        }
+      })
     };
   }
 
@@ -79,6 +84,9 @@ export class LayoutViewModel extends Component<IProps, IState> {
     var options = new SettingsManager();
 
     return createMuiTheme({
+      typography: {
+        useNextVariants: true
+      },
       palette: {
         type: (await options.getDarkMode()) ? "dark" : "light"
       }
