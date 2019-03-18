@@ -13,7 +13,6 @@ import OptionsViewModel from "./options/OptionsViewModel";
 
 interface IProps {
   isMobile: boolean;
-  isAuthenticated: boolean;
   api: DataManager;
   auth: Auth;
   currentEpisode: PodcastEpisode | null;
@@ -60,6 +59,7 @@ export default class LayoutView extends Component<IProps> {
               <OptionsViewModel {...this.props} />
             ) : (
               <DetailViewModel
+                isAuthenticated={auth.isAuthenticated()}
                 feedUrl={props.match.params.dialog}
                 {...this.props}
               />
@@ -73,7 +73,11 @@ export default class LayoutView extends Component<IProps> {
       <NavigationViewModel {...this.props}>
         {route}
         <Slide direction={"up"} in={Boolean(currentEpisode)}>
-          <PlayerViewModel episode={currentEpisode} {...this.props} />
+          <PlayerViewModel
+            isAuthenticated={auth.isAuthenticated()}
+            episode={currentEpisode}
+            {...this.props}
+          />
         </Slide>
       </NavigationViewModel>
     );

@@ -4,16 +4,11 @@ import DataManager from "./data/api/DataManager";
 import Auth from "./data/auth/Auth";
 import { LayoutViewModel } from "./components/LayoutViewModel";
 import { RouteComponentProps, withRouter } from "react-router";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
-import { ThemeOptions, Theme } from "@material-ui/core/styles/createMuiTheme";
-import { SettingsManager } from "./data/settings/SettingsManager";
-import { PaletteOptions } from "@material-ui/core/styles/createPalette";
 
 interface IProps extends RouteComponentProps {}
 
 interface IState {
   isMobile: boolean;
-  isAuthenticated: boolean;
   api: DataManager;
   auth: Auth;
 }
@@ -29,7 +24,6 @@ class App extends Component<IProps, IState> {
 
     this.state = {
       isMobile: false,
-      isAuthenticated: false,
       auth: new Auth(props, this.onTokenChanged),
       api: new DataManager()
     };
@@ -63,8 +57,6 @@ class App extends Component<IProps, IState> {
   private onTokenChanged = (token: string | null) => {
     const { api } = this.state;
     api.accessToken = token;
-
-    this.setState({ api, isAuthenticated: Boolean(token) });
   };
 
   /**

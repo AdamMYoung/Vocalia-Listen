@@ -5,11 +5,9 @@ import Auth from "../data/auth/Auth";
 import { PodcastEpisode } from "../models/PodcastEpisode";
 import { Theme, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import { SettingsManager } from "../data/settings/SettingsManager";
-import { blue, lightBlue, orange } from "@material-ui/core/colors";
 
 interface IProps {
   isMobile: boolean;
-  isAuthenticated: boolean;
   api: DataManager;
   auth: Auth;
   onAuth: () => void;
@@ -44,7 +42,7 @@ export class LayoutViewModel extends Component<IProps, IState> {
    * @param prevProps Previous props of the component.
    */
   componentWillReceiveProps(prevProps: IProps) {
-    if (prevProps.isAuthenticated != this.props.isAuthenticated) {
+    if (prevProps.auth.isAuthenticated() != this.props.auth.isAuthenticated()) {
       this.getCurrentPodcast();
     }
   }
