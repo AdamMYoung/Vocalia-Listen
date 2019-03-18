@@ -22,6 +22,7 @@ export default class PodcastLocal {
     let key = listenInfo.episodeUrl + LISTEN_INFO;
     await set(key, listenInfo);
     await this.updateFeed(listenInfo);
+    await this.updateLocalPodcast(listenInfo);
   }
 
   /**
@@ -40,6 +41,19 @@ export default class PodcastLocal {
       feed.items[index] = item;
 
       await this.setFeed(listenInfo.rssUrl, feed);
+    }
+  }
+
+  /**
+   * Updates the locally stored podcast with new time information.
+   * @param listenInfo Listen info to update
+   */
+  private async updateLocalPodcast(listenInfo: Listen) {
+    var podcast = await this.getCurrentPodcast();
+    if (podcast) {
+      podcast.time = listenInfo.time;
+      podcast.isCompleted = listenInfo.isCompleted;
+      podcast.duration = listenInfo.duration;
     }
   }
 
