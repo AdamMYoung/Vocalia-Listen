@@ -3,6 +3,8 @@ import DataManager from "../data/api/DataManager";
 import LayoutView from "./LayoutView";
 import Auth from "../data/auth/Auth";
 import { PodcastEpisode } from "../models/PodcastEpisode";
+import { Theme, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { SettingsManager } from "../data/settings/SettingsManager";
 
 interface IProps {
   isMobile: boolean;
@@ -10,11 +12,11 @@ interface IProps {
   api: DataManager;
   auth: Auth;
   onAuth: () => void;
-  onOptionsChanged: () => void;
 }
 
 interface IState {
   currentEpisode: PodcastEpisode | null;
+  theme: Theme;
 }
 
 export class LayoutViewModel extends Component<IProps, IState> {
@@ -22,14 +24,13 @@ export class LayoutViewModel extends Component<IProps, IState> {
     super(props);
 
     this.state = {
-      currentEpisode: null
+      currentEpisode: null,
+      theme: createMuiTheme()
     };
   }
 
-  /**
-   * Loads the latest podcast if available.
-   */
-  componentDidMount() {
+  componentWillMount() {
+    this.onOptionsChanged();
     this.getCurrentPodcast();
   }
 
@@ -64,13 +65,38 @@ export class LayoutViewModel extends Component<IProps, IState> {
     });
   };
 
+  /*
+   * Called when the options have changed.
+   */
+  private onOptionsChanged = async () => {
+    this.setState({ theme: await this.getTheme() });
+  };
+
+  /**
+   * Returns the current theme.
+   */
+  private getTheme = async (): Promise<Theme> => {
+    var options = new SettingsManager();
+
+    return createMuiTheme({
+      palette: {
+        type: (await options.getDarkMode()) ? "dark" : "light"
+      }
+    });
+  };
+
   render() {
+    const { theme } = this.state;
+
     return (
-      <LayoutView
-        onEpisodeSelected={this.onEpisodeSelected}
-        {...this.props}
-        {...this.state}
-      />
+      <MuiThemeProvider theme={theme}>
+        <LayoutView
+          onEpisodeSelected={this.onEpisodeSelected}
+          onOptionsChanged={this.onOptionsChanged}
+          {...this.props}
+          {...this.state}
+        />
+      </MuiThemeProvider>
     );
   }
 }
