@@ -1,3 +1,5 @@
+import { Listen } from "./Listen";
+
 export class PodcastEpisode {
   imageUrl: string;
   title: string;

@@ -150,13 +150,17 @@ export default class PlayerViewModel extends Component<IProps, IState> {
   /**
    * Sets the start position of the media player.
    */
-  private onLoadedData = () => {
+  private onLoadedData = async () => {
     const { audioElement } = this.state;
-    const { episode } = this.props;
+    const { episode, api } = this.props;
 
-    if (episode && episode.time) {
-      this.setState({ progress: audioElement.currentTime = episode.time });
+    if (episode) {
+      await api.getListenInfo(episode.content, info => {
+        if (info)
+          this.setState({ progress: audioElement.currentTime = info.time });
+      });
     }
+
     this.setState({ duration: audioElement.duration });
   };
 

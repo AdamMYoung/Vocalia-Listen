@@ -21,16 +21,25 @@ export default class PodcastLocal {
   async setListenInfo(listenInfo: Listen) {
     let key = listenInfo.episodeUrl + LISTEN_INFO;
     await set(key, listenInfo);
+    await this.updateFeed(listenInfo);
+  }
 
-    //Attempts to update the stored feed.
+  /**
+   *  Updates the info's feed with the new information.
+   * @param listenInfo Listen info to update.
+   */
+  private async updateFeed(listenInfo: Listen) {
     var feed = await this.getFeed(listenInfo.rssUrl);
     if (feed) {
-      var index = feed.items.findIndex(x => x.content == listenInfo.episodeUrl);
-      if (index) {
-        feed.items[index].isCompleted = listenInfo.isCompleted;
-        feed.items[index].time = listenInfo.time;
-        this.setFeed(listenInfo.rssUrl, feed);
-      }
+      var index = feed.items.findIndex(c => c.content == listenInfo.episodeUrl);
+
+      var item = feed.items[index];
+      item.time = listenInfo.time;
+      item.isCompleted = listenInfo.isCompleted;
+      item.duration = listenInfo.duration;
+      feed.items[index] = item;
+
+      await this.setFeed(listenInfo.rssUrl, feed);
     }
   }
 
