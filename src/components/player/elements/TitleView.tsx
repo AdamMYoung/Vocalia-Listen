@@ -57,7 +57,13 @@ export default class TitleView extends Component<IProps> {
 
     const seek = (
       <div className="seek-bar">
-        <Slider min={0} max={duration} value={progress} onChange={onSeek} />
+        <Slider
+          className="seek"
+          min={0}
+          max={duration}
+          value={progress}
+          onChange={onSeek}
+        />
         <Typography style={{ fontSize: 12, float: "left", left: 0 }}>
           {formatTime(progress)}
         </Typography>
