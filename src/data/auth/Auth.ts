@@ -2,12 +2,12 @@ import auth0 from "auth0-js";
 import { RouteComponentProps } from "react-router";
 
 export default class Auth {
-  accessToken: string | null = null;
-  idToken: string | null = null;
-  expiresAt: number | null = null;
-  tokenRenewalTimeout: NodeJS.Timeout | null = null;
-  routeProps: RouteComponentProps;
-  onTokenChanged: (token: string | null) => void;
+  private accessToken: string | null = null;
+  private idToken: string | null = null;
+  private expiresAt: number | null = null;
+  private tokenRenewalTimeout: NodeJS.Timeout | null = null;
+  private routeProps: RouteComponentProps;
+  private onTokenChanged: (token: string | null) => void;
 
   constructor(
     routeProps: RouteComponentProps,
@@ -65,7 +65,7 @@ export default class Auth {
   /**
    * Sets the session information from the decoded hash.
    */
-  setSession = (authResult: auth0.Auth0DecodedHash) => {
+  private setSession = (authResult: auth0.Auth0DecodedHash) => {
     // Set the time that the access token will expire at
     let expiresAt =
       (authResult.expiresIn as number) * 1000 + new Date().getTime();
@@ -104,7 +104,7 @@ export default class Auth {
   /**
    * Schedules a renewal for every 15 minutes to renew the access token.
    */
-  scheduleRenewal() {
+  private scheduleRenewal() {
     let expiresAt = this.expiresAt;
     if (expiresAt != null) {
       const timeout = expiresAt - Date.now();
@@ -119,7 +119,7 @@ export default class Auth {
   /**
    * Clears the current signed in information.
    */
-  clearSignIn = () => {
+  private clearSignIn = () => {
     // Remove tokens and expiry time
     this.accessToken = null;
     this.idToken = null;

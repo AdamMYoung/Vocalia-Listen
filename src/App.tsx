@@ -89,7 +89,7 @@ class App extends Component<IProps, IState> {
   private onAuth = () => {
     const { auth } = this.state;
 
-    if (auth.accessToken) auth.logout();
+    if (auth.getAccessToken()) auth.logout();
     else auth.login();
   };
 
