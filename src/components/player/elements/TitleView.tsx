@@ -64,11 +64,15 @@ export default class TitleView extends Component<IProps> {
           value={progress}
           onChange={onSeek}
         />
-        <Typography style={{ fontSize: 12, float: "left", left: 0 }}>
+        <Typography
+          style={{ fontSize: 12, float: "left", left: 0, marginTop: 5 }}
+        >
           {formatTime(progress)}
         </Typography>
 
-        <Typography style={{ fontSize: 12, float: "right", right: 0 }}>
+        <Typography
+          style={{ fontSize: 12, float: "right", right: 0, marginTop: 5 }}
+        >
           {formatTime(isNaN(duration) ? 0 : duration)}
         </Typography>
       </div>
