@@ -63,8 +63,8 @@ interface IProps extends WithStyles<typeof drawerStyles> {
   drawerOpen: boolean;
   addToHomePrompt: any;
   onAuth: () => void;
-  setDrawer: (open: boolean) => void;
   onAddToHome: () => void;
+  setDrawer: (open: boolean) => void;
 }
 
 class DrawerView extends Component<IProps> {
