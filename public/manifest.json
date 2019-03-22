@@ -1,6 +1,6 @@
 {
-  "short_name": "Vocalia Listen",
-  "name": "Vocalia | Listen",
+  "short_name": "Listen",
+  "name": "Vocalia Listen",
   "icons": [
     {
       "src": "https://vocalia.blob.core.windows.net/static-content/assets/Listen.png",
