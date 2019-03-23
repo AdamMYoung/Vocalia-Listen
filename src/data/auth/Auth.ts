@@ -36,6 +36,7 @@ export default class Auth {
    * Parses the JWT from the current URL.
    */
   handleAuthentication = () => {
+    localStorage.removeItem("path");
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
@@ -76,7 +77,8 @@ export default class Auth {
     this.onTokenChanged(this.accessToken);
     this.scheduleRenewal();
 
-    this.routeProps.history.replace("/browse/top");
+    var path = localStorage.get("path");
+    this.routeProps.history.replace(path ? path : "/browse/top");
   };
 
   /**
