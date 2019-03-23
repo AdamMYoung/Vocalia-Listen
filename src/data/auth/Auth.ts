@@ -76,9 +76,7 @@ export default class Auth {
     this.onTokenChanged(this.accessToken);
     this.scheduleRenewal();
 
-    // navigate to the home route
-    var path = localStorage.getItem("path");
-    this.routeProps.history.replace(path != null ? path : "/browse/top");
+    this.routeProps.history.replace("/browse/top");
   };
 
   /**
