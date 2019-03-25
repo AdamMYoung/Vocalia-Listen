@@ -134,12 +134,13 @@ export default class PlayerViewModel extends Component<IProps, IState> {
    */
   private setupPodcast = (autoplay: boolean) => {
     const { audioElement } = this.state;
-    const { episode } = this.props;
+    const { episode, isMobile } = this.props;
 
     if (episode) {
       audioElement.src = episode.content;
 
       audioElement.onloadeddata = this.onLoadedData;
+      audioElement.volume = isMobile ? 1 : 0.3;
       audioElement.load();
 
       if (autoplay) audioElement.play().then(this.setMediaMetadata);
