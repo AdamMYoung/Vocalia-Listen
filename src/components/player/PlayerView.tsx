@@ -25,23 +25,23 @@ export default class PlayerView extends Component<IProps> {
   render() {
     const { episode, isMobile, duration } = this.props;
 
-    return (
+    return episode ? (
       <Card className="player">
-        {episode && (
-          <React.Fragment>
-            <ControlsView imageUrl={episode.imageUrl} {...this.props} />
-            <TitleView
-              duration={duration}
-              title={episode.title}
-              author={episode.author}
-              rssUrl={episode.rssUrl}
-              {...this.props}
-            />
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          <ControlsView imageUrl={episode.imageUrl} {...this.props} />
+          <TitleView
+            duration={duration}
+            title={episode.title}
+            author={episode.author}
+            rssUrl={episode.rssUrl}
+            {...this.props}
+          />
+        </React.Fragment>
 
         {!isMobile && <VolumeView {...this.props} />}
       </Card>
+    ) : (
+      <div />
     );
   }
 }

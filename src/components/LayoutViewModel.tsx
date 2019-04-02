@@ -8,6 +8,7 @@ import { SettingsManager } from "../data/settings/SettingsManager";
 
 interface IProps {
   isMobile: boolean;
+  isAuthenticated: boolean;
   api: DataManager;
   auth: Auth;
   onAuth: () => void;
@@ -37,12 +38,8 @@ export class LayoutViewModel extends Component<IProps, IState> {
     this.getCurrentPodcast();
   }
 
-  /**
-   * Gets the latest podcast after auth status changes.
-   * @param prevProps Previous props of the component.
-   */
-  componentWillReceiveProps(prevProps: IProps) {
-    if (prevProps.auth.isAuthenticated() != this.props.auth.isAuthenticated()) {
+  componentDidUpdate(prevProps: IProps) {
+    if (prevProps.isAuthenticated != this.props.isAuthenticated) {
       this.getCurrentPodcast();
     }
   }
