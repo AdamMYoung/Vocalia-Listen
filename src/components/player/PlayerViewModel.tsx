@@ -119,9 +119,9 @@ export default class PlayerViewModel extends Component<IProps, IState> {
       });
 
       // @ts-ignore
-      navigator.mediaSession.setActionHandler("play", this.onTogglePause);
+      navigator.mediaSession.setActionHandler("play", this.onTogglePlaying);
       // @ts-ignore
-      navigator.mediaSession.setActionHandler("pause", this.onTogglePause);
+      navigator.mediaSession.setActionHandler("pause", this.onTogglePlaying);
       // @ts-ignore
       navigator.mediaSession.setActionHandler("previoustrack", this.onRewind);
       // @ts-ignore
