@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import EpisodeEntryView from "./EpisodeEntryView";
 import moment from "moment";
 import { PodcastEpisode } from "../../../models/PodcastEpisode";
+import EpisodeInfoDialog from "../EpisodeInfoDialog";
 
 interface IProps {
   episode: PodcastEpisode;
@@ -12,7 +13,8 @@ interface IProps {
 }
 
 interface IState {
-  menuTarget: any;
+  menuElement: any;
+  infoDialogOpen: boolean;
 }
 
 export default class EpisodeEntryViewModel extends Component<IProps, IState> {
@@ -20,7 +22,8 @@ export default class EpisodeEntryViewModel extends Component<IProps, IState> {
     super(props);
 
     this.state = {
-      menuTarget: null
+      menuElement: null,
+      infoDialogOpen: false
     };
   }
 
@@ -52,14 +55,28 @@ export default class EpisodeEntryViewModel extends Component<IProps, IState> {
    * Called when the more menu has been opened.
    */
   private onMenuOpen = (event: any) => {
-    this.setState({ menuTarget: event.currentTarget });
+    this.setState({ menuElement: event.currentTarget });
   };
 
   /**
    * Called when the more menu has been closed
    */
   private onMenuClose = () => {
-    this.setState({ menuTarget: null });
+    this.setState({ menuElement: null });
+  };
+
+  /**
+   * Called when the info pane is opened.
+   */
+  private onOpenInfo = () => {
+    this.setState({ infoDialogOpen: true });
+  };
+
+  /**
+   * Called when the info pane is closed.
+   */
+  private onCloseInfo = () => {
+    this.setState({ infoDialogOpen: false });
   };
 
   /**
@@ -98,22 +115,26 @@ export default class EpisodeEntryViewModel extends Component<IProps, IState> {
   };
 
   render() {
-    const { episode, currentEpisode, onSubscribe } = this.props;
-    const { menuTarget } = this.state;
+    const { infoDialogOpen } = this.state;
 
     return (
-      <EpisodeEntryView
-        episode={episode}
-        description={this.getDescriptionText()}
-        releaseDate={this.getReleaseDateText()}
-        menuElement={menuTarget}
-        currentEpisode={currentEpisode}
-        onSelect={this.onSelectedEpisode}
-        onSubscribe={onSubscribe}
-        onListenStatusChanged={this.onListenStatusChanged}
-        onMenuOpen={this.onMenuOpen}
-        onMenuClose={this.onMenuClose}
-      />
+      <div>
+        <EpisodeEntryView
+          {...this.props}
+          {...this.state}
+          description={this.getDescriptionText()}
+          releaseDate={this.getReleaseDateText()}
+          onSelect={this.onSelectedEpisode}
+          onListenStatusChanged={this.onListenStatusChanged}
+          onMenuOpen={this.onMenuOpen}
+          onMenuClose={this.onMenuClose}
+          onOpenInfo={this.onOpenInfo}
+        />
+
+        {infoDialogOpen && (
+          <EpisodeInfoDialog {...this.props} onClose={this.onCloseInfo} />
+        )}
+      </div>
     );
   }
 }

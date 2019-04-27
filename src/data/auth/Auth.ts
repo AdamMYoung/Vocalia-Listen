@@ -21,7 +21,7 @@ export default class Auth {
   }
 
   /**
-   * Object to be used for service
+   * Object to be used for service.
    */
   auth0 = new auth0.WebAuth({
     domain: "vocalia.eu.auth0.com",

@@ -25,9 +25,11 @@ interface IProps {
   description: string;
   releaseDate: string;
   menuElement: any;
+
   onSelect: () => void;
   onSubscribe: () => void;
   onMenuOpen: (element: any) => void;
+  onOpenInfo: () => void;
   onMenuClose: () => void;
   onListenStatusChanged: () => void;
 }
@@ -52,6 +54,7 @@ export default class EpisodeEntryView extends Component<IProps> {
       menuElement,
       onMenuOpen,
       onMenuClose,
+      onOpenInfo,
       onListenStatusChanged
     } = this.props;
 
@@ -85,6 +88,7 @@ export default class EpisodeEntryView extends Component<IProps> {
         anchorEl={menuElement}
         onClose={onMenuClose}
       >
+        <MenuItem onClick={onOpenInfo}>Info</MenuItem>
         <MenuItem onClick={onListenStatusChanged}>{menuText}</MenuItem>
       </Menu>
     );

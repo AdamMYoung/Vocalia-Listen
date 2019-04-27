@@ -78,12 +78,21 @@ export class LayoutViewModel extends Component<IProps, IState> {
   private getTheme = async (): Promise<Theme> => {
     var options = new SettingsManager();
 
+    var isDarkMode = await options.getDarkMode();
+
     return createMuiTheme({
       typography: {
         useNextVariants: true
       },
       palette: {
-        type: (await options.getDarkMode()) ? "dark" : "light"
+        type: isDarkMode ? "dark" : "light"
+      },
+      overrides: {
+        MuiButton: {
+          root: {
+            color: isDarkMode ? "white" : "black"
+          }
+        }
       }
     });
   };

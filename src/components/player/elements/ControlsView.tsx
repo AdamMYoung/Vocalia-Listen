@@ -39,7 +39,7 @@ export default class ControlsView extends Component<IProps> {
           <Replay10 />
         </IconButton>
 
-        <Fab size={fabSize} color="primary" onClick={onTogglePlaying}>
+        <Fab size={fabSize} onClick={onTogglePlaying}>
           {isPaused ? <PlayArrow /> : <Pause />}
         </Fab>
 

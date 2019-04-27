@@ -59,9 +59,7 @@ export default class DetailView extends Component<IProps> {
 
     //Button to load more episodes into view.
     const loadMoreButton = feed && visibleEpisodeCount < feed.items.length && (
-      <Button onClick={onLoadMoreEpisodes} color="primary">
-        Load More...
-      </Button>
+      <Button onClick={onLoadMoreEpisodes}>Load More...</Button>
     );
 
     //Heading of the detail view.
@@ -77,7 +75,7 @@ export default class DetailView extends Component<IProps> {
           <div style={{ display: "inline", paddingLeft: 15 }}>
             <h2>{feed.title}</h2>
             <p style={{ overflow: "auto", maxHeight: 200 }}>
-              {removeTags(feed.description)}
+              <div dangerouslySetInnerHTML={{ __html: feed.description }} />
             </p>
           </div>
         </div>
@@ -87,11 +85,14 @@ export default class DetailView extends Component<IProps> {
     //List of episodes belonging to the feed.
     const episodeList = feed && (
       <React.Fragment>
-        <EpisodeListView
-          title="In Progress"
-          episodes={feed.items.filter(c => c.time > 0 && !c.isCompleted)}
-          {...this.props}
-        />
+        {feed.items.filter(c => c.time > 0 && !c.isCompleted).length > 0 && (
+          <EpisodeListView
+            title="In Progress"
+            episodes={feed.items.filter(c => c.time > 0 && !c.isCompleted)}
+            {...this.props}
+          />
+        )}
+
         <EpisodeListView
           title="Episodes"
           episodes={feed.items
@@ -119,9 +120,7 @@ export default class DetailView extends Component<IProps> {
             {loadMoreButton}
           </DialogContent>
           <DialogActions>
-            <Button onClick={onClose} color="primary">
-              Close
-            </Button>
+            <Button onClick={onClose}>Close</Button>
           </DialogActions>
         </Dialog>
       </Dialog>
