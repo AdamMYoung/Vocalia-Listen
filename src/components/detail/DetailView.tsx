@@ -6,7 +6,8 @@ import {
   Typography,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  Grid
 } from "@material-ui/core";
 import { removeTags } from "../../utility/FormatUtils";
 import EpisodeListView from "./list/EpisodeListView";
@@ -64,22 +65,37 @@ export default class DetailView extends Component<IProps> {
 
     //Heading of the detail view.
     const heading = feed && (
-      <Typography component={"span"}>
-        <div style={{ display: "flex", maxHeight: 250 }}>
+      <Grid container>
+        <Grid item xs={3} md={2}>
           <Fade in={isImageLoaded}>
-            <div style={{ height: 80, width: 80, paddingTop: 16 }}>
+            <div style={{ height: 80, width: 80 }}>
               <img src={feed.imageUrl} onLoad={onImageLoad} />
             </div>
           </Fade>
-
-          <div style={{ display: "inline", paddingLeft: 15 }}>
-            <h2>{feed.title}</h2>
-            <p style={{ overflow: "auto", maxHeight: 200 }}>
-              <div dangerouslySetInnerHTML={{ __html: feed.description }} />
-            </p>
-          </div>
-        </div>
-      </Typography>
+        </Grid>
+        <Grid item xs={9} md={10}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography
+                variant="h5"
+                style={{
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  fontWeight: "bold"
+                }}
+              >
+                {feed.title}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography style={{ overflow: "auto", maxHeight: 200 }}>
+                <span dangerouslySetInnerHTML={{ __html: feed.description }} />
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     );
 
     //List of episodes belonging to the feed.
