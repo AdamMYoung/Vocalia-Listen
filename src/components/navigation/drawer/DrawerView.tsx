@@ -1,19 +1,19 @@
-import React, { Component } from "react";
 import {
-  Theme,
   createStyles,
-  WithStyles,
-  List,
   Divider,
-  Hidden,
-  SwipeableDrawer,
   Drawer,
+  Hidden,
+  List,
+  SwipeableDrawer,
+  Theme,
+  WithStyles,
   withStyles
 } from "@material-ui/core";
+import { BarChart, Person, Settings, Star } from "@material-ui/icons";
+import React, { Component } from "react";
+import { Category } from "../../../models/Category";
 import { drawerWidth } from "../../../utility/constants";
 import DrawerElementView from "./DrawerElementView";
-import { Person, BarChart, Star, Settings } from "@material-ui/icons";
-import { Category } from "../../../models/Category";
 
 /**
  * CSS styles for the navigation drawer.

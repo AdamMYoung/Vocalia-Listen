@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import DataManager from "../../data/api/DataManager";
-import NavigationView from "./NavigationView";
-import SearchViewModel from "../search/SearchViewModel";
 import { Category } from "../../models/Category";
+import SearchViewModel from "../search/SearchViewModel";
+import NavigationView from "./NavigationView";
 
 interface IProps {
   api: DataManager;

@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import DataManager from "../data/api/DataManager";
-import NavigationViewModel from "./navigation/NavigationViewModel";
-import PlayerViewModel from "./player/PlayerViewModel";
 import { Slide } from "@material-ui/core";
-import DetailViewModel from "./detail/DetailViewModel";
-import { Route, Switch, Redirect } from "react-router";
-import Callback from "../data/auth/Callback";
+import React, { Component } from "react";
+import { Redirect, Route, Switch } from "react-router";
+import DataManager from "../data/api/DataManager";
 import Auth from "../data/auth/Auth";
-import BrowserViewModel from "./browse/BrowserViewModel";
+import Callback from "../data/auth/Callback";
 import { PodcastEpisode } from "../models/PodcastEpisode";
+import BrowserViewModel from "./browse/BrowserViewModel";
+import DetailViewModel from "./detail/DetailViewModel";
+import NavigationViewModel from "./navigation/NavigationViewModel";
 import OptionsViewModel from "./options/OptionsViewModel";
+import PlayerViewModel from "./player/PlayerViewModel";
 
 interface IProps {
   isMobile: boolean;

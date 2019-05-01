@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { LinkContainer } from "react-router-bootstrap";
 import {
   Card,
+  CardActionArea,
+  CardMedia,
   createStyles,
+  Fade,
   Theme,
   withStyles,
-  WithStyles,
-  Fade,
-  CardActionArea,
-  CardMedia
+  WithStyles
 } from "@material-ui/core";
+import React, { Component } from "react";
+import { LinkContainer } from "react-router-bootstrap";
 import { Podcast } from "../../models/Podcast";
 
 const styles = (theme: Theme) =>

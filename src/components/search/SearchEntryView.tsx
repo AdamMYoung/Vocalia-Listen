@@ -1,13 +1,13 @@
-import React, { Component } from "react";
 import {
-  withStyles,
+  createStyles,
   Divider,
   ListItem,
-  Theme,
-  createStyles,
   ListItemText,
+  Theme,
+  withStyles,
   WithStyles
 } from "@material-ui/core";
+import React, { Component } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Podcast } from "../../models/Podcast";
 

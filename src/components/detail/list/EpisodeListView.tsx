@@ -1,8 +1,8 @@
+import { List, Typography } from "@material-ui/core";
 import React, { Component } from "react";
-import "./EpisodeListView.css";
-import { Typography, List } from "@material-ui/core";
-import EpisodeEntryViewModel from "../entry/EpisodeEntryViewModel";
 import { PodcastEpisode } from "../../../models/PodcastEpisode";
+import EpisodeEntryViewModel from "../entry/EpisodeEntryViewModel";
+import "./EpisodeListView.css";
 
 interface IProps {
   title: string;

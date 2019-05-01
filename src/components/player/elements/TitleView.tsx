@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Podcast } from "../../../models/Podcast";
 import { Typography } from "@material-ui/core";
-import { formatTime } from "../../../utility/FormatUtils";
 import Slider from "@material-ui/lab/Slider";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Podcast } from "../../../models/Podcast";
+import { formatTime } from "../../../utility/FormatUtils";
 import "../PlayerView.css";
 
 interface IProps {

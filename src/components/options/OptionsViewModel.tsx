@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import OptionsView from "./OptionsView";
-import { SettingsManager } from "../../data/settings/SettingsManager";
 import { RouteComponentProps, withRouter } from "react-router";
+import { SettingsManager } from "../../data/settings/SettingsManager";
+import OptionsView from "./OptionsView";
 
 interface IProps extends RouteComponentProps {
   onOptionsChanged: () => void;

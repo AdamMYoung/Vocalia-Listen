@@ -1,9 +1,9 @@
-import React, { Component } from "react";
 import { Card } from "@material-ui/core";
+import React, { Component } from "react";
+import { PodcastEpisode } from "../../models/PodcastEpisode";
 import ControlsView from "./elements/ControlsView";
 import TitleView from "./elements/TitleView";
 import VolumeView from "./elements/VolumeView";
-import { PodcastEpisode } from "../../models/PodcastEpisode";
 import "./PlayerView.css";
 
 interface IProps {

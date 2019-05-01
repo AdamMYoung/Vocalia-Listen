@@ -1,18 +1,18 @@
-import React, { Component } from "react";
 import {
-  Theme,
+  Card,
   createStyles,
-  WithStyles,
-  withStyles,
-  InputBase,
   Fade,
+  InputBase,
   List,
-  Card
+  Theme,
+  WithStyles,
+  withStyles
 } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import SearchEntryView from "./SearchEntryView";
 import { Search } from "@material-ui/icons";
+import React, { Component } from "react";
 import { Podcast } from "../../models/Podcast";
+import SearchEntryView from "./SearchEntryView";
 
 /**
  * CSS styles of the top AppBar.

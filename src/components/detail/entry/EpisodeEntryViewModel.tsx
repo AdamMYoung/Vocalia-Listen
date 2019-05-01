@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import EpisodeEntryView from "./EpisodeEntryView";
 import moment from "moment";
+import React, { Component } from "react";
 import { PodcastEpisode } from "../../../models/PodcastEpisode";
 import EpisodeInfoDialog from "../EpisodeInfoDialog";
+import EpisodeEntryView from "./EpisodeEntryView";
 
 interface IProps {
   episode: PodcastEpisode;

@@ -1,6 +1,6 @@
+import { Fab, IconButton } from "@material-ui/core";
+import { Forward30, Pause, PlayArrow, Replay10 } from "@material-ui/icons";
 import React, { Component } from "react";
-import { IconButton, Fab } from "@material-ui/core";
-import { Replay10, Forward30, PlayArrow, Pause } from "@material-ui/icons";
 import "../PlayerView.css";
 
 interface IProps {

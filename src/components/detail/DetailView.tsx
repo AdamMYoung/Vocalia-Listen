@@ -1,18 +1,17 @@
-import React, { Component } from "react";
 import {
-  Dialog,
-  Fade,
   Button,
-  Typography,
-  DialogTitle,
-  DialogContent,
+  Dialog,
   DialogActions,
-  Grid
+  DialogContent,
+  DialogTitle,
+  Fade,
+  Grid,
+  Typography
 } from "@material-ui/core";
-import { removeTags } from "../../utility/FormatUtils";
-import EpisodeListView from "./list/EpisodeListView";
+import React, { Component } from "react";
 import { PodcastEpisode } from "../../models/PodcastEpisode";
 import { PodcastFeed } from "../../models/PodcastFeed";
+import EpisodeListView from "./list/EpisodeListView";
 
 interface IProps {
   isMobile: boolean;
@@ -21,6 +20,7 @@ interface IProps {
   visibleEpisodeCount: number;
   currentEpisode: PodcastEpisode | null;
   feed: PodcastFeed | null;
+
   onClose: () => void;
   onSubscribe: () => void;
   onImageLoad: () => void;

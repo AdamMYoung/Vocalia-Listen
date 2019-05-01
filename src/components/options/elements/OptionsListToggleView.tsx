@@ -1,10 +1,10 @@
-import React, { Component } from "react";
 import {
   ListItem,
-  ListItemText,
   ListItemSecondaryAction,
+  ListItemText,
   Switch
 } from "@material-ui/core";
+import React, { Component } from "react";
 
 interface IProps {
   text: string;

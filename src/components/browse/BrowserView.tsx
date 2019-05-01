@@ -1,7 +1,7 @@
-import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
-import BrowseEntryView from "./BrowserEntryView";
+import React, { Component } from "react";
 import { Podcast } from "../../models/Podcast";
+import BrowseEntryView from "./BrowserEntryView";
 
 interface IProps {
   podcasts: Podcast[] | null;

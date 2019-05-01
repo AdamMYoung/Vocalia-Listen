@@ -1,8 +1,7 @@
-import React, { Component } from "react";
 import { VolumeUp } from "@material-ui/icons";
 import Slider from "@material-ui/lab/Slider";
+import React, { Component } from "react";
 import "../PlayerView.css";
-import { Icon, IconButton } from "@material-ui/core";
 
 interface IProps {
   volume: number;

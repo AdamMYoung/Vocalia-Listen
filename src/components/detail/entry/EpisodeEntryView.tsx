@@ -1,14 +1,14 @@
-import React, { Component } from "react";
 import {
-  ListItem,
   IconButton,
-  Typography,
-  ListItemText,
+  ListItem,
   ListItemSecondaryAction,
+  ListItemText,
   Menu,
-  MenuItem
+  MenuItem,
+  Typography
 } from "@material-ui/core";
-import { PlayArrow, Stop, MoreVert } from "@material-ui/icons";
+import { MoreVert, PlayArrow, Stop } from "@material-ui/icons";
+import React, { Component } from "react";
 import { PodcastEpisode } from "../../../models/PodcastEpisode";
 
 const styles = {

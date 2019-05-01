@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { PodcastEpisode } from "../../models/PodcastEpisode";
 import {
+  Button,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
   DialogContentText,
-  DialogActions,
-  Button
+  DialogTitle
 } from "@material-ui/core";
+import React, { Component } from "react";
+import { PodcastEpisode } from "../../models/PodcastEpisode";
 
 interface IProps {
   episode: PodcastEpisode;

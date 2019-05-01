@@ -1,10 +1,10 @@
+import { Category } from "../../models/Category";
+import { Listen } from "../../models/Listen";
+import { Podcast } from "../../models/Podcast";
+import { PodcastEpisode } from "../../models/PodcastEpisode";
+import { PodcastFeed } from "../../models/PodcastFeed";
 import PodcastAPI from "./PodcastAPI";
 import PodcastLocal from "./PodcastLocal";
-import { Podcast } from "../../models/Podcast";
-import { PodcastFeed } from "../../models/PodcastFeed";
-import { Listen } from "../../models/Listen";
-import { PodcastEpisode } from "../../models/PodcastEpisode";
-import { Category } from "../../models/Category";
 
 export default class DataManager {
   private api: PodcastAPI = new PodcastAPI();

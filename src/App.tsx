@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { isMobile } from "./utility/DeviceUtils";
+import { RouteComponentProps, withRouter } from "react-router";
+import { LayoutViewModel } from "./components/LayoutViewModel";
 import DataManager from "./data/api/DataManager";
 import Auth from "./data/auth/Auth";
-import { LayoutViewModel } from "./components/LayoutViewModel";
-import { RouteComponentProps, withRouter } from "react-router";
+import { isMobile } from "./utility/DeviceUtils";
 
 interface IProps extends RouteComponentProps {}
 

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import React, { Component } from "react";
 import Auth from "./Auth";
 
 interface ICallbackProps {
