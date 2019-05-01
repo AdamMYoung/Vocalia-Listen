@@ -16,6 +16,7 @@ interface IProps {
   api: DataManager;
   auth: Auth;
   currentEpisode: PodcastEpisode | null;
+  isContinuation: boolean;
   onAuth: () => void;
   onOptionsChanged: () => void;
   onEpisodeSelected: (episode: PodcastEpisode | null) => void;

@@ -95,7 +95,11 @@ export default class EpisodeEntryView extends Component<IProps> {
 
     return (
       <ListItem divider>
-        <IconButton style={styles.button} onClick={this.onEpisodeSelect}>
+        <IconButton
+          style={styles.button}
+          onClick={this.onEpisodeSelect}
+          disabled={episode.isCompleted}
+        >
           {!episode.isCompleted && icon}
         </IconButton>
         <ListItemText primary={episodeName} secondary={description} />

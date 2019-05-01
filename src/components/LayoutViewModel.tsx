@@ -16,6 +16,7 @@ interface IProps {
 
 interface IState {
   currentEpisode: PodcastEpisode | null;
+  isContinuation: boolean;
   theme: Theme;
 }
 
@@ -25,6 +26,7 @@ export class LayoutViewModel extends Component<IProps, IState> {
 
     this.state = {
       currentEpisode: null,
+      isContinuation: false,
       theme: createMuiTheme({
         typography: {
           useNextVariants: true
@@ -51,7 +53,7 @@ export class LayoutViewModel extends Component<IProps, IState> {
     const { api } = this.props;
 
     api.setCurrentPodcast(currentEpisode);
-    this.setState({ currentEpisode });
+    this.setState({ currentEpisode, isContinuation: false });
   };
 
   /**
@@ -61,7 +63,7 @@ export class LayoutViewModel extends Component<IProps, IState> {
     const { api } = this.props;
 
     await api.getCurrentPodcast(currentEpisode => {
-      this.setState({ currentEpisode });
+      this.setState({ currentEpisode, isContinuation: true });
     });
   };
 

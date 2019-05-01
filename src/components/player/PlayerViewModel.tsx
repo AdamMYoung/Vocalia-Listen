@@ -9,6 +9,7 @@ interface IProps {
   episode: PodcastEpisode | null;
   isMobile: boolean;
   isAuthenticated: boolean;
+  isContinuation: boolean;
   onEpisodeSelected: (episode: PodcastEpisode | null) => void;
 }
 
@@ -49,7 +50,8 @@ export default class PlayerViewModel extends Component<IProps, IState> {
    * Player loaded for the first time.
    */
   componentWillMount() {
-    this.setupPodcast(false);
+    const { isContinuation } = this.props;
+    this.setupPodcast(!isContinuation);
   }
 
   /**
@@ -58,11 +60,12 @@ export default class PlayerViewModel extends Component<IProps, IState> {
    */
   componentDidUpdate(oldProps: IProps) {
     const { audioElement } = this.state;
+    const { isContinuation } = this.props;
     var newEpisode = this.props.episode;
     var oldEpisode = oldProps.episode;
 
     if (!oldEpisode) {
-      this.setupPodcast(false);
+      this.setupPodcast(!isContinuation);
     } else if (!newEpisode) {
       audioElement.pause();
     } else if (newEpisode.content != oldEpisode.content) {
