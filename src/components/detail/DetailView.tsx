@@ -68,14 +68,18 @@ export default class DetailView extends Component<IProps> {
     //Heading of the detail view.
     const heading = feed && (
       <Grid container>
-        <Grid item xs={3} md={2}>
+        <Grid item xs={3}>
           <Fade in={isImageLoaded}>
             <div style={{ height: imageSize, width: imageSize }}>
-              <img src={feed.imageUrl} onLoad={onImageLoad} />
+              <img
+                src={feed.imageUrl}
+                onLoad={onImageLoad}
+                style={{ height: imageSize, width: imageSize }}
+              />
             </div>
           </Fade>
         </Grid>
-        <Grid item xs={9} md={10}>
+        <Grid item xs={9}>
           <Grid container>
             <Grid item xs={12}>
               <Typography
