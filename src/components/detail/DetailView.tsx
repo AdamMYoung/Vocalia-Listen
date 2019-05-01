@@ -47,7 +47,7 @@ export default class DetailView extends Component<IProps> {
 
     //Button to toggle subscribed/unsubscribed status.
     const subscribeButton = feed && (
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: 10 }}>
         <Button
           variant="contained"
           color={isSubscribed ? "secondary" : "primary"}
@@ -63,12 +63,14 @@ export default class DetailView extends Component<IProps> {
       <Button onClick={onLoadMoreEpisodes}>Load More...</Button>
     );
 
+    const imageSize = isMobile ? 80 : 125;
+
     //Heading of the detail view.
     const heading = feed && (
       <Grid container>
         <Grid item xs={3} md={2}>
           <Fade in={isImageLoaded}>
-            <div style={{ height: 80, width: 80 }}>
+            <div style={{ height: imageSize, width: imageSize }}>
               <img src={feed.imageUrl} onLoad={onImageLoad} />
             </div>
           </Fade>
